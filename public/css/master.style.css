@@ -1,0 +1,8 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.alert.alert-input-error {
+    padding: 6px 10px;
+    font-size: 12px;
+}

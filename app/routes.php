@@ -12,17 +12,43 @@
 */
 
 Route::get('/', array(
-    "uses" => "HomeController@showWelcome"
+    'uses' => 'HomeController@showWelcome',
+    'as' => 'home'
 ));
 
-Route::get('/login', array(
-    "uses" => "HomeController@showWelcome"
+Route::get('/blah', array(
+    'as' => 'login.recovery',
+    function () {
+        return 'sux';
+    }
 ));
 
-Route::match(array('GET'), '/register', array(
-    "uses" => "RegisterController@getRegister"
-));
 
-Route::match(array('POST'), '/register', array(
-    "uses" => "RegisterController@postRegister"
-));
+Route::group(array('before' => 'guest'), function () {
+
+    Route::group(array('before', 'csrf'), function () {
+        Route::post('/login', array(
+            'uses' => 'LoginController@postLogin',
+            'as' => 'post.login'
+        ));
+
+        Route::post('/register', array(
+            'uses' => 'RegisterController@postRegister',
+            'as' => 'post.register'
+        ));
+    });
+
+    Route::get('/login', array(
+        'uses' => 'LoginController@getLogin',
+        'as' => 'get.login'
+    ));
+
+    Route::get('/register', array(
+        'uses' => 'RegisterController@getRegister',
+        'as' => 'get.register'
+    ));
+
+});
+
+
+

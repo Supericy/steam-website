@@ -20,7 +20,7 @@ return array(
 	| Public Path
 	|--------------------------------------------------------------------------
 	|
-	| The public path contains the assets for your web application, such as
+	| The public path contains the js for your web application, such as
 	| your JavaScript and CSS files, and also contains the primary entry
 	| point for web requests into these applications from the outside.
 	|

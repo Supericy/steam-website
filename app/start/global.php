@@ -79,3 +79,15 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+/*
+ * Blade Extensions
+ */
+
+require app_path().'/blade.php';
+
+/*
+ * Helpers
+ */
+
+require app_path().'/helpers.php';

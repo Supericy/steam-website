@@ -5,7 +5,8 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"barryvdh/laravel-debugbar": "v1.6.7"
+		"barryvdh/laravel-debugbar": "v1.6.7",
+		"twitter/bootstrap": "v3.2.0"
 	},
 	"autoload": {
 		"classmap": [
