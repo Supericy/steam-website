@@ -27,55 +27,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="routes.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/routes.php">
+      <file leaf-file-name="SteamIdController.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/SteamIdController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="593" selection-end="593" vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="867">
+            <state line="22" column="20" selection-start="574" selection-end="579" vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="3009">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="filters.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/filters.php">
+      <file leaf-file-name="SteamService.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/lib/Icy/Steam/SteamService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="0" selection-start="1169" selection-end="1169" vertical-scroll-proportion="-18.846153" vertical-offset="292" max-vertical-offset="1479">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoginController.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/controllers/LoginController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="0" selection-start="910" selection-end="910" vertical-scroll-proportion="0.7317881" vertical-offset="0" max-vertical-offset="918">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="session.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/config/session.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="21" selection-start="547" selection-end="547" vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="2482">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="9ca0df8b758dfff1cb6ba8918f112d5c8d2c0d6a" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/storage/sessions/9ca0df8b758dfff1cb6ba8918f112d5c8d2c0d6a">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegisterController.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/RegisterController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="0" selection-start="825" selection-end="825" vertical-scroll-proportion="-18.961538" vertical-offset="0" max-vertical-offset="680">
+            <state line="37" column="32" selection-start="761" selection-end="761" vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="2176">
               <folding />
             </state>
           </provider>
@@ -91,42 +55,57 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/database/migrations/2014_08_17_033711_add_password_to_user_table.php" />
-        <option value="$PROJECT_DIR$/app/database/migrations/2014_08_17_033930_update_user_table.php" />
-        <option value="$PROJECT_DIR$/bootstrap/start.php" />
-        <option value="$PROJECT_DIR$/app/config/local/app.php" />
-        <option value="$PROJECT_DIR$/app/config/local/database.php" />
-        <option value="$PROJECT_DIR$/app/config/app.php" />
-        <option value="$PROJECT_DIR$/app/controllers/UserController.php" />
-        <option value="$PROJECT_DIR$/app/views/register.php" />
-        <option value="$PROJECT_DIR$/app/views/hello.php" />
-        <option value="$PROJECT_DIR$/composer.json" />
-        <option value="$PROJECT_DIR$/app/views/registration.form.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/register/register.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/registerform.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/register.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/master.blade.php.html" />
-        <option value="$PROJECT_DIR$/public/assets/css/master.style.css" />
-        <option value="$PROJECT_DIR$/app/views/layouts/master.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/layouts/navbar.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/register/master.blade.php" />
-        <option value="$PROJECT_DIR$/app/config/database.php" />
-        <option value="$PROJECT_DIR$/app/blade.php" />
-        <option value="$PROJECT_DIR$/app/start/global.php" />
-        <option value="$PROJECT_DIR$/app/helpers.php" />
-        <option value="$PROJECT_DIR$/public/css/master.style.css" />
-        <option value="$PROJECT_DIR$/app/models/User.php" />
-        <option value="$PROJECT_DIR$/app/views/register/success.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/register/form.blade.php" />
         <option value="$PROJECT_DIR$/app/views/master.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/login/prompt.blade.php" />
+        <option value="$PROJECT_DIR$/app/macros.php" />
+        <option value="$PROJECT_DIR$/app/views/navigation-bar.blade.php" />
+        <option value="$PROJECT_DIR$/app/repositories/IUserRepository.php" />
+        <option value="$PROJECT_DIR$/app/repositories/UserRepository.php" />
+        <option value="$PROJECT_DIR$/app/repositories/BanListenerRepository.php" />
+        <option value="$PROJECT_DIR$/app/repositories/IBanListenerRepository.php" />
+        <option value="$PROJECT_DIR$/app/database/migrations/2014_08_28_091324_add_user_reset_password_column.php" />
+        <option value="$PROJECT_DIR$/app/database/migrations/2014_09_02_000246_add_user_app_token_column.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/User/UserServiceProvider.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/User/UserRepository.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/Steam/SteamServiceProvider.php" />
+        <option value="$PROJECT_DIR$/app/config/auth.php" />
         <option value="$PROJECT_DIR$/app/routes.php" />
-        <option value="$PROJECT_DIR$/app/views/login/success.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/login/form.blade.php" />
-        <option value="$PROJECT_DIR$/app/database/migrations/2014_08_15_103339_create_users_table.php" />
-        <option value="$PROJECT_DIR$/app/controllers/RegisterController.php" />
-        <option value="$PROJECT_DIR$/app/config/session.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/User/IUserRepository.php" />
+        <option value="$PROJECT_DIR$/app/database/migrations/2014_08_31_114310_create_ban_listeners_table.php" />
+        <option value="$PROJECT_DIR$/app/commands/UpdateVacBans.php" />
+        <option value="$PROJECT_DIR$/app/commands/SendNotificationEmails.php" />
+        <option value="$PROJECT_DIR$/app/start/global.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/User/User.php" />
+        <option value="$PROJECT_DIR$/app/views/emails/ban-notification.blade.php" />
+        <option value="$PROJECT_DIR$/app/database/migrations/2014_09_02_141706_create_ban_log_table.php" />
+        <option value="$PROJECT_DIR$/app/database/migrations/2014_09_02_141706_create_ban_detections_table.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/BanListener/BanDetection.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/BanDetection/BanDetection.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/Steam/SteamId.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/ServiceProvider.php" />
+        <option value="$PROJECT_DIR$/app/config/app.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/BanListener/BanListener.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/BanListener/BanListenerRepository.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/BanListener/BanListenerServiceProvider.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/BanListener/IBanListenerRepository.php" />
         <option value="$PROJECT_DIR$/app/controllers/LoginController.php" />
+        <option value="$PROJECT_DIR$/app/database/migrations/2014_09_02_204606_add_steamid_times_checked_column.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/Console/SendNotificationEmailsCommand.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/Console/UpdateVacBansCommand.php" />
+        <option value="$PROJECT_DIR$/app/commands/SendNotificationEmailsCommand.php" />
+        <option value="$PROJECT_DIR$/app/start/artisan.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/IBanManager.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/BanDetection/IBanDetectionRepository.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/BanDetection/BanDetectionServiceProvider.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/IcyServiceProvider.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/BanDetection/BanDetectionRepository.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/Steam/ISteamIdRepository.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/Steam/SteamIdRepository.php" />
+        <option value="$PROJECT_DIR$/app/commands/UpdateVacBansCommand.php" />
+        <option value="$PROJECT_DIR$/app/storage/logs/laravel.log" />
+        <option value="$PROJECT_DIR$/app/config/database.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/BanManager.php" />
+        <option value="$PROJECT_DIR$/app/controllers/SteamIdController.php" />
+        <option value="$PROJECT_DIR$/app/lib/Icy/Steam/SteamService.php" />
       </list>
     </option>
   </component>
@@ -165,6 +144,21 @@
       <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
       <path value="$PROJECT_DIR$/vendor/predis/predis" />
       <path value="$PROJECT_DIR$/vendor/twitter/bootstrap" />
+      <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/instantiator" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/lazy-map" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-token-stream" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/phpunit-mock-objects" />
     </include_path>
   </component>
   <component name="ProjectFrameBounds">
@@ -172,6 +166,25 @@
     <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1066" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Spelling</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Spelling</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -246,7 +259,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -264,7 +277,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
+              <option name="myItemId" value="commands" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -274,7 +287,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
@@ -288,10 +301,11 @@
       <recent name="B:\xampp\htdocs\LaravelProject\public\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="B:\xampp\htdocs\LaravelProject\public" />
-      <recent name="B:\xampp\htdocs\LaravelProject\app\views" />
-      <recent name="B:\xampp\htdocs\LaravelProject\app\views\register" />
-      <recent name="B:\xampp\htdocs\LaravelProject\app\views\layouts" />
+      <recent name="B:\xampp\htdocs\LaravelProject\app\commands" />
+      <recent name="B:\xampp\htdocs\LaravelProject\app\lib\Icy\Console" />
+      <recent name="B:\xampp\htdocs\LaravelProject\app\lib\Icy\BanDetection" />
+      <recent name="B:\xampp\htdocs\LaravelProject\app\lib\Icy\BanListener" />
+      <recent name="B:\xampp\htdocs\LaravelProject\app\lib\Icy\User" />
     </key>
   </component>
   <component name="RunManager">
@@ -343,10 +357,9 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985386" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22760417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -355,6 +368,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985386" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -377,335 +391,266 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/config/testing/cache.php">
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/User/UserRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/testing/session.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/start/artisan.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/tests/ExampleTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/tests/TestCase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/robots.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/artisan">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="0" selection-start="1488" selection-end="1488" vertical-scroll-proportion="0.6004415" vertical-offset="0" max-vertical-offset="1190" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/database/seeds/DatabaseSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/lang/en/pagination.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/lang/en/reminders.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="911" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/lang/en/validation.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="6" selection-start="435" selection-end="435" vertical-scroll-proportion="22.884615" vertical-offset="816" max-vertical-offset="1870" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/remote.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="6" selection-start="434" selection-end="434" vertical-scroll-proportion="-1.8461539" vertical-offset="173" max-vertical-offset="1105" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/services.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/workbench.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/packages/barryvdh/laravel-debugbar/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="26" selection-start="875" selection-end="875" vertical-scroll-proportion="-1.3267108" vertical-offset="1678" max-vertical-offset="2584" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/emails/auth/reminder.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="340" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/HomeController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="493" />
-      </provider>
-    </entry>
-    <entry file="uml://PHP/\BaseController">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>PHP</ID>
-          <OriginalElement>\BaseController</OriginalElement>
-          <nodes>
-            <node x="" y="">\BaseController</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="1.0" x="52.0" y="14.0" />
-          <SelectedNodes />
-          <Categories />
-          <SCOPE>All</SCOPE>
-          <VISIBILITY>private</VISIBILITY>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/BaseController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="5" selection-start="252" selection-end="252" vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="408" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/font-awesome.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="919">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="27" selection-start="3472" selection-end="3472" vertical-scroll-proportion="-68.0" vertical-offset="0" max-vertical-offset="3434">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/local/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="20" selection-start="442" selection-end="442" vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="408">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="2" selection-start="592" selection-end="592" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="850">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="906">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bootstrap/start.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="863" selection-end="863" vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="1190">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="30" selection-start="1777" selection-end="1777" vertical-scroll-proportion="-21.576923" vertical-offset="425" max-vertical-offset="2210">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/local/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="25" selection-start="705" selection-end="705" vertical-scroll-proportion="-15.692307" vertical-offset="0" max-vertical-offset="935">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bootstrap/paths.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="77" selection-start="628" selection-end="628" vertical-scroll-proportion="-7.1923075" vertical-offset="153" max-vertical-offset="1071">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/composer.lock">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1740" column="14" selection-start="62004" selection-end="62004" vertical-scroll-proportion="10.64" vertical-offset="29846" max-vertical-offset="30753">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
+        <state line="11" column="0" selection-start="174" selection-end="174" vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="510" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="25" selection-start="358" selection-end="358" vertical-scroll-proportion="0.28145695" vertical-offset="0" max-vertical-offset="906">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/blade.php">
+    <entry file="file://$PROJECT_DIR$/app/config/auth.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="7" selection-end="7" vertical-scroll-proportion="0.037527595" vertical-offset="0" max-vertical-offset="906">
-          <folding />
-        </state>
+        <state line="31" column="0" selection-start="936" selection-end="936" vertical-scroll-proportion="-9.153846" vertical-offset="289" max-vertical-offset="1309" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/start/global.php">
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/User/IUserRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="27" selection-start="1627" selection-end="1627" vertical-scroll-proportion="0.17439294" vertical-offset="539" max-vertical-offset="1530">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/helpers.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="39" selection-start="182" selection-end="182" vertical-scroll-proportion="0.13134658" vertical-offset="0" max-vertical-offset="906">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/master.style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="20" selection-start="122" selection-end="122" vertical-scroll-proportion="0.10944206" vertical-offset="0" max-vertical-offset="932">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/register/form.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="40" selection-start="418" selection-end="418" vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="969">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/navigation-bar.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="6" selection-start="1113" selection-end="1113" vertical-scroll-proportion="0.43156734" vertical-offset="0" max-vertical-offset="906">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/master.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="963" selection-end="963" vertical-scroll-proportion="0.4878587" vertical-offset="0" max-vertical-offset="906">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/register/success.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="0" selection-end="435" vertical-scroll-proportion="0.31898454" vertical-offset="0" max-vertical-offset="906">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_08_15_103339_create_users_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="42" selection-start="459" selection-end="459" vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="697">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login/form.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="63" selection-start="565" selection-end="565" vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="799">
-          <folding />
-        </state>
+        <state line="1" column="3" selection-start="29" selection-end="29" vertical-scroll-proportion="0.018763797" vertical-offset="0" max-vertical-offset="906" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="593" selection-end="593" vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="867">
-          <folding />
-        </state>
+        <state line="23" column="18" selection-start="592" selection-end="592" vertical-scroll-proportion="-7.1923075" vertical-offset="51" max-vertical-offset="1666" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login/success.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/controllers/PlaygroundController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="29" selection-start="329" selection-end="329" vertical-scroll-proportion="0.18763797" vertical-offset="0" max-vertical-offset="906">
-          <folding />
-        </state>
+        <state line="12" column="0" selection-start="169" selection-end="314" vertical-scroll-proportion="0.13134658" vertical-offset="0" max-vertical-offset="906" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login/prompt.blade.php">
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/DatabaseManager.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="19" selection-start="134" selection-end="134" vertical-scroll-proportion="0.093818985" vertical-offset="0" max-vertical-offset="906">
-          <folding />
-        </state>
+        <state line="71" column="10" selection-start="1588" selection-end="1591" vertical-scroll-proportion="-5.745098" vertical-offset="914" max-vertical-offset="4998" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/User.php">
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="0" selection-start="1029" selection-end="1029" vertical-scroll-proportion="0.4746137" vertical-offset="437" max-vertical-offset="1343">
-          <folding />
-        </state>
+        <state line="0" column="28" selection-start="27" selection-end="28" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1105" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/register/prompt.blade.php">
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/DatabaseServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="5" selection-start="182" selection-end="182" vertical-scroll-proportion="0.16887417" vertical-offset="0" max-vertical-offset="906">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/filters.php">
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/Connection.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="0" selection-start="1169" selection-end="1169" vertical-scroll-proportion="-18.846153" vertical-offset="292" max-vertical-offset="1479">
-          <folding />
-        </state>
+        <state line="1068" column="20" selection-start="22010" selection-end="22010" vertical-scroll-proportion="-12.230769" vertical-offset="17770" max-vertical-offset="19431" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/RegisterController.php">
+    <entry file="file://$PROJECT_DIR$/app/config/local/database.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="825" selection-end="825" vertical-scroll-proportion="-18.961538" vertical-offset="0" max-vertical-offset="680">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1122" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/storage/sessions/9ca0df8b758dfff1cb6ba8918f112d5c8d2c0d6a">
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Relations/HasMany.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="919">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/session.php">
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Collection.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="21" selection-start="547" selection-end="547" vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="2482">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-3.8598235" vertical-offset="3497" max-vertical-offset="4403" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/start/global.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="76" selection-start="2972" selection-end="2972" vertical-scroll-proportion="0.4746137" vertical-offset="1372" max-vertical-offset="2346" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/emails/ban-notification.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="80" selection-start="80" selection-end="80" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="906" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_08_31_114310_create_ban_listeners_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="33" selection-start="436" selection-end="436" vertical-scroll-proportion="0.40949228" vertical-offset="3" max-vertical-offset="935" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_08_28_093854_create_steamids_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/User/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="5" selection-start="550" selection-end="550" vertical-scroll-proportion="0.39955848" vertical-offset="29" max-vertical-offset="1428" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/Steam/SteamId.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="47" selection-start="401" selection-end="401" vertical-scroll-proportion="0.30022076" vertical-offset="0" max-vertical-offset="906" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/BanDetection/BanDetection.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="15" selection-start="91" selection-end="91" vertical-scroll-proportion="0.07505519" vertical-offset="0" max-vertical-offset="906" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/BanListener/BanListenerServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="31" selection-start="31" selection-end="31" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="906" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/BanListener/IBanListenerRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="13" selection-start="74" selection-end="74" vertical-scroll-proportion="0.05629139" vertical-offset="0" max-vertical-offset="906" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/LoginController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="0" selection-start="910" selection-end="910" vertical-scroll-proportion="0.7317881" vertical-offset="0" max-vertical-offset="918">
+        <state line="22" column="5" selection-start="398" selection-end="398" vertical-scroll-proportion="0.2593819" vertical-offset="54" max-vertical-offset="986" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/BanListener/BanListener.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="20" selection-start="20" selection-end="31" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="906" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/Steam/SteamWebAPI.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1105" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_09_02_141706_create_ban_detections_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="6" selection-start="607" selection-end="607" vertical-scroll-proportion="-21.576923" vertical-offset="0" max-vertical-offset="816" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_09_02_000246_add_user_app_token_column.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="7" selection-start="359" selection-end="359" vertical-scroll-proportion="-13.730769" vertical-offset="0" max-vertical-offset="697" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/database/migrations/2014_09_02_204606_add_steamid_times_checked_column.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="6" selection-start="380" selection-end="380" vertical-scroll-proportion="-13.730769" vertical-offset="0" max-vertical-offset="646" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/Console/SeedCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1751" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/commands/SendNotificationEmailsCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="6" selection-end="6" vertical-scroll-proportion="0.018763797" vertical-offset="0" max-vertical-offset="1955" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/User/UserServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="50" selection-start="383" selection-end="383" vertical-scroll-proportion="0.26269317" vertical-offset="0" max-vertical-offset="906" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/BanListener/BanListenerRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="3" selection-start="36" selection-end="36" vertical-scroll-proportion="0.018763797" vertical-offset="0" max-vertical-offset="906" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Container/Container.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="7" selection-start="1549" selection-end="1549" vertical-scroll-proportion="0.33222958" vertical-offset="1178" max-vertical-offset="14671" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Application.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="7" selection-start="1361" selection-end="1361" vertical-scroll-proportion="-7.0927153" vertical-offset="6885" max-vertical-offset="19635" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/start/artisan.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="409" selection-end="409" vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="187" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/IBanManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="23" selection-start="124" selection-end="124" vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="340" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/BanDetection/IBanDetectionRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="35" selection-start="149" selection-end="149" vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="306" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/BanDetection/BanDetectionServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="7" selection-start="261" selection-end="261" vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="493" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/BanDetection/BanDetectionRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="0" selection-start="281" selection-end="281" vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="493" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/Steam/ISteamIdRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="26" selection-start="499" selection-end="499" vertical-scroll-proportion="-15.692307" vertical-offset="0" max-vertical-offset="544" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/Steam/SteamIdRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="0" selection-start="834" selection-end="834" vertical-scroll-proportion="-13.115385" vertical-offset="356" max-vertical-offset="1326" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/commands/UpdateVacBansCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="0" selection-start="1534" selection-end="1534" vertical-scroll-proportion="-25.5" vertical-offset="646" max-vertical-offset="2907" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="122" column="0" selection-start="3296" selection-end="3296" vertical-scroll-proportion="0.83112586" vertical-offset="1321" max-vertical-offset="2227" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/storage/logs/laravel.log">
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="682" column="24" selection-start="157444" selection-end="157444" vertical-scroll-proportion="0.73378074" vertical-offset="10938" max-vertical-offset="11832" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/IcyServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="537" selection-end="537" vertical-scroll-proportion="-17.0" vertical-offset="0" max-vertical-offset="646" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="125" column="0" selection-start="4398" selection-end="4398" vertical-scroll-proportion="-10.346154" vertical-offset="1856" max-vertical-offset="3553" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/Steam/ISteamService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="932">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/Steam/SteamServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="5" selection-start="198" selection-end="198" vertical-scroll-proportion="-6.5384617" vertical-offset="0" max-vertical-offset="442" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/BanManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="45" selection-start="1194" selection-end="1194" vertical-scroll-proportion="0.2869757" vertical-offset="488" max-vertical-offset="1445" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/SteamIdController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="20" selection-start="574" selection-end="579" vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="3009">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lib/Icy/Steam/SteamService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="32" selection-start="761" selection-end="761" vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="2176">
           <folding />
         </state>
       </provider>

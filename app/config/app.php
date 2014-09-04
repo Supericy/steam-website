@@ -124,6 +124,11 @@ return array(
 
         'Barryvdh\Debugbar\ServiceProvider',
 
+		'Icy\IcyServiceProvider',
+
+//		'Icy\Steam\SteamServiceProvider',
+//		'Icy\User\UserServiceProvider',
+//		'Icy\BanListener\BanListenerServiceProvider',
 	),
 
 	/*
@@ -190,6 +195,8 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+
+        'Debugbar' => 'Barryvdh\Debugbar\Facade',
 
 	),
 

@@ -11,3 +11,5 @@
 |
 */
 
+Artisan::resolve('UpdateVacBansCommand');
+Artisan::resolve('SendNotificationEmailsCommand');

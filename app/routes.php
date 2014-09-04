@@ -11,20 +11,58 @@
 |
 */
 
-Route::get('/', array(
-    'uses' => 'HomeController@showWelcome',
-    'as' => 'home'
+
+
+//Route::get('/', array(
+//    'uses' => 'HomeController@showWelcome',
+//    'as' => 'home'
+//));
+
+Route::get('/', array(function () {
+	return Redirect::action('track-steamid');
+},
+	'as' => 'home'
 ));
 
-Route::get('/blah', array(
-    'as' => 'login.recovery',
-    function () {
-        return 'sux';
-    }
+Route::get('/tests', array(
+	'uses' => 'PlaygroundController@tests',
+));
+
+Route::get('/track', array(
+	'uses' => 'SteamIdController@displaySteamIdPrompt',
+	'as' => 'track-steamid'
+));
+
+Route::get('/steamid/{id}', array(
+	'uses' => 'SteamIdController@display',
+	'as' => 'steamid.display'
+));
+
+Route::get('/steamid/{id}/follow', array(
+	'uses' => 'SteamIdController@createBanListener',
+	'as' => 'steamid.follow'
+));
+
+Route::post('/steamid/create', array(
+	'uses' => 'SteamIdController@createSteamId',
+	'as' => 'steamid.create'
+));
+
+Route::post('/steamid/bulk-create', array(
+	'uses' => 'SteamIdController@createSteamIdBulk'
 ));
 
 
 Route::group(array('before' => 'guest'), function () {
+
+	// password recovery
+	// TODO: implement
+	Route::get('/blah', array(
+		'as' => 'login.recovery',
+		function () {
+			return 'sux';
+		}
+	));
 
     Route::group(array('before', 'csrf'), function () {
         Route::post('/login', array(
@@ -46,6 +84,15 @@ Route::group(array('before' => 'guest'), function () {
     Route::get('/register', array(
         'uses' => 'RegisterController@getRegister',
         'as' => 'get.register'
+    ));
+
+});
+
+Route::group(array('before' => 'auth'), function () {
+
+    Route::get('/logout', array(
+       'uses' => 'LoginController@logout',
+        'as' => 'logout'
     ));
 
 });

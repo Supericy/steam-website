@@ -1,8 +1,15 @@
 body {
     font-family: 'Open Sans', sans-serif;
+
+    /* padding for fixed-top navbar (navbar is 50px) */
+    padding-top: 70px;
 }
 
 .alert.alert-input-error {
     padding: 6px 10px;
     font-size: 12px;
 }
+
+/*li.active {*/
+    /*border-bottom: 4px solid red;*/
+/*}*/

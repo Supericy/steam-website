@@ -1,11 +1,11 @@
-<?php
+<?php namespace Icy\User;
 
 use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Eloquent implements UserInterface {
+class User extends \Eloquent implements UserInterface {
 
 	/**
 	 * The database table used by the model.
@@ -23,6 +23,11 @@ class User extends Eloquent implements UserInterface {
 
     protected $guarded = array('id');
 
+	public function banListeners()
+	{
+		return $this->hasMany('Icy\BanListener\BanListener');
+	}
+
     /**
      * Get the unique identifier for the user.
      *
@@ -30,7 +35,7 @@ class User extends Eloquent implements UserInterface {
      */
     public function getAuthIdentifier()
     {
-        return $this->username;
+        return $this->id;
     }
 
     /**

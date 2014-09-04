@@ -7,7 +7,7 @@
     <title>Bootstrap 101 Template</title>
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">-->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -20,12 +20,19 @@
     <!-- load google Open Sans font -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
+	{{ HTML::style('css/paper-bootstrap.min.css') }}
     {{ HTML::style('css/master.style.css') }}
-
 </head>
 <body>
 
     @include('navigation-bar')
+
+    <div class="container">
+         {{ ViewHelper::displayArray(Session::get('alerts.success'),    '<div class="alert alert-success" role="alert">:message</div>') }}
+         {{ ViewHelper::displayArray(Session::get('alerts.info'),       '<div class="alert alert-info" role="alert">:message</div>') }}
+         {{ ViewHelper::displayArray(Session::get('alerts.warning'),    '<div class="alert alert-warning" role="alert">:message</div>') }}
+         {{ ViewHelper::displayArray(Session::get('alerts.danger'),     '<div class="alert alert-danger" role="alert">:message</div>') }}
+    </div>
 
     @yield('content')
 
@@ -33,5 +40,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+	{{ HTML::script('js/main.js') }}
 </body>
 </html>

@@ -25,7 +25,8 @@ class RegisterController extends \BaseController {
         $user = User::create(array(
             'username' => Input::get('username'),
             'email' => Input::get('email'),
-            'password' => Hash::make(Input::get('password'))
+            'password' => Hash::make(Input::get('password')),
+            'active' => true
         ));
 
         return View::make('register.success');

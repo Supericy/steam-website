@@ -8,13 +8,17 @@
 
 class LoginController extends \BaseController {
 
+    public function logout()
+    {
+        Auth::logout();
+
+        FlashHelper::append('alerts.success', 'You have been logged out.');
+
+        return Redirect::back();
+    }
+
     public function getLogin()
     {
-        if (Auth::check())
-        {
-            return 'you are already logged in';
-        }
-
         return View::make('login.prompt');
     }
 
@@ -32,22 +36,22 @@ class LoginController extends \BaseController {
             return Redirect::route('get.login')->withInput()->withErrors($validator);
         }
 
-        $remember = true;
-
         $auth = Auth::attempt(array(
             'username' => Input::get('username'),
             'password' => Input::get('password')
-        ), $remember);
+        ), true);
 
         if ($auth)
         {
-            // logged in
+            FlashHelper::append('alerts.success', 'You have been logged in.');
 
+            // logged in
 //            return View::make('login.success');
+            return Redirect::route('home');
         }
         else
         {
-            return 'could not authenticate';
+            return Redirect::route('get.login')->withInput()->withErrors(['login' => ['Invalid username or password.']]);
         }
     }
 

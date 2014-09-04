@@ -7,18 +7,28 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="{{ URL::action('home') }}">Laravel Project</a>
         </div>
-        <div class="navbar-collapse collapse">
-            <form class="navbar-form navbar-right" role="form">
-                <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-success">Sign in</button>
-            </form>
-        </div><!--/.navbar-collapse -->
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            {{ HTML::nav([
+				action('track-steamid') => 'Track'
+            ], ['class' => 'nav navbar-nav']) }}
+
+			@if (Auth::check())
+				{{ HTML::nav([
+					action('logout') => 'Logout'
+				], ['class' => 'nav navbar-nav navbar-right']) }}
+			@else
+				{{ HTML::nav([
+					action('get.login') => 'Login',
+					action('get.register') => 'Register'
+				], ['class' => 'nav navbar-nav navbar-right']) }}
+			@endif
+
+        </div><!-- /.navbar-collapse -->
+
     </div>
 </div>

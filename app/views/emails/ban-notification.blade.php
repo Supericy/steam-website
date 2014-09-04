@@ -1,0 +1,1 @@
+User {{ HTML::link(URL::action('steamid.display', ['id' => $steamId]), $steamId) }} has just been VAC banned.

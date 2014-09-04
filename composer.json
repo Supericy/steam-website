@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"barryvdh/laravel-debugbar": "v1.6.7",
-		"twitter/bootstrap": "v3.2.0"
+		"twitter/bootstrap": "v3.2.0",
+		"phpunit/phpunit": "4.2.2"
 	},
 	"autoload": {
 		"classmap": [
@@ -16,7 +17,11 @@
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php"
-		]
+		],
+
+        "psr-0": {
+            "Icy": "app/lib"
+        }
 	},
 	"scripts": {
 		"post-install-cmd": [
