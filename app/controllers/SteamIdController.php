@@ -6,8 +6,9 @@
  * Time: 4:38 AM
  */
 
-class SteamIdController extends \BaseController {
+class SteamIdController extends Controller {
 
+	// steam API's max steamids per request
 	const BULK_MAX_STEAMIDS = 100;
 
 	private $steam;
@@ -17,14 +18,49 @@ class SteamIdController extends \BaseController {
 	private $banManager;
 
 //	public function __construct(Icy\Steam\ISteamService $steam, Icy\Steam\ISteamIdRepository $steamId, Icy\User\IUserRepository $user, Icy\BanListener\IBanListenerRepository $banListener)
-	public function __construct(Icy\IBanManager $banManager, Icy\Steam\ISteamService $steam)
+	public function __construct(Icy\IBanManager $banManager, Icy\Steam\ISteamService $steam, Icy\User\IUserRepository $user)
 	{
 //		dd($steam);
 		$this->steam = $steam;
 //		$this->steamId = $steamId;
-//		$this->user = $user;
+		$this->user = $user;
 //		$this->banListener = $banListener;
 		$this->banManager = $banManager;
+	}
+
+	public function searchSteamId()
+	{
+		$potentialId = Input::get('steamid');
+
+		if ($potentialId === null)
+		{
+			// no steamId given, so prompt the user for one
+			return View::make('steamid.prompt');
+		}
+		else
+		{
+			$steamId = $this->steam->resolveId(Input::get('steamid'));
+
+			return Redirect::action('steamid.display', ['id' => $steamId]);
+		}
+	}
+
+	// TODO move auth functionality to API controller
+	private function authGetUser()
+	{
+		$userRecord = false;
+
+		if (Auth::check())
+		{
+			$userRecord = Auth::user();
+		}
+		else if (Input::has('auth_token'))
+		{
+			$userAuthToken = Input::get('auth_token');
+			$userRecord = $this->user->getByAuthToken($userAuthToken);
+		}
+
+		return $userRecord;
 	}
 
 	public function createBanListener($potentialId)
@@ -36,21 +72,12 @@ class SteamIdController extends \BaseController {
 
 		$userId = false;
 
-		if (Auth::check())
-		{
-			$userId = Auth::user()->id;
-		}
-		else
-		{
-			if (Input::has('user_app_token'))
-			{
-				$userEntry = $this->user->getByAppToken(Input::get('user_app_token'));
+		// TODO export this functionality to API controller
+		$userRecord = $this->authGetUser();
 
-				if ($userEntry)
-				{
-					$userId = $userEntry->id;
-				}
-			}
+		if ($userRecord)
+		{
+			$userId = $userRecord->id;
 		}
 
 		if ($userId === false)
@@ -61,20 +88,18 @@ class SteamIdController extends \BaseController {
 
 		$steamIdRecord = $this->banManager->updateVacStatus($steamId);
 
-//		$steamIdEntry = $this->steamId->firstOrCreateAndUpdateVacStatus([
-//			'steamid' => $steamId
-//		]);
-
 		$banListenerRecord = $this->banManager->createBanListener($userId, $steamIdRecord->id);
 
-//		$banListenerEntry = $this->banListener->firstOrCreate([
-//			'user_id' => $userId,
-//			'steamid_id' => $steamIdEntry->id
-//		]);
-
-		FlashHelper::append('alerts.success', 'You are now tracking ' . $steamIdRecord->steamid);
+		FlashHelper::append('alerts.success', 'You are now following ' . $steamIdRecord->steamid);
 
 		return Redirect::action('steamid.display', ['id' => $steamIdRecord->steamid]);
+	}
+
+	public function removeBanListener($potentialId)
+	{
+		$steamId = $this->steam->resolveId($potentialId);
+		if ($steamId === false)
+			return App::abort(404);
 	}
 
 	public function display($potentialId)
@@ -85,23 +110,33 @@ class SteamIdController extends \BaseController {
 			return App::abort(404);
 
 		$steamIdRecord = $this->banManager->updateVacStatus($steamId);
-//		$entry = $this->steamId->firstOrCreateAndUpdateVacStatus([
-//			'steamid' => $steamId
-//		]);
+
+		$isFollowing = false;
+
+		Debugbar::info($steamIdRecord);
+
+		if ($userRecord = $this->authGetUser())
+			$isFollowing = $this->banManager->isUserFollowing($userRecord->id, $steamIdRecord->id);
 
 		$data = [
 			'steamId' => $steamIdRecord->steamid,
-			'vacBanned' => $steamIdRecord->vac_banned
+			'vacBanned' => $steamIdRecord->vac_banned,
+			'isFollowing' => $isFollowing,
+			'timesChecked' => $steamIdRecord->times_checked,
 		];
 
 		return View::make('steamid.display')->with($data);
 	}
 
+	// TODO export this to API controller
 	public function createSteamIdBulk()
 	{
 		$potentialIds = Input::get('steamids');
 		$potentialIds = explode(',', $potentialIds);
-		$potentialIds = array_splice($potentialIds, 0, self::BULK_MAX_STEAMIDS);
+//		$potentialIds = array_splice($potentialIds, 0, self::BULK_MAX_STEAMIDS);
+
+		if (count($potentialIds) > self::BULK_MAX_STEAMIDS)
+			App::abort(400, 'Max ' . self::BULK_MAX_STEAMIDS . ' steamids per request');
 
 		$arrayOfValues = [];
 
@@ -155,18 +190,14 @@ class SteamIdController extends \BaseController {
 		}
 
 		$steamIdRecord = $this->banManager->updateVacStatus($steamId);
-//		$entry = $this->steamId->firstOrCreateAndUpdateVacStatus([
-//			'steamid' => $steamId
-//		]);
 
-//		$url = $this->steam->communityUrl($entry->steamid);
 		$url = URL::action('steamid.display', ['id' => $steamIdRecord->steamid]);
-		FlashHelper::append('alerts.success', HTML::link($url, $steamIdRecord->steamid) . ' is now being tracked.');
+		FlashHelper::append('alerts.success', 'This profile is now being tracked.');
 
 		if (Request::ajax())
-			return Response::json(['success' => true, 'steamId' => $steamId]);
+			return Response::json(['success' => true, 'steamId' => $steamId, 'profile-url' => $url]);
 		else
-			return Redirect::back();
+			return Redirect::to($url);
 	}
 
 } 

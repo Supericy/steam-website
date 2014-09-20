@@ -28,6 +28,11 @@ class User extends \Eloquent implements UserInterface {
 		return $this->hasMany('Icy\BanListener\BanListener');
 	}
 
+	public function authTokens()
+	{
+		return $this->hasMany('Icy\User\AuthToken');
+	}
+
     /**
      * Get the unique identifier for the user.
      *

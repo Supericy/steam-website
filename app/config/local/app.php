@@ -14,5 +14,5 @@ return array(
 	*/
 
 	'debug' => true,
-    'profiler' => true
+    'profiler' => true,
 );

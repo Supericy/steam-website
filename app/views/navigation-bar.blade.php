@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
             {{ HTML::nav([
-				action('track-steamid') => 'Track'
+				action('search-steamid') => 'Search'
             ], ['class' => 'nav navbar-nav']) }}
 
 			@if (Auth::check())

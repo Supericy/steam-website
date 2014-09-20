@@ -7,7 +7,9 @@
 		"laravel/framework": "4.2.*",
 		"barryvdh/laravel-debugbar": "v1.6.7",
 		"twitter/bootstrap": "v3.2.0",
-		"phpunit/phpunit": "4.2.2"
+		"phpunit/phpunit": "4.2.2",
+        "machuga/authority-l4" : "2.2.0",
+		"artdarek/oauth-4-laravel": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

@@ -123,6 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
         'Barryvdh\Debugbar\ServiceProvider',
+		'Authority\AuthorityL4\AuthorityL4ServiceProvider',
 
 		'Icy\IcyServiceProvider',
 
@@ -197,7 +198,8 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
         'Debugbar' => 'Barryvdh\Debugbar\Facade',
-
+		'Authority' => 'Authority\AuthorityL4\Facades\Authority',
+		'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
 	),
 
 );

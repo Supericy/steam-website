@@ -10,4 +10,8 @@ interface IBanListenerRepository {
 
 	public function firstOrCreate(array $values);
 
+	public function isUserFollowing($userId, $steamIdId);
+
+	public function getByUserIdAndSteamIdId($userId, $steamIdId);
+
 }

@@ -39,13 +39,17 @@ class SteamService implements ISteamService {
 		{
 			$results = [];
 
+//			dd($steamId);
+
 			foreach ($response->players as $player)
 			{
 				$results[$player->SteamId] = $player->VACBanned;
 			}
 
+//			dd((int)$steamId);
+
 			if (!is_array($steamId))
-				$results = $results[$steamId];
+				$results = $results[(int) $steamId];
 		}
 
 		return $results;

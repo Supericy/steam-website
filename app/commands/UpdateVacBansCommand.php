@@ -36,7 +36,24 @@ class UpdateVacBansCommand extends Command {
 		$this->steam = $steam;
 //		$this->steamId = $steamId;
 		$this->banManager = $banManager;
-		$this->log = false;
+		$this->log = true;
+	}
+
+	/**
+	 * @param $records
+	 */
+	private function incrementTimesChecked($records)
+	{
+		$recordIds = [];
+
+		foreach ($records as $record)
+		{
+			$recordIds[] = $record->id;
+		}
+
+		DB::table('steamids')
+			->whereIn('id', $recordIds)
+			->increment('times_checked');
 	}
 
 	/**
@@ -46,16 +63,20 @@ class UpdateVacBansCommand extends Command {
 	 */
 	public function fire()
 	{
-		$count = Icy\Steam\SteamId::all()->count();
-		$min = 0;
-		$max = 100;
-		$increment = 100;
+		$this->info('Running vac:update command...');
+		$this->logInfo('Running vac:update command...');
+
+		$chunk = 100;
 
 		DB::disableQueryLog();
 
-		$this->logInfo('Running vac:update command...');
+		/*
+		 * disable incrementing the update counter on steamids because we
+		 * will do bulk increments (1 sql qeury rather than 100s)
+		 */
+		$this->banManager->incrementOnUpdate(false);
 
-		Icy\Steam\SteamId::chunk(100, function ($records) {
+		Icy\Steam\SteamId::chunk($chunk, function ($records) {
 
 			$steamIds = [];
 
@@ -74,11 +95,14 @@ class UpdateVacBansCommand extends Command {
 					{
 						$newVacStatus = $bannedStatusList[$record->steamid];
 
-						$this->info($record->id . ':' . $record->steamid . ':' . $newVacStatus, true);
+//						$this->info($record->id . ':' . $record->steamid . ':' . $newVacStatus, true);
+						$this->info(sprintf('{id:%d, steamid:%d, vac_status:%d, times_checked:%d}', $record->id, $record->steamid, $newVacStatus, $record->times_checked));
 
 						$this->banManager->updateVacStatus($record, $newVacStatus);
 					}
 				}
+
+				$this->incrementTimesChecked($records);
 			}
 
 		});

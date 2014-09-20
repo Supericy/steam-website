@@ -1,6 +1,6 @@
 <?php
 
-class RegisterController extends \BaseController {
+class RegisterController extends Controller {
 
     public function getRegister()
     {
@@ -10,7 +10,7 @@ class RegisterController extends \BaseController {
     public function postRegister()
     {
         $rules = array(
-            'username' => 'required|alpha_num|min:6|unique:users,username',
+            'username' => 'required|alpha_num|min:6|max:20|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6'
         );

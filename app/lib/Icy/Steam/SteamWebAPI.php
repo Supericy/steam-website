@@ -1,4 +1,6 @@
 <?php namespace Icy\Steam;
+use SebastianBergmann\Exporter\Exception;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -45,6 +47,23 @@ class SteamWebAPI {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+		if (($erno = curl_error($ch)) > 0)
+		{
+			$reason = sprintf('An error (erno:%d) occured while trying to curl: %s', $erno, $endpoint);
+
+			// more accurate error message
+			if ($erno === CURLE_OPERATION_TIMEOUTED)
+				$reason = 'Steam Web API Timed Out.';
+
+			throw new Exception($reason);
+		}
+		if (curl_error($ch) === CURLE_OPERATION_TIMEOUTED)
+		{
+			throw new Exception('Steam API timed out.');
+		}
+
 		$jsonResponse = curl_exec($ch);
 
 		$response = false;

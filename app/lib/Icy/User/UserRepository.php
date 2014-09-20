@@ -15,11 +15,11 @@ class UserRepository implements IUserRepository {
 		$this->model = $model;
 	}
 
-	public function getByAppToken($token)
+	public function getByAuthToken($token)
 	{
-		$entry = $this->model->where('app_token', '=', $token)->first();
-
-		return $entry;
+		return $this->model->whereHas('authTokens', function ($q) use ($token) {
+			$q->where('token', $token);
+		})->first();
 	}
 
 }

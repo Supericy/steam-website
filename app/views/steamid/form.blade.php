@@ -8,11 +8,11 @@
 		<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<strong>Track SteamID</strong>
+					<strong>Find Profile</strong>
 				</div>
 				<div class="panel-body">
 
-					{{ Form::open(array('action' => 'steamid.create', 'method' => 'post', 'role' => 'form', 'onsubmit' => 'return processForm()')) }}
+					{{ Form::open(array('action' => 'search-steamid', 'method' => 'GET', 'role' => 'form', 'onsubmit' => 'return processForm()')) }}
 
 					<div class="form-group">
 <!--						<span class="input-group-addon">-->

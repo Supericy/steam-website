@@ -10,4 +10,6 @@ interface IBanDetectionRepository {
 
 	public function firstOrCreate(array $values);
 
+	public function create(array $values);
+
 }

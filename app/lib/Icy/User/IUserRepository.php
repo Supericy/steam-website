@@ -8,6 +8,6 @@
 
 interface IUserRepository {
 
-	public function getByAppToken($token);
+	public function getByAuthToken($token);
 
 }

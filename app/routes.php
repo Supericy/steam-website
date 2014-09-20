@@ -19,7 +19,7 @@
 //));
 
 Route::get('/', array(function () {
-	return Redirect::action('track-steamid');
+	return Redirect::action('search-steamid');
 },
 	'as' => 'home'
 ));
@@ -28,9 +28,9 @@ Route::get('/tests', array(
 	'uses' => 'PlaygroundController@tests',
 ));
 
-Route::get('/track', array(
-	'uses' => 'SteamIdController@displaySteamIdPrompt',
-	'as' => 'track-steamid'
+Route::get('/search', array(
+	'uses' => 'SteamIdController@searchSteamId',
+	'as' => 'search-steamid'
 ));
 
 Route::get('/steamid/{id}', array(
@@ -41,6 +41,12 @@ Route::get('/steamid/{id}', array(
 Route::get('/steamid/{id}/follow', array(
 	'uses' => 'SteamIdController@createBanListener',
 	'as' => 'steamid.follow'
+));
+
+Route::get('/steamid/{id}/unfollow', array(function () {
+	return 'not implemeneted';
+},
+	'as' => 'steamid.unfollow'
 ));
 
 Route::post('/steamid/create', array(

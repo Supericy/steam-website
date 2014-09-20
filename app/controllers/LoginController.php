@@ -6,7 +6,7 @@
  * Time: 2:59 AM
  */
 
-class LoginController extends \BaseController {
+class LoginController extends Controller {
 
     public function logout()
     {
@@ -47,12 +47,19 @@ class LoginController extends \BaseController {
 
             // logged in
 //            return View::make('login.success');
-            return Redirect::route('home');
+            return Redirect::back();
         }
         else
         {
             return Redirect::route('get.login')->withInput()->withErrors(['login' => ['Invalid username or password.']]);
         }
     }
+
+	public function loginWithGoogle()
+	{
+		$google = OAuth::consumer('google');
+
+		return Redirecto::to($google->getAuthorizationUri());
+	}
 
 } 

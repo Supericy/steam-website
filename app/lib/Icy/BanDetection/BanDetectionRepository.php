@@ -21,4 +21,8 @@ class BanDetectionRepository implements IBanDetectionRepository {
 		return $this->model->firstOrCreate($values);
 	}
 
+	public function create(array $values)
+	{
+		return $this->model->create($values);
+	}
 }

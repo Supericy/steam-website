@@ -12,29 +12,70 @@ class BanManager implements IBanManager {
 	private $steamId;
 	private $banListener;
 	private $banDetection;
+	private $cache;
 
-	public function __construct(Steam\ISteamService $steam, Steam\ISteamIdRepository $steamId, BanListener\IBanListenerRepository $banListener, BanDetection\IBanDetectionRepository $banDetection)
+	// increment times checked on vacStatusUpdate
+	private $incrementOnUpdate;
+
+	public function __construct(
+		Steam\ISteamService $steam,
+		Steam\ISteamIdRepository $steamId,
+		BanListener\IBanListenerRepository $banListener,
+		BanDetection\IBanDetectionRepository $banDetection,
+		\Illuminate\Cache\Repository $cache)
 	{
 		$this->steam = $steam;
 		$this->steamId = $steamId;
 		$this->banListener = $banListener;
 		$this->banDetection = $banDetection;
+		$this->cache = $cache;
+
+		$this->incrementOnUpdate = true;
 	}
 
-	public function createBanListener($userId, $potentialId)
+	private function isUserFollowingCacheKey($userId, $steamIdId)
 	{
-		$steamId = $this->steam->resolveId($potentialId);
+		return sprintf('%d_is_following_%d', $userId, $steamIdId);
+	}
 
-		$steamIdRecord = $this->steamId->firstOrCreateAndUpdateVacStatus([
-			'steamid' => $steamId
-		]);
+	public function isUserFollowing($userId, $steamIdId)
+	{
+		// TODO: fix caching
+		$cacheTime = 60; // minutes
 
+		$isFollowing = $this->cache->remember($this->isUserFollowingCacheKey($userId, $steamIdId), $cacheTime, function () use ($userId, $steamIdId) {
+			return $this->banListener->isUserFollowing($userId, $steamIdId);
+		});
+
+		return $isFollowing;
+	}
+
+	public function createBanListener($userId, $steamIdId)
+	{
 		$banListenerRecord = $this->banListener->firstOrCreate([
 			'user_id' => $userId,
-			'steamid_id' => $steamIdRecord->id
+			'steamid_id' => $steamIdId
 		]);
 
 		return $banListenerRecord;
+	}
+
+	public function removeBanListener($userId, $steamIdId)
+	{
+		// When implementing this, remember to forget the value from the cache
+
+		$banListenerRecord = $this->banListener->getByUserIdAndSteamIdId($userId, $steamIdId);
+
+		if ($banListenerRecord)
+		{
+			$this->cache->forget($this->isUserFollowingCacheKey($userId, $steamIdId));
+			$banListenerRecord->delete();
+		}
+	}
+
+	public function incrementOnUpdate($bool)
+	{
+		$this->incrementOnUpdate = $bool;
 	}
 
 	// we can pass in the new vac status, incase we already have it and don't want to make the API call
@@ -54,9 +95,8 @@ class BanManager implements IBanManager {
 			]);
 		}
 
-		// forces us to hit the database, which isn't ideal in some situations, so lets not increment this for now
-		// TODO: optimize and re-implement
-//		$record->increment('times_checked');
+		if ($this->incrementOnUpdate)
+			$record->increment('times_checked');
 
 		if ($newVacStatus === null)
 			$newVacStatus = $this->steam->isVacBanned($record->steamid);
@@ -66,7 +106,7 @@ class BanManager implements IBanManager {
 			$record->vac_banned = $newVacStatus;
 			$record->changed = true;
 
-			$this->banDetection->firstOrCreate([
+			$this->banDetection->create([
 				'steamid_id' => $record->id,
 				'new_vac_status' => $newVacStatus,
 			]);
@@ -75,6 +115,19 @@ class BanManager implements IBanManager {
 		}
 
 		return $record;
+	}
+
+	public function steamIdBeingTracked($potentialId)
+	{
+		$steamId = $this->steam->resolveId($potentialId);
+
+		if ($steamId === false)
+			return false;
+
+		if ($this->steamId->getBySteamId($steamId))
+			return true;
+		else
+			return false;
 	}
 
 }

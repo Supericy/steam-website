@@ -6,22 +6,13 @@
  * Time: 3:10 PM
  */
 
-class PlaygroundController extends \BaseController {
+class PlaygroundController extends Controller {
 
 	public function tests()
 	{
-//		Mail::send('emails.welcome', [], function($message)
-//		{
-//			$message->to('kosie150@gmail.com', 'John Smith')->subject('Welcome!');
-//		});
+		Cache::put('test', 'hello world2', 60);
 
-		$this->apiKey = 'apikey';
-
-		$params = [
-			'steamid' => '0:0:30908'
-		];
-
-		return 'http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/' . http_build_query(array_merge(['key' => $this->apiKey], $params));
+		return App::make('cache')->getDefaultDriver() . "::" . Cache::get('test');
 	}
 
 }

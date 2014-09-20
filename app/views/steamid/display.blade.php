@@ -6,7 +6,21 @@
 <div class="jumbotron">
 	<div class="container">
 		<class class="panel">
-			<h3>{{ $steamId }} is {{ $vacBanned ? '' : 'NOT' }} VAC banned.</h3>
+			<div class="pull-right">
+				@if (Auth::check())
+				    @unless($isFollowing)
+					    <a class="btn btn-success" href="{{ URL::action('steamid.follow', ['id'=>$steamId]) }}">Follow</a>
+				    @else
+				        <a class="btn btn-warning" href="{{ URL::action('steamid.unfollow', ['id'=>$steamId]) }}">Stop Following</a>
+				    @endunless
+				@else
+					@include('login.prompt-modal')
+					<button class="btn btn-warning" data-toggle="modal" data-target="#login-modal">Login to follow</button>
+				@endif
+			</div>
+
+			<h2>{{ $steamId }} is {{ $vacBanned ? '' : 'NOT' }} VAC banned.</h2>
+			<h5>Times checked: {{ $timesChecked }}</h5>
 		</class>
 	</div>
 

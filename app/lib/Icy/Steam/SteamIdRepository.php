@@ -13,7 +13,7 @@ class SteamIdRepository implements ISteamIdRepository {
 
 	public function getBySteamId($steamId)
 	{
-		return $this->model->where('steamid', '=', $steamId)->first();
+		return $this->model->where('steamid', '=', $steamId)->remember(10)->first();
 	}
 
 	public function createMany(array $arrayOfValues)

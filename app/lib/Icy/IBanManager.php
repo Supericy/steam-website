@@ -12,4 +12,8 @@ interface IBanManager {
 
 	public function updateVacStatus($steamId, $newVacStatus = null);
 
+	public function steamIdBeingTracked($steamId);
+
+	public function isUserFollowing($userId, $steamIdId);
+
 }
