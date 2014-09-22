@@ -20,6 +20,7 @@ class IcyServiceProvider extends \Illuminate\Support\ServiceProvider {
 			'Icy\Steam\SteamServiceProvider',
 			'Icy\BanListener\BanListenerServiceProvider',
 			'Icy\BanDetection\BanDetectionServiceProvider',
+			'Icy\OAuth\OAuthServiceProvider',
 		];
 
 		foreach ($providers as $provider)

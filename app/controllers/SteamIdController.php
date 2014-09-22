@@ -63,6 +63,7 @@ class SteamIdController extends Controller {
 		return $userRecord;
 	}
 
+	// TODO export this functionality to API controller
 	public function createBanListener($potentialId)
 	{
 		$steamId = $this->steam->resolveId($potentialId);
@@ -70,19 +71,12 @@ class SteamIdController extends Controller {
 		if ($steamId === false)
 			return App::abort(404);
 
-		$userId = false;
-
-		// TODO export this functionality to API controller
-		$userRecord = $this->authGetUser();
-
-		if ($userRecord)
+		if (Auth::check())
 		{
-			$userId = $userRecord->id;
+			$userId = Auth::user()->id;
 		}
-
-		if ($userId === false)
+		else
 		{
-			// not authorized
 			return App::abort(401);
 		}
 
@@ -100,6 +94,8 @@ class SteamIdController extends Controller {
 		$steamId = $this->steam->resolveId($potentialId);
 		if ($steamId === false)
 			return App::abort(404);
+
+		dd('not implemented');
 	}
 
 	public function display($potentialId)
@@ -115,8 +111,10 @@ class SteamIdController extends Controller {
 
 		Debugbar::info($steamIdRecord);
 
-		if ($userRecord = $this->authGetUser())
-			$isFollowing = $this->banManager->isUserFollowing($userRecord->id, $steamIdRecord->id);
+//		if ($userRecord = $this->authGetUser())
+//			$isFollowing = $this->banManager->isUserFollowing($userRecord->id, $steamIdRecord->id);
+		if (Auth::check())
+			$isFollowing = $this->banManager->isUserFollowing(Auth::user()->id, $steamIdRecord->id);
 
 		$data = [
 			'steamId' => $steamIdRecord->steamid,

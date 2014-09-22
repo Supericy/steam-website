@@ -23,6 +23,16 @@ class User extends \Eloquent implements UserInterface {
 
     protected $guarded = array('id');
 
+	public function oauthAccounts()
+	{
+		return $this->hasMany('Icy\OAuth\OAuthAccount');
+	}
+
+	public function oauthProviders()
+	{
+		return $this->hasManyThrough('Icy\OAuth\OAuthProvider', 'Icy\OAuth\OAuthAccount', 'user_id', 'id');
+	}
+
 	public function banListeners()
 	{
 		return $this->hasMany('Icy\BanListener\BanListener');

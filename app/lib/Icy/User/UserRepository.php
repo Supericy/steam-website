@@ -22,4 +22,22 @@ class UserRepository implements IUserRepository {
 		})->first();
 	}
 
+	public function create(array $values)
+	{
+		return $this->model->create($values);
+	}
+
+	public function getByEmail($email)
+	{
+		return $this->model->where('email', $email)->first();
+	}
+
+	public function getByProviderAccountId($provider, $accountId)
+	{
+		return $this->model->whereHas('oauthProviders', function ($q) use ($provider, $accountId) {
+			$q->where('account_id', $accountId)
+				->where('oauth_providers.name', $provider);
+		})->first();
+	}
+
 }

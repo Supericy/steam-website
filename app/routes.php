@@ -38,17 +38,6 @@ Route::get('/steamid/{id}', array(
 	'as' => 'steamid.display'
 ));
 
-Route::get('/steamid/{id}/follow', array(
-	'uses' => 'SteamIdController@createBanListener',
-	'as' => 'steamid.follow'
-));
-
-Route::get('/steamid/{id}/unfollow', array(function () {
-	return 'not implemeneted';
-},
-	'as' => 'steamid.unfollow'
-));
-
 Route::post('/steamid/create', array(
 	'uses' => 'SteamIdController@createSteamId',
 	'as' => 'steamid.create'
@@ -59,7 +48,27 @@ Route::post('/steamid/bulk-create', array(
 ));
 
 
+Route::group(array('before' => 'auth'), function () {
+
+	Route::get('/steamid/{id}/follow', array(
+		'uses' => 'SteamIdController@createBanListener',
+		'as' => 'steamid.follow'
+	));
+
+	Route::get('/steamid/{id}/unfollow', array(function () {
+		return 'not implemeneted';
+	},
+		'as' => 'steamid.unfollow'
+	));
+
+});
+
 Route::group(array('before' => 'guest'), function () {
+
+	Route::get('login/oauth/{serviceProvider}', array(
+		'as' => 'login.oauth',
+		'uses' => 'OAuthLoginController@login'
+	));
 
 	// password recovery
 	// TODO: implement

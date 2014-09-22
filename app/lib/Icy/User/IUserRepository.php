@@ -8,6 +8,10 @@
 
 interface IUserRepository {
 
+	public function getByEmail($email);
+
 	public function getByAuthToken($token);
+
+	public function create(array $values);
 
 }

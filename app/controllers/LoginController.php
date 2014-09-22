@@ -25,7 +25,7 @@ class LoginController extends Controller {
     public function postLogin()
     {
         $rules = array(
-            'username' => 'required',
+            'email' => 'required|email',
             'password' => 'required'
         );
 
@@ -37,7 +37,7 @@ class LoginController extends Controller {
         }
 
         $auth = Auth::attempt(array(
-            'username' => Input::get('username'),
+            'email' => Input::get('email'),
             'password' => Input::get('password')
         ), true);
 
@@ -47,19 +47,12 @@ class LoginController extends Controller {
 
             // logged in
 //            return View::make('login.success');
-            return Redirect::back();
+            return Redirect::intended('/');
         }
         else
         {
-            return Redirect::route('get.login')->withInput()->withErrors(['login' => ['Invalid username or password.']]);
+            return Redirect::route('get.login')->withInput()->withErrors(['login' => ['Invalid e-mail or password.']]);
         }
     }
-
-	public function loginWithGoogle()
-	{
-		$google = OAuth::consumer('google');
-
-		return Redirecto::to($google->getAuthorizationUri());
-	}
 
 } 

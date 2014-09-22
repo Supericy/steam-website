@@ -124,6 +124,7 @@ return array(
 
         'Barryvdh\Debugbar\ServiceProvider',
 		'Authority\AuthorityL4\AuthorityL4ServiceProvider',
+		'Artdarek\OAuth\OAuthServiceProvider',
 
 		'Icy\IcyServiceProvider',
 
