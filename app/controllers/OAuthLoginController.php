@@ -79,7 +79,7 @@ class OAuthLoginController extends Controller {
 
 			// TODO: refactor most of this logic out of controller
 			// attempt to get the user by provider user id
-			if ($userRecord = $this->user->getByProviderAccountId($providerName, $googleAccountId))
+			if ($userRecord = $this->user->getByProviderAndAccountId($providerName, $googleAccountId))
 			{
 				Auth::login($userRecord);
 
