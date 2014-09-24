@@ -15,7 +15,7 @@
 
             {{ HTML::nav([
 				action('search-steamid') => 'Search'
-            ], ['class' => 'nav navbar-nav']) }}
+            ], ['class' => 'nav navbar-nav h5']) }}
 
 			@if (Auth::check())
 				{{ HTML::nav([
@@ -25,7 +25,7 @@
 				{{ HTML::nav([
 					action('get.login') => 'Login',
 					action('get.register') => 'Register'
-				], ['class' => 'nav navbar-nav navbar-right']) }}
+				], ['class' => 'nav navbar-nav navbar-right h5']) }}
 			@endif
 
         </div><!-- /.navbar-collapse -->

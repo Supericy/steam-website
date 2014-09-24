@@ -6,6 +6,8 @@
  * Time: 6:48 PM
  */
 
+use \Illuminate\Support\Str;
+
 class UserRepository implements IUserRepository {
 
 	private $model;
@@ -24,6 +26,8 @@ class UserRepository implements IUserRepository {
 
 	public function create(array $values)
 	{
+		$credentials = $this->normalize($values);
+
 		return $this->model->create($values);
 	}
 
@@ -32,12 +36,19 @@ class UserRepository implements IUserRepository {
 		return $this->model->where('email', $email)->first();
 	}
 
-	public function getByProviderAndAccountId($provider, $accountId)
+	public function getByProviderNameAndAccountId($providerName, $accountId)
 	{
-		return $this->model->whereHas('oauthProviders', function ($q) use ($provider, $accountId) {
+		return $this->model->whereHas('oauthProviders', function ($q) use ($providerName, $accountId) {
 			$q->where('account_id', $accountId)
-				->where('oauth_providers.name', $provider);
+				->where('oauth_providers.name', $providerName);
 		})->first();
+	}
+
+	public function normalize($credentials)
+	{
+		$credentials['email'] = Str::lower($credentials['email']);
+
+		return $credentials;
 	}
 
 }

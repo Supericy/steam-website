@@ -16,7 +16,7 @@ class OAuthLoginController extends Controller {
 	private $oauthAccount;
 	private $oauthProvider;
 
-	public function __construct(Icy\User\UserRepository $user, Icy\OAuth\IOAuthAccountRepository $oauthAccount, Icy\OAuth\IOAuthProviderRepository $oauthProvider)
+	public function __construct(Icy\User\IUserRepository $user, Icy\OAuth\IOAuthAccountRepository $oauthAccount, Icy\OAuth\IOAuthProviderRepository $oauthProvider)
 	{
 		$this->user = $user;
 		$this->oauthAccount = $oauthAccount;
@@ -66,6 +66,13 @@ class OAuthLoginController extends Controller {
 			$googleAccountId = $result['id'];
 			$googleEmail = $result['email'];
 			$googleVerifiedEmail = $result['verified_email'];
+			$needsVerification = !$googleVerifiedEmail;
+
+			$credentials = [
+				'accountId' => $result['id'],
+				'email' => $result['email'],
+				'isEmailVerified' => $result['verified_email'],
+			];
 
 			if (!$googleVerifiedEmail)
 			{

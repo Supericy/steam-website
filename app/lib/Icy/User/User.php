@@ -43,6 +43,11 @@ class User extends \Eloquent implements UserInterface {
 		return $this->hasMany('Icy\User\AuthToken');
 	}
 
+	public function hasPassword()
+	{
+		return $this->password !== null;
+	}
+
     /**
      * Get the unique identifier for the user.
      *

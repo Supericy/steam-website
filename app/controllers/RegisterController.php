@@ -1,5 +1,7 @@
 <?php
 
+use \Illuminate\Support\Str;
+
 class RegisterController extends Controller {
 
 	private $user;
@@ -31,7 +33,7 @@ class RegisterController extends Controller {
 		// TODO: generate activation token and..
 		// TODO: send email verification, set account to NOT ACTIVE until they've verified it
 		$user = $this->user->create(array(
-			'email' => Input::get('email'),
+			'email' => Str::lower(Input::get('email')),
 			'password' => Hash::make(Input::get('password')),
 			'active' => true
 		));

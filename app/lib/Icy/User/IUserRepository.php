@@ -14,6 +14,8 @@ interface IUserRepository {
 
 	public function create(array $values);
 
-	public function getByProviderAndAccountId($provider, $accountId);
+	public function getByProviderNameAndAccountId($provider, $accountId);
+
+	public function normalize($credentials);
 
 }

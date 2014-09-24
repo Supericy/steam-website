@@ -11,6 +11,6 @@ interface IOAuthAccountRepository {
 
 	public function create(array $values);
 
-	public function getByProviderAndAccountId($provider, $accountId);
+	public function getByProviderNameAndAccountId($providerName, $accountId);
 
 }

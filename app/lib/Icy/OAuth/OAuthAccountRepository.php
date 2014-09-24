@@ -22,9 +22,9 @@ class OAuthAccountRepository implements IOAuthAccountRepository {
 		return $this->model->create($values);
 	}
 
-	public function getByProviderAndAccountId($provider, $accountId)
+	public function getByProviderNameAndAccountId($providerName, $accountId)
 	{
-		$oauthProviderRecord = $this->oauthProvider->getByName($provider);
+		$oauthProviderRecord = $this->oauthProvider->getByName($providerName);
 
 		if (!$oauthProviderRecord)
 			return false;

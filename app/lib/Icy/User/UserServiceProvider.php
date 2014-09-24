@@ -20,4 +20,5 @@ class UserServiceProvider extends \Illuminate\Support\ServiceProvider {
 			return new UserRepository(new User());
 		});
 	}
+
 }
