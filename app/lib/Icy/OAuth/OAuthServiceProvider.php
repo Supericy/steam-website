@@ -22,6 +22,10 @@ class OAuthServiceProvider extends \Illuminate\Support\ServiceProvider {
 		$this->app->bind('Icy\OAuth\IOAuthAccountRepository', function ($app) {
 			return new OAuthAccountRepository(new OAuthAccount(), $app->make('Icy\OAuth\IOAuthProviderRepository'));
 		});
+
+		$this->app->bind('Icy\OAuth\IOAuthManager', function ($app) {
+			return $app->make('OAuthManager');
+		});
 	}
 
 
