@@ -6,7 +6,7 @@
  * Time: 12:04 AM
  */
 
-class OAuthMergeRequired extends \Exception {
+class OAuthEmailTakenException extends \Exception {
 
 	private $loginMethods;
 

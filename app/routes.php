@@ -14,7 +14,7 @@
 
 
 //Route::get('/', array(
-//    'uses' => 'HomeController@showWelcome',
+//    'uses' => 'SteamIdController@searchSteamId',
 //    'as' => 'home'
 //));
 
@@ -65,6 +65,11 @@ Route::group(array('before' => 'auth'), function () {
 
 Route::group(array('before' => 'guest'), function () {
 
+	Route::get('/login', array(
+		'uses' => 'LoginController@getLogin',
+		'as' => 'get.login'
+	));
+
 	Route::get('login/oauth/{serviceProvider}', array(
 		'as' => 'login.oauth',
 		'uses' => 'OAuthLoginController@login'
@@ -91,10 +96,6 @@ Route::group(array('before' => 'guest'), function () {
         ));
     });
 
-    Route::get('/login', array(
-        'uses' => 'LoginController@getLogin',
-        'as' => 'get.login'
-    ));
 
     Route::get('/register', array(
         'uses' => 'RegisterController@getRegister',

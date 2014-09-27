@@ -27,7 +27,7 @@
                 </div>
                 {{ ViewHelper::displayArray($errors->get('password_confirmation', '<div class="alert alert-danger alert-input-error" role="alert">:message</div>')) }}
 
-                {{ Form::submit('Register Me', array('class' => 'btn btn-success')) }}
+                {{ Form::submit('Register', array('class' => 'btn btn-success')) }}
                 <hr />
                 Already Registered ?  <a href="{{ URL::route('home') }}" >Login here</a>
             {{ Form::close() }}

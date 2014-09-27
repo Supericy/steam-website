@@ -5,7 +5,7 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
 	<div class="container">
-		<class class="panel">
+		{{--<div class="panel">--}}
 			<div class="pull-right">
 				@if (Auth::check())
 				    @unless($isFollowing)
@@ -21,7 +21,7 @@
 
 			<h2>{{ $steamId }} is {{ $vacBanned ? '' : 'NOT' }} VAC banned.</h2>
 			<h5>Times checked: {{ $timesChecked }}</h5>
-		</class>
+		{{--</div>--}}
 	</div>
 
 </div>

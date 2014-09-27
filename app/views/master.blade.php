@@ -20,7 +20,11 @@
     <!-- load google Open Sans font -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
-	{{ HTML::style('css/paper-bootstrap.min.css') }}
+	{{--{{ HTML::style('css/paper-bootstrap.min.css') }}--}}
+	{{ HTML::style('css/darkly-bootstrap.min.css') }}
+	{{--{{ HTML::style('css/flatly-bootstrap.min.css') }}--}}
+	{{--{{ HTML::style('css/sandstone-bootstrap.min.css') }}--}}
+	{{--{{ HTML::style('css/yeti-bootstrap.min.css') }}--}}
     {{ HTML::style('css/master.style.css') }}
 </head>
 <body>

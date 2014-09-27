@@ -8,6 +8,9 @@
 
 class OAuthLoginController extends Controller {
 
+	const METHOD_PREFIX = 'loginWith';
+
+	// TODO: load from OAuthManager
 	private $providers = [
 		'google' => 'Google'
 	];
@@ -15,24 +18,34 @@ class OAuthLoginController extends Controller {
 	private $user;
 	private $oauthAccount;
 	private $oauthProvider;
+	private $oauthManager;
 
-	public function __construct(Icy\User\IUserRepository $user, Icy\OAuth\IOAuthAccountRepository $oauthAccount, Icy\OAuth\IOAuthProviderRepository $oauthProvider)
+	public function __construct(Icy\User\IUserRepository $user, Icy\OAuth\IOAuthAccountRepository $oauthAccount, Icy\OAuth\IOAuthProviderRepository $oauthProvider, Icy\OAuth\IOAuthManager $oauthManager)
 	{
 		$this->user = $user;
 		$this->oauthAccount = $oauthAccount;
 		$this->oauthProvider = $oauthProvider;
+		$this->oauthManager = $oauthManager;
 	}
 
-	public function login($provider)
+	public function login($providerName)
 	{
-		if (array_key_exists($provider, $this->providers))
+		if (($methodName = $this->generateMethodName($providerName)) !== false)
 		{
-			return $this->{'loginWith' . $this->providers[$provider]}();
+			return $this->{$methodName}();
 		}
 		else
 		{
-			App::abort(404, 'OAuth provider not found.');
+			App::abort(404, sprintf('OAuth provider (%s) is not supported.', $providerName));
 		}
+	}
+
+	private function generateMethodName($providerName)
+	{
+		if (!array_key_exists($providerName, $this->providers))
+			return false;
+
+		return self::METHOD_PREFIX . $this->providers[$providerName];
 	}
 
 	private function loginWithGoogle()
@@ -71,10 +84,11 @@ class OAuthLoginController extends Controller {
 			$credentials = [
 				'accountId' => $result['id'],
 				'email' => $result['email'],
+				'active' => $googleVerifiedEmail,
 				'isEmailVerified' => $result['verified_email'],
 			];
 
-			if (!$googleVerifiedEmail)
+			if ($needsVerification)
 			{
 				// TODO: if their email hasn't been verified with the provider, we'll send them an e-mail to verify it. Set the account to NOT ACTIVE until they verify it
 
@@ -84,55 +98,66 @@ class OAuthLoginController extends Controller {
 			}
 
 
-			// TODO: refactor most of this logic out of controller
-			// attempt to get the user by provider user id
-			if ($userRecord = $this->user->getByProviderAndAccountId($providerName, $googleAccountId))
+			if ($this->oauthManager->attemptLogin($providerName, $googleAccountId, true))
 			{
-				Auth::login($userRecord);
-
-				FlashHelper::append('alerts.success', 'You have been logged in.');
-
-				return Redirect::intended('/');
-			}
-			// test if the email address is already in the database
-			else if ($userRecord = $this->user->getByEmail($googleEmail))
-			{
-				// their google email is already taken, start merging process
-
-				// TODO: implement merging process, for now, we'll just error
-				FlashHelper::append('alerts.danger', sprintf('Your e-mail address (%s) is already taken, please use a different one', $googleEmail));
-				return Redirect::action('get.register');
+				return $this->loginSucessful();
 			}
 			else
 			{
-				// ok, let's create them an account
-				$userRecord = $this->user->create([
-					'email' => $googleEmail,
-					'password' => null,
+				$loginMethods = $this->oauthManager->getLoginMethodsByEmail($credentials['email']);
 
-					// no need to active here, as long as the service providers email as been verified
-					'active' => true
-				]);
+				Debugbar::info(['loginMethods' => $loginMethods]);
 
-				$oauthProviderRecord = $this->oauthProvider->getByName($providerName);
+				if (!empty($loginMethods))
+				{
+					// prompt the user to login with an existing account/method
+					FlashHelper::append('alerts.danger', sprintf('Your email (%s) is already in use. Please login with one of the login methods below.', $googleEmail));
 
-				$oauthAccountRecord = $this->oauthAccount->create([
-					'user_id' => $userRecord->id,
-					'provider_id' => $oauthProviderRecord->id,
-					'account_id' => $googleAccountId
-				]);
+					$loginMethodsToDisplay = [];
 
-				Auth::login($userRecord);
+					foreach (Icy\OAuth\OAuthManager::$LOGIN_METHODS as $loginMethod)
+					{
+						$loginMethodsToDisplay[$loginMethod] = in_array($loginMethod, $loginMethods);
+					}
 
-				FlashHelper::append('alerts.success', 'You have been logged in.');
+					// TODO: fix displaying only available login methods
 
-				return Redirect::intended('/');
+					Debugbar::info(['loginMethodsToDisplay' => $loginMethodsToDisplay]);
+
+					return Redirect::action('get.login')
+						->with('displayLoginMethod', $loginMethodsToDisplay);
+				}
+				else
+				{
+					assert('$googleVerifiedEmail == true', 'google email must be verified before we can create an account with it');
+
+					$userRecord = $this->user->firstOrCreate([
+						'email' => $googleEmail,
+						'password' => null,
+
+						// we can guarentee $googleVerifiedEmail is true at this point
+						'active' => $googleVerifiedEmail
+					]);
+
+					// user does not have any way to log in, so let's create an account/loginMethod for them
+					$this->oauthManager->createOAuthAccount($userRecord, $providerName, $googleAccountId);
+					Auth::login($userRecord, true);
+
+					return $this->loginSucessful();
+				}
 			}
+
 		}
 		else
 		{
 			return Redirect::to($google->getAuthorizationUri()->getAbsoluteUri());
 		}
+	}
+
+	private function loginSucessful()
+	{
+		FlashHelper::append('alerts.success', 'You have been logged in.');
+		return Redirect::intended('/');
 	}
 	
 }

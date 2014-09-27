@@ -24,11 +24,28 @@ class UserRepository implements IUserRepository {
 		})->first();
 	}
 
+	// returns an array with only the data needed to create a user
+	private function removeUnused(array $credentials)
+	{
+		return [
+			'email' => $credentials['email'],
+			'password' => $credentials['password'],
+			'active' => $credentials['active'],
+		];
+	}
+
+	public function firstOrCreate(array $credentials)
+	{
+		$credentials = $this->normalize($credentials);
+
+		return $this->model->firstOrCreate($this->removeUnused($credentials));
+	}
+
 	public function create(array $values)
 	{
 		$credentials = $this->normalize($values);
 
-		return $this->model->create($values);
+		return $this->model->create($this->removeUnused($credentials));
 	}
 
 	public function getByEmail($email)
@@ -46,7 +63,8 @@ class UserRepository implements IUserRepository {
 
 	public function normalize($credentials)
 	{
-		$credentials['email'] = Str::lower($credentials['email']);
+		if (array_key_exists('email', $credentials))
+			$credentials['email'] = Str::lower($credentials['email']);
 
 		return $credentials;
 	}

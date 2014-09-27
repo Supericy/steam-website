@@ -19,7 +19,7 @@ class User extends \Eloquent implements UserInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password');
+//	protected $hidden = array('password');
 
     protected $guarded = array('id');
 
@@ -46,6 +46,11 @@ class User extends \Eloquent implements UserInterface {
 	public function hasPassword()
 	{
 		return $this->password !== null;
+	}
+
+	public function isActive()
+	{
+		return $this->active;
 	}
 
     /**
