@@ -42,7 +42,9 @@
         </div>
     </div>
 
-    @yield('content')
+	<div id="content" style="background: url('{{ asset('images/profile_bg.jpg') }}') repeat;">
+		@yield('content')
+	</div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

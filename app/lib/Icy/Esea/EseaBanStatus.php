@@ -11,16 +11,19 @@ use Icy\Common\IBanStatus;
 class EseaBanStatus implements IBanStatus {
 
 	private $isBanned;
-	private $eseaBan;
+	private $alias;
+	private $timestamp;
 
 	/**
 	 * @param bool $isBanned
-	 * @param EseaBan $eseaBan
+	 * @param string $alias
+	 * @param int $timestamp
 	 */
-	public function __construct($isBanned, EseaBan $eseaBan = null)
+	public function __construct($isBanned, $alias = null, $timestamp = null)
 	{
 		$this->isBanned = $isBanned;
-		$this->eseaBan = $eseaBan;
+		$this->alias = $alias;
+		$this->timestamp = $timestamp;
 	}
 
 	public function isBanned()
@@ -33,7 +36,7 @@ class EseaBanStatus implements IBanStatus {
 		if (!$this->isBanned())
 			return null;
 
-		return $this->eseaBan->timestamp;
+		return $this->timestamp;
 	}
 
 	public function getBanName()
@@ -46,7 +49,7 @@ class EseaBanStatus implements IBanStatus {
 		if (!$this->isBanned())
 			return IBanStatus::UNKNOWN_ALIAS;
 
-		return $this->eseaBan->alias;
+		return $this->alias;
 	}
 
 } 

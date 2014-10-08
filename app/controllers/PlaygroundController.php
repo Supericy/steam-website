@@ -10,21 +10,31 @@ class PlaygroundController extends Controller {
 
 	public function tests()
 	{
-//		$time = date_parse("1/2/20014");
-//		$time = date_parse("Thu, 25 Sep 2014 04:37:42 +0000");
+		$steamId = 76561197960327544;
+		$steamIdText = 'STEAM_0:0:30908';
 
-		$parsed = date_parse_from_format("D, d M Y H:i:s T", 'Thu, 25 Sep 2014 04:37:42 +0000');
-//
-		$timestamp = mktime(
-			$parsed['hour'],
-			$parsed['minute'],
-			$parsed['second'],
-			$parsed['month'],
-			$parsed['day'],
-			$parsed['year']
-		);
+		$bans = [
+			new \Icy\Steam\VacBanStatus(true, 3600),
+			new \Icy\Esea\EseaBanStatus(true, 'Supericy', 642643200),
+		];
 
-		dd([$parsed, $timestamp]);
+		$leagueExperiences = [];
+
+		$data = [
+			'steamId' => $steamId,
+			'isFollowing' => false,
+			'timesChecked' => 144,
+			'hasBans' => count($bans) > 0,
+			'bans' => $bans,
+			'steamId64' => $steamId,
+			'steamIdText' => $steamIdText,
+			'leagueExperiences' => $leagueExperiences,
+			'communityUrl' => 'http://steamcommunity.com/profiles/' . 76561197960327544,
+		];
+
+		Debugbar::info($data);
+
+		return View::make('steamid.display')->with($data);
 	}
 
 }

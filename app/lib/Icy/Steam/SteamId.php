@@ -70,7 +70,7 @@ class SteamId extends \Eloquent {
 			$isBanned = true;
 		}
 
-		return new EseaBanStatus($isBanned, $this->eseaBan);
+		return new EseaBanStatus($isBanned, $this->eseaBan->alias, $this->eseaBan->timestamp);
 	}
 
 }
