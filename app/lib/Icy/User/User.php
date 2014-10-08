@@ -19,9 +19,19 @@ class User extends \Eloquent implements UserInterface {
 	 *
 	 * @var array
 	 */
-//	protected $hidden = array('password');
+	protected $hidden = array('password');
 
     protected $guarded = array('id');
+
+	public function favourites()
+	{
+		return $this->hasMany('Icy\Favourite\Favourite');
+	}
+
+	public function activationCode()
+	{
+		return $this->hasOne('Icy\User\ActivationCode');
+	}
 
 	public function oauthAccounts()
 	{
@@ -31,11 +41,6 @@ class User extends \Eloquent implements UserInterface {
 	public function oauthProviders()
 	{
 		return $this->hasManyThrough('Icy\OAuth\OAuthProvider', 'Icy\OAuth\OAuthAccount', 'user_id', 'id');
-	}
-
-	public function banListeners()
-	{
-		return $this->hasMany('Icy\BanListener\BanListener');
 	}
 
 	public function authTokens()

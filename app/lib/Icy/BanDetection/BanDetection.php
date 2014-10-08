@@ -17,4 +17,9 @@ class BanDetection extends \Eloquent {
 		return $this->belongsTo('Icy\Steam\SteamId', 'steamid_id');
 	}
 
+	public function banType()
+	{
+		return $this->hasOne('Icy\BanDetection\BanType');
+	}
+
 }

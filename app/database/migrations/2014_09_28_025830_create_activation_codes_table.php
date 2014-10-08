@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBanListenersTable extends Migration {
+class CreateActivationCodesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,28 +12,27 @@ class CreateBanListenersTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('ban_listeners', function ($table) {
+		Schema::create('activation_codes', function ($table) {
+
 			$table->increments('id');
 
 			$table->integer('user_id')
 				->unsigned();
 
-			$table->integer('steamid_id')
-				->unsigned();
+			$table->char('code', 16);
 
 			$table->timestamps();
 		});
 
-		Schema::table('ban_listeners', function ($table) {
+		Schema::table('activation_codes', function ($table) {
+
 			$table->foreign('user_id')
 				->references('id')
 				->on('users')
 				->onDelete('cascade');
 
-			$table->foreign('steamid_id')
-				->references('id')
-				->on('steamids')
-				->onDelete('cascade');
+			$table->unique('code');
+
 		});
 	}
 
@@ -44,7 +43,7 @@ class CreateBanListenersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('ban_listeners');
+		Schema::drop('activation_codes');
 	}
 
 }

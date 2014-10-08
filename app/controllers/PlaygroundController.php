@@ -10,9 +10,21 @@ class PlaygroundController extends Controller {
 
 	public function tests()
 	{
-		Cache::put('test', 'hello world2', 60);
+//		$time = date_parse("1/2/20014");
+//		$time = date_parse("Thu, 25 Sep 2014 04:37:42 +0000");
 
-		return App::make('cache')->getDefaultDriver() . "::" . Cache::get('test');
+		$parsed = date_parse_from_format("D, d M Y H:i:s T", 'Thu, 25 Sep 2014 04:37:42 +0000');
+//
+		$timestamp = mktime(
+			$parsed['hour'],
+			$parsed['minute'],
+			$parsed['second'],
+			$parsed['month'],
+			$parsed['day'],
+			$parsed['year']
+		);
+
+		dd([$parsed, $timestamp]);
 	}
 
 }

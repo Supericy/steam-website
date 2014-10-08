@@ -28,10 +28,10 @@
                 {{ ViewHelper::displayArray($errors->get('password_confirmation', '<div class="alert alert-danger alert-input-error" role="alert">:message</div>')) }}
 
                 {{ Form::submit('Register', array('class' => 'btn btn-success')) }}
-                <hr />
-                Already Registered ?  <a href="{{ URL::route('home') }}" >Login here</a>
             {{ Form::close() }}
 
+            <hr />
+            Already Registered ?  <a href="{{ URL::action('get.login') }}" >Login here</a>
         </div>
 
         <div class="panel-heading">

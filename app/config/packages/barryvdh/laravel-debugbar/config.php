@@ -60,7 +60,7 @@ return array(
     
     /*
      |--------------------------------------------------------------------------
-     | Capture Console Commands
+     | Capture Console Console
      |--------------------------------------------------------------------------
      |
      | The Debugbar can listen to Artisan commands. You can view them with the browse button in the Debugbar.

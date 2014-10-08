@@ -1,11 +1,11 @@
 <div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            {{--<strong>Account Login</strong>--}}
-            <h5>Sign-in</h5>
-        </div>
 
         @if (!isset($displayLoginMethod['Default']) || $displayLoginMethod['Default'])
+            <div class="panel-heading">
+                {{--<strong>Account Login</strong>--}}
+                <h5>Sign-in</h5>
+            </div>
             <div class="panel-body">
 
                 {{ Form::open(array('action' => 'post.login', 'method' => 'post', 'role' => 'form')) }}
@@ -36,12 +36,14 @@
             </div>
         @endif
 
-        <div class="panel-heading">
-            {{--<strong>Login via:</strong>--}}
-            <h5>Sign-in via:</h5>
-        </div>
-        <div class="panel-body">
-            @include('login.oauth')
-        </div>
+        @if(empty($displayLoginMethod) || (is_array($displayLoginMethod) && in_array(true, $displayLoginMethod)))
+            <div class="panel-heading">
+                {{--<strong>Login via:</strong>--}}
+                <h5>Sign-in via:</h5>
+            </div>
+            <div class="panel-body">
+                @include('login.oauth')
+            </div>
+        @endif
     </div>
 </div>

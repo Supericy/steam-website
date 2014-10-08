@@ -11,14 +11,39 @@ class SteamService implements ISteamService {
 	private $api;
 	private $communityUrl;
 
-	public function __construct(SteamWebAPI $api, $config)
+	public function __construct(Web\ISteamWebAPI $api, $config)
 	{
 		$this->api = $api;
 
 		$this->communityUrl = $config['community_url'];
 	}
 
-	public function communityUrl($steamId)
+	private function createPlayerAssocArray($players, $key, Callable $callback)
+	{
+		$count = count($players);
+
+		if ($count == 0)
+		{
+			$results = false;
+		}
+		else if ($count == 1)
+		{
+			$results = $callback($players[0]->{$key}, $players[0]);
+		}
+		else if ($count > 1)
+		{
+			$results = [];
+
+			foreach ($players as $player)
+			{
+				$results[$player->{$key}] = $callback($player->{$key}, $player);
+			}
+		}
+
+		return $results;
+	}
+
+	public function getCommunityUrl($steamId)
 	{
 		if (!$this->is64Id($steamId))
 			throw new SteamException('Community URLs require a 64bit steam ID.');
@@ -27,7 +52,7 @@ class SteamService implements ISteamService {
 	}
 
 	// $steamId = array or string of 64bit steamid
-	public function isVacBanned($steamId)
+	public function getVacBanStatus($steamId)
 	{
 //		\Log::info('isVacBanned call', $steamId);
 
@@ -37,19 +62,9 @@ class SteamService implements ISteamService {
 
 		if ($response !== false)
 		{
-			$results = [];
-
-//			dd($steamId);
-
-			foreach ($response->players as $player)
-			{
-				$results[$player->SteamId] = $player->VACBanned;
-			}
-
-//			dd((int)$steamId);
-
-			if (!is_array($steamId))
-				$results = $results[(int) $steamId];
+			$results = $this->createPlayerAssocArray($response->players, 'SteamId', function ($steamId, $player){
+				return new VacBanStatus($player->VACBanned, $player->VACBanned ? $player->DaysSinceLastBan : null);
+			});
 		}
 
 		return $results;
@@ -100,6 +115,9 @@ class SteamService implements ISteamService {
 	// converts a $textId in the format STEAM_X:X:XXXXXX to a 64bit community id (ie '76561197960327544')
 	public function convertTextTo64($textId)
 	{
+		if (!$this->isTextId($textId))
+			throw new SteamException('Malformed text steamID. Must be in the format (STEAM_)X:X:XXXXX..X');
+
 		// strip off 'STEAM_'
 		if (($pos = strpos($textId, 'STEAM_')) === 0)
 		{
@@ -114,14 +132,28 @@ class SteamService implements ISteamService {
 		return ($Z*2) + $V + $Y;
 	}
 
+	// documentation: https://developer.valvesoftware.com/wiki/SteamID
+	public function convert64ToText($steamId, $includePrefix = false)
+	{
+		if (!$this->is64Id($steamId))
+			throw new SteamException('Malformed 64bit steamID. Must be in the format (XXXXXXXXXXXX..X).');
+
+		$W = (int)$steamId;
+		$Y = $W & 1;
+		$V = 0x0110000100000000;
+		$Z = ($W - $Y - $V) / 2;
+
+		return ($includePrefix ? 'STEAM_' : '') . '0:' . $Y . ':' . $Z;
+	}
+
 	public function isTextId($steamId)
 	{
-		return preg_match('/(STEAM_)?[0-1]:[0-1]:\d{1,12}/', $steamId);
+		return preg_match('/^(STEAM_)?[0-1]:[0-1]:\d{1,12}$/', $steamId);
 	}
 
 	public function is64Id($steamId)
 	{
-		return preg_match('/\d{17}/', $steamId);
+		return preg_match('/^\d{17}$/', $steamId);
 	}
 
 }

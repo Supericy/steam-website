@@ -12,7 +12,7 @@ interface ISteamIdRepository {
 
 	public function createMany(array $arrayOfValues);
 
-	public function firstOrCreateAndUpdateVacStatus(array $values);
+//	public function firstOrCreateAndUpdateVacStatus(array $values);
 
 	public function firstOrCreate(array $values);
 
@@ -22,6 +22,6 @@ interface ISteamIdRepository {
 
 	public function save(SteamId $steamId);
 
-	public function all();
+	public function getAll();
 
 }

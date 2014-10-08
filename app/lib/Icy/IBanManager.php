@@ -8,12 +8,11 @@
 
 interface IBanManager {
 
-	public function createBanListener($userId, $steamIdId);
-
-	public function updateVacStatus($steamId, $newVacStatus = null);
-
-	public function steamIdBeingTracked($steamId);
-
-	public function isUserFollowing($userId, $steamIdId);
+	/**
+	 * @param string|Steam\SteamId $steamId
+	 * @param null|Steam\VacBanStatus $newVacStatus
+	 * @return Steam\SteamId
+	 */
+	public function fetchAndUpdate($steamId, Steam\VacBanStatus $newVacStatus = null);
 
 }

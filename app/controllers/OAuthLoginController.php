@@ -53,7 +53,8 @@ class OAuthLoginController extends Controller {
 		$providerName = 'Google';
 
 		// redirect through url shortener since we can't pass localhost URL
-		$google = OAuth::consumer($providerName, 'http://snurl.com/299s1vu');
+//		$google = OAuth::consumer($providerName, 'http://snurl.com/299s1vu'); // homestead.app:8000/login/oauth/google
+		$google = OAuth::consumer($providerName, 'http://snurl.com/29ammpu'); // homestead.app/login/oauth/google
 
 		if (Input::has('code'))
 		{
@@ -111,7 +112,7 @@ class OAuthLoginController extends Controller {
 				if (!empty($loginMethods))
 				{
 					// prompt the user to login with an existing account/method
-					FlashHelper::append('alerts.danger', sprintf('Your email (%s) is already in use. Please login with one of the login methods below.', $googleEmail));
+					FlashHelper::append('alerts.danger', sprintf('Your email (%s) is already in use. Please login to merge accounts.', $googleEmail));
 
 					$loginMethodsToDisplay = [];
 

@@ -4,7 +4,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class UpdateVacBansCommand extends Command {
+class UpdateVacBansCommand extends \BaseCommand {
 
 	/**
 	 * The console command name.
@@ -63,6 +63,8 @@ class UpdateVacBansCommand extends Command {
 	 */
 	public function fire()
 	{
+		dd('disabled');
+
 		$this->info('Running vac:update command...');
 		$this->logInfo('Running vac:update command...');
 
@@ -85,7 +87,7 @@ class UpdateVacBansCommand extends Command {
 				$steamIds[] = $record->steamid;
 			}
 
-			$bannedStatusList = $this->steam->isVacBanned($steamIds);
+			$bannedStatusList = $this->steam->getVacBanStatus($steamIds);
 
 			if ($bannedStatusList !== false)
 			{
@@ -95,10 +97,9 @@ class UpdateVacBansCommand extends Command {
 					{
 						$newVacStatus = $bannedStatusList[$record->steamid];
 
-//						$this->info($record->id . ':' . $record->steamid . ':' . $newVacStatus, true);
-						$this->info(sprintf('{id:%d, steamid:%d, vac_status:%d, times_checked:%d}', $record->id, $record->steamid, $newVacStatus, $record->times_checked));
+						$this->info(sprintf('{id:%d, steamid:%d, vac_status:%d, times_checked:%d}', $record->id, $record->steamid, $newVacStatus->isBanned(), $record->times_checked));
 
-						$this->banManager->updateVacStatus($record, $newVacStatus);
+						$this->banManager->fetchAndUpdate($record, $newVacStatus);
 					}
 				}
 

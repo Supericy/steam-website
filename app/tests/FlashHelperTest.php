@@ -10,10 +10,10 @@ class FlashHelperTest extends TestCase {
 
     public function testConvertKeyStringToArray()
     {
-        FlashHelper::push('test', 'expectedValue1');
+        FlashHelper::append('test', 'expectedValue1');
         $this->assertEquals('expectedValue1', Session::get('test')[0]);
 
-        FlashHelper::push('test', 'expectedValue2');
+        FlashHelper::append('test', 'expectedValue2');
         $this->assertEquals('expectedValue2', Session::get('test')[1]);
     }
 

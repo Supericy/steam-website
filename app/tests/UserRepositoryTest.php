@@ -13,16 +13,11 @@ class UserRepositoryTest extends TestCase {
 	 */
 	public function testGetByProviderAccountId()
 	{
-		$user = $this->app->make('Icy\User\UserRepository');
+		$user = $this->app->make('Icy\User\IUserRepository');
 
 		try
 		{
-			$record = $user->getByProviderAccountId('google', 1337);
-
-			if ($record)
-				print $record->username . "\n";
-			else
-				print "no user found";
+			$record = $user->getByProviderNameAndAccountId('google', 1337);
 		}
 		catch (PDOException $e)
 		{

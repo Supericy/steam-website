@@ -10,7 +10,7 @@ class SteamServiceProvider extends \Illuminate\Support\ServiceProvider {
 	public function register()
 	{
 		$this->app->bind('Icy\Steam\ISteamService', function ($app) {
-			return new SteamService(new SteamWebAPI($app['config']['steam.api_key']), $app['config']['steam']);
+			return new SteamService(new Web\SteamWebAPI($app['config']['steam.api_key']), $app['config']['steam']);
 		});
 
 		$this->app->bind('Icy\Steam\ISteamIdRepository', function ($app) {

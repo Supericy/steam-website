@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| Register The Artisan Commands
+| Register The Artisan Console
 |--------------------------------------------------------------------------
 |
 | Each available Artisan command must be registered with the console so
@@ -13,3 +13,6 @@
 
 Artisan::resolve('UpdateVacBansCommand');
 Artisan::resolve('SendNotificationEmailsCommand');
+
+Artisan::resolve('Icy\Esea\Console\DownloadBanListCommand');
+Artisan::resolve('Icy\Esea\Console\ConvertSteamIdFromTextTo64Command');

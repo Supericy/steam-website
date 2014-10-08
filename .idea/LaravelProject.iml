@@ -7,7 +7,10 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/classpreloader/classpreloader" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/d11wtq/boris" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/fabpot/goutte" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/filp/whoops" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/streams" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ircmaxell/password-compat" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/framework" />
@@ -79,6 +82,7 @@
           <root url="file://$MODULE_DIR$/vendor/machuga/authority-l4" />
           <root url="file://$MODULE_DIR$/vendor/symfony/security-core" />
           <root url="file://$MODULE_DIR$/vendor/symfony/console" />
+          <root url="file://$MODULE_DIR$/vendor/guzzlehttp/streams" />
           <root url="file://$MODULE_DIR$/vendor/d11wtq/boris" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/php-text-template" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/php-timer" />
@@ -101,11 +105,13 @@
           <root url="file://$MODULE_DIR$/vendor/symfony/browser-kit" />
           <root url="file://$MODULE_DIR$/vendor/symfony/http-kernel" />
           <root url="file://$MODULE_DIR$/vendor/patchwork/utf8" />
+          <root url="file://$MODULE_DIR$/vendor/fabpot/goutte" />
           <root url="file://$MODULE_DIR$/vendor/ocramius/instantiator" />
           <root url="file://$MODULE_DIR$/vendor/predis/predis" />
           <root url="file://$MODULE_DIR$/vendor/lusitanian/oauth" />
           <root url="file://$MODULE_DIR$/vendor/swiftmailer/swiftmailer" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/phpunit" />
+          <root url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
           <root url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
           <root url="file://$MODULE_DIR$/vendor/psr/log" />
           <root url="file://$MODULE_DIR$/vendor/twitter/bootstrap" />
@@ -133,6 +139,7 @@
           <root url="file://$MODULE_DIR$/vendor/machuga/authority-l4" />
           <root url="file://$MODULE_DIR$/vendor/symfony/security-core" />
           <root url="file://$MODULE_DIR$/vendor/symfony/console" />
+          <root url="file://$MODULE_DIR$/vendor/guzzlehttp/streams" />
           <root url="file://$MODULE_DIR$/vendor/d11wtq/boris" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/php-text-template" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/php-timer" />
@@ -155,11 +162,13 @@
           <root url="file://$MODULE_DIR$/vendor/symfony/browser-kit" />
           <root url="file://$MODULE_DIR$/vendor/symfony/http-kernel" />
           <root url="file://$MODULE_DIR$/vendor/patchwork/utf8" />
+          <root url="file://$MODULE_DIR$/vendor/fabpot/goutte" />
           <root url="file://$MODULE_DIR$/vendor/ocramius/instantiator" />
           <root url="file://$MODULE_DIR$/vendor/predis/predis" />
           <root url="file://$MODULE_DIR$/vendor/lusitanian/oauth" />
           <root url="file://$MODULE_DIR$/vendor/swiftmailer/swiftmailer" />
           <root url="file://$MODULE_DIR$/vendor/phpunit/phpunit" />
+          <root url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
           <root url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
           <root url="file://$MODULE_DIR$/vendor/psr/log" />
           <root url="file://$MODULE_DIR$/vendor/twitter/bootstrap" />

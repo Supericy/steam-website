@@ -38,26 +38,29 @@ Route::get('/steamid/{id}', array(
 	'as' => 'steamid.display'
 ));
 
-Route::post('/steamid/create', array(
-	'uses' => 'SteamIdController@createSteamId',
-	'as' => 'steamid.create'
-));
+//Route::post('/steamid/create', array(
+//	'uses' => 'SteamIdController@createSteamId',
+//	'as' => 'steamid.create'
+//));
 
 Route::post('/steamid/bulk-create', array(
 	'uses' => 'SteamIdController@createSteamIdBulk'
 ));
 
+Route::get('/activate/{code}', array(
+	'uses' => 'RegisterController@activate',
+	'as' => 'user.activate'
+))->where('code', RegisterController::ACTIVATION_CODE_PATTERN);
 
 Route::group(array('before' => 'auth'), function () {
 
 	Route::get('/steamid/{id}/follow', array(
-		'uses' => 'SteamIdController@createBanListener',
+		'uses' => 'SteamIdController@follow',
 		'as' => 'steamid.follow'
 	));
 
-	Route::get('/steamid/{id}/unfollow', array(function () {
-		return 'not implemeneted';
-	},
+	Route::get('/steamid/{id}/unfollow', array(
+		'uses' => 'SteamIdController@unfollow',
 		'as' => 'steamid.unfollow'
 	));
 

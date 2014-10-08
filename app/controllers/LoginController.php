@@ -19,7 +19,10 @@ class LoginController extends Controller {
 
     public function getLogin()
     {
-        return View::make('login.prompt');
+		$displayLoginMethod = Session::get('displayLoginMethod', []);
+
+        return View::make('login.prompt')
+			->with('displayLoginMethod', $displayLoginMethod);
     }
 
     public function postLogin()
@@ -38,15 +41,14 @@ class LoginController extends Controller {
 
         $auth = Auth::attempt(array(
             'email' => Input::get('email'),
-            'password' => Input::get('password')
+            'password' => Input::get('password'),
+			'active' => true
         ), true);
 
         if ($auth)
         {
             FlashHelper::append('alerts.success', 'You have been logged in.');
 
-            // logged in
-//            return View::make('login.success');
             return Redirect::intended('/');
         }
         else

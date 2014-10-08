@@ -2,7 +2,7 @@ body {
     font-family: 'Open Sans', sans-serif;
 
     /* padding for fixed-top navbar (navbar is 50px) */
-    padding-top: 62px;
+    padding-top: 70px;
 }
 
 .alert.alert-input-error {
@@ -25,8 +25,47 @@ body {
 
 .jumbotron {
     background-color: transparent;
+    padding-top: 0px;
 }
 
-/*li.active {*/
-    /*border-bottom: 4px solid red;*/
-/*}*/
+.jumbotron h1 {
+    font-size: 3em;
+}
+
+.jumbotron p {
+    font-size: 1.1em;
+}
+
+.pad-top {
+    padding-top: 8px;
+}
+
+.table {
+    table-layout: fixed;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.alert {
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.btn {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+#ban-list-container {
+
+}
+
+div.panel-heading.medium-pad, div.panel-body.medium-pad {
+    padding:4px 8px;
+}
+
+tbody tr {
+    border-bottom: dashed 1px rgba(0, 0, 0, 0.5);
+}
+
+tbody tr:last-of-type {
+    border-bottom: none;
+}

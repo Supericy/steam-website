@@ -10,6 +10,10 @@ namespace Icy\OAuth;
 
 interface IOAuthProviderRepository {
 
+	/**
+	 * @param string $name
+	 * @return OAuthProvider
+	 */
 	public function getByName($name);
 
 } 

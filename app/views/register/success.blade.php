@@ -5,13 +5,9 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
-        <div class="row text-center pad-top ">
-            <div class="col-md-12">
-                <div class="alert alert-success">
-                    <h2>Registration successful</h2>
-                </div>
-            </div>
-
+        <div class="well">
+            <h1><strong>Almost done...</strong></h1>
+            <p>We've sent an activation email to <strong>{{ $email }}</strong>, please check your inbox.</p>
         </div>
     </div>
 </div>
