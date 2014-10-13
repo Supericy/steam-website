@@ -1,7 +1,7 @@
 <div id="ban-list-container" class="container">
-	<div class="alert alert-danger">This account has been <span style="font-weight: bolder">banned!</span></div>
+	<div class="alert alert-danger panel-shadow">This account has been <span style="font-weight: bolder">banned!</span></div>
 
-    <div class="panel panel-primary">
+    <div class="panel panel-primary panel-shadow">
         <div class="panel-heading medium-pad">
             <table class="table">
                 <thead>

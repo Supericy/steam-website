@@ -16,14 +16,26 @@ interface IActivationCodeRepository {
 
 	/**
 	 * @param array $values
-	 * @return \Icy\ActivationCode
+	 * @return ActivationCode
 	 */
 	public function create(array $values);
 
 	/**
 	 * @param string $code
-	 * @return \Icy\ActivationCode
+	 * @return ActivationCode
 	 */
 	public function getByCode($code);
 
-} 
+	/**
+	 * @param ActivationCode $activationCode
+	 * @return bool
+	 */
+	public function save(ActivationCode $activationCode);
+
+	/**
+	 * @param ActivationCode $activationCode
+	 * @return bool
+	 */
+	public function delete(ActivationCode $activationCode);
+
+}

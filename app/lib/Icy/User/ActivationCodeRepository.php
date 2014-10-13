@@ -27,4 +27,14 @@ class ActivationCodeRepository implements IActivationCodeRepository {
 		return $this->model->where('code', $code)->first();
 	}
 
+	public function save(ActivationCode $activationCode)
+	{
+		return $activationCode->save();
+	}
+
+	public function delete(ActivationCode $activationCode)
+	{
+		return $activationCode->delete();
+	}
+
 } 

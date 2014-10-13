@@ -11,18 +11,20 @@ use \Illuminate\Support\Str;
 class ActivationManager implements IActivationManager {
 
 	private $mailer;
-	private $activationCode;
+	private $userRepository;
+	private $activationCodeRepository;
 
-	public function __construct(\Illuminate\Mail\Mailer $mailer, IActivationCodeRepository $activationCode)
+	public function __construct(\Illuminate\Mail\Mailer $mailer, IUserRepository $userRepository, IActivationCodeRepository $activationCodeRepository)
 	{
 		$this->mailer = $mailer;
-		$this->activationCode = $activationCode;
+		$this->userRepository = $userRepository;
+		$this->activationCodeRepository = $activationCodeRepository;
 	}
 
 	public function createActivationCode($userId)
 	{
 		// TODO: handle duplicates? (rare but -possible-)
-		return $this->activationCode->create([
+		return $this->activationCodeRepository->create([
 			'user_id' => $userId,
 			'code' => Str::random(16),
 		]);
@@ -41,7 +43,7 @@ class ActivationManager implements IActivationManager {
 		if ($code instanceof ActivationCode)
 			$activationCodeRecord = $code;
 		else
-			$activationCodeRecord = $this->activationCode->getByCode($code);
+			$activationCodeRecord = $this->activationCodeRepository->getByCode($code);
 
 		$activated = false;
 
@@ -51,8 +53,8 @@ class ActivationManager implements IActivationManager {
 
 			$userRecord->active = true;
 
-			$userRecord->save();
-			$activationCodeRecord->delete();
+			$this->userRepository->save($userRecord);
+			$this->activationCodeRepository->delete($activationCodeRecord);
 
 			$activated = true;
 		}

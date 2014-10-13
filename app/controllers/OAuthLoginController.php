@@ -15,16 +15,16 @@ class OAuthLoginController extends Controller {
 		'google' => 'Google'
 	];
 
-	private $user;
-	private $oauthAccount;
-	private $oauthProvider;
+	private $userRepository;
+	private $oauthAccountRepository;
+	private $oauthProviderRepository;
 	private $oauthManager;
 
-	public function __construct(Icy\User\IUserRepository $user, Icy\OAuth\IOAuthAccountRepository $oauthAccount, Icy\OAuth\IOAuthProviderRepository $oauthProvider, Icy\OAuth\IOAuthManager $oauthManager)
+	public function __construct(Icy\User\IUserRepository $userRepository, Icy\OAuth\IOAuthAccountRepository $oauthAccountRepository, Icy\OAuth\IOAuthProviderRepository $oauthProviderRepository, Icy\OAuth\IOAuthManager $oauthManager)
 	{
-		$this->user = $user;
-		$this->oauthAccount = $oauthAccount;
-		$this->oauthProvider = $oauthProvider;
+		$this->userRepository = $userRepository;
+		$this->oauthAccountRepository = $oauthAccountRepository;
+		$this->oauthProviderRepository = $oauthProviderRepository;
 		$this->oauthManager = $oauthManager;
 	}
 
@@ -132,7 +132,7 @@ class OAuthLoginController extends Controller {
 				{
 					assert('$googleVerifiedEmail == true', 'google email must be verified before we can create an account with it');
 
-					$userRecord = $this->user->firstOrCreate([
+					$userRecord = $this->userRepository->firstOrCreate([
 						'email' => $googleEmail,
 						'password' => null,
 

@@ -65,5 +65,9 @@ class BanNotificationRepository implements IBanNotificationRepository {
 			->where('ban_type_id', $banTypeId);
 	}
 
+	public function save(BanNotification $banNotification)
+	{
+		return $banNotification->save();
+	}
 
 } 

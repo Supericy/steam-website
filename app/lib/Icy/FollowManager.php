@@ -55,7 +55,8 @@ class FollowManager implements IFollowManager {
 		if (!$banNotificationRecord->enabled)
 		{
 			$banNotificationRecord->enabled = true;
-			$banNotificationRecord->save();
+
+			$this->banNotificationRepository->save($banNotificationRecord);
 		}
 	}
 
@@ -67,7 +68,8 @@ class FollowManager implements IFollowManager {
 		if ($banNotificationRecord->enabled)
 		{
 			$banNotificationRecord->enabled = false;
-			$banNotificationRecord->save();
+
+			$this->banNotificationRepository->save($banNotificationRecord);
 		}
 	}
 

@@ -46,4 +46,10 @@ interface IBanNotificationRepository {
 	 */
 	public function getByFavouriteIdAndBanTypeId($favouriteId, $banTypeId);
 
+	/**
+	 * @param BanNotification $banNotification
+	 * @return bool
+	 */
+	public function save(BanNotification $banNotification);
+
 }

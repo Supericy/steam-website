@@ -25,6 +25,11 @@ class LeagueExperienceRepository implements ILeagueExperienceRepository {
 		return $this->model->create($values);
 	}
 
+	public function firstOrCreate(array $values)
+	{
+		return $this->model->firstOrCreate($values);
+	}
+
 	public function save(LeagueExperience $leagueExperience)
 	{
 		return $this->model->save($leagueExperience);

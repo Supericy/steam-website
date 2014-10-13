@@ -106,13 +106,7 @@ class SteamIdController extends Controller {
 		if (Auth::check())
 			$isFollowing = $this->followManager->isFollowing(Auth::user()->id, $steamIdRecord->id);
 
-		$leagueExperiences = $this->experienceManager->getLeagueExperiences($steamIdRecord->steamid, !$steamIdRecord->legitproofed);
-		if (!$steamIdRecord->legitproofed)
-		{
-			// TODO extract
-			$steamIdRecord->legitproofed = true;
-			$steamIdRecord->save();
-		}
+		$leagueExperiences = $this->experienceManager->getLeagueExperiences($steamIdRecord->steamid);
 
 		$data = [
 			'steamId' => $steamIdRecord->steamid,

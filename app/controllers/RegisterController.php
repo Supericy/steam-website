@@ -6,13 +6,13 @@ class RegisterController extends Controller {
 
 	const ACTIVATION_CODE_PATTERN = '[A-Za-z0-9]{16}';
 
-	private $user;
+	private $userRepository;
 	private $activationManager;
 	private $activationCode;
 
-	public function __construct(Icy\User\IUserRepository $user, Icy\User\IActivationManager $activationManager, Icy\User\IActivationCodeRepository $activationCode)
+	public function __construct(Icy\User\IUserRepository $userRepository, Icy\User\IActivationManager $activationManager, Icy\User\IActivationCodeRepository $activationCode)
 	{
-		$this->user = $user;
+		$this->userRepository = $userRepository;
 		$this->activationManager = $activationManager;
 		$this->activationCode = $activationCode;
 	}
@@ -36,7 +36,7 @@ class RegisterController extends Controller {
 			return Redirect::route('get.register')->withInput()->withErrors($validator);
 		}
 
-		$userRecord = $this->user->create(array(
+		$userRecord = $this->userRepository->create(array(
 			'email' => Str::lower(Input::get('email')),
 			'password' => Hash::make(Input::get('password')),
 			'active' => false

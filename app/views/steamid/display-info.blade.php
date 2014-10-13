@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="panel panel-primary">
+    <div class="panel panel-primary panel-shadow">
         <div class="panel-heading medium-pad">
 			<table class="table">
 				<thead>

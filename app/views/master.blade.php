@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>Steam Stats</title>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -33,17 +33,17 @@
 
     @include('navigation-bar')
 
-    <div class="container">
-        <div class="pad-top">
-            {{ ViewHelper::displayArray(Session::get('alerts.success'),    '<div class="alert alert-success" role="alert">:message</div>') }}
-            {{ ViewHelper::displayArray(Session::get('alerts.info'),       '<div class="alert alert-info" role="alert">:message</div>') }}
-            {{ ViewHelper::displayArray(Session::get('alerts.warning'),    '<div class="alert alert-warning" role="alert">:message</div>') }}
-            {{ ViewHelper::displayArray(Session::get('alerts.danger'),     '<div class="alert alert-danger" role="alert">:message</div>') }}
-        </div>
-    </div>
+	<div id="content">
+		<div class="pad-top">
+			<div class="container">
+				{{ ViewHelper::displayArray(Session::get('alerts.success'),    '<div class="alert alert-success" role="alert">:message</div>') }}
+				{{ ViewHelper::displayArray(Session::get('alerts.info'),       '<div class="alert alert-info" role="alert">:message</div>') }}
+				{{ ViewHelper::displayArray(Session::get('alerts.warning'),    '<div class="alert alert-warning" role="alert">:message</div>') }}
+				{{ ViewHelper::displayArray(Session::get('alerts.danger'),     '<div class="alert alert-danger" role="alert">:message</div>') }}
+			</div>
 
-	<div id="content" style="background: url('{{ asset('images/profile_bg.jpg') }}') repeat;">
-		@yield('content')
+			@yield('content')
+		</div>
 	</div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

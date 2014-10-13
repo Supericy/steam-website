@@ -21,6 +21,12 @@ interface ILeagueExperienceRepository {
 	public function create(array $values);
 
 	/**
+	 * @param array $values
+	 * @return LeagueExperience
+	 */
+	public function firstOrCreate(array $values);
+
+	/**
 	 * @param LeagueExperience $leagueExperience
 	 * @return bool
 	 */

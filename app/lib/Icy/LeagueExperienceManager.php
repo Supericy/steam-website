@@ -5,12 +5,14 @@ class LeagueExperienceManager implements ILeagueExperienceManager {
 	private $legitProof;
 	private $steam;
 	private $leagueExperienceRepository;
+	private $steamIdRepository;
 
-	public function __construct(LegitProof\ILegitProof $legitProof, Steam\ISteamService $steam, LegitProof\ILeagueExperienceRepository $leagueExperienceRepository)
+	public function __construct(LegitProof\ILegitProof $legitProof, Steam\ISteamService $steam, LegitProof\ILeagueExperienceRepository $leagueExperienceRepository, Steam\ISteamIdRepository $steamIdRepository)
 	{
 		$this->legitProof = $legitProof;
 		$this->steam = $steam;
 		$this->leagueExperienceRepository = $leagueExperienceRepository;
+		$this->steamIdRepository = $steamIdRepository;
 	}
 
 	public function updateLeagueExperiences($steamId)
@@ -25,7 +27,7 @@ class LeagueExperienceManager implements ILeagueExperienceManager {
 		{
 			// assert $steamId === $this->steam->convertTextTo64($exp->getGuid());
 
-			$leagueExperiences[] = $this->leagueExperienceRepository->create([
+			$leagueExperiences[] = $this->leagueExperienceRepository->firstOrCreate([
 				'steamid' => $steamId,
 				'guid' => $exp->getGuid(),
 				'player' => $exp->getPlayer(),
@@ -40,16 +42,47 @@ class LeagueExperienceManager implements ILeagueExperienceManager {
 		return $leagueExperiences;
 	}
 
-	public function getLeagueExperiences($steamId, $updatedRequired = false)
+	public function getLeagueExperiences($steamId, $forceUpdate = false)
 	{
-		if ($updatedRequired)
+		$results = [];
+
+		if ($forceUpdate)
 		{
-			return $this->updateLeagueExperiences($steamId);
+			$results = $this->updateLeagueExperiences($steamId);
 		}
 		else
 		{
-			return $this->leagueExperienceRepository->getAllBySteamId($steamId);
+			$steamIdRecord = $this->getModel($steamId);
+
+			if (!$steamIdRecord->isLegitProofed())
+			{
+				/*
+				 * Update our league experience and then set our steamid as updated
+				 */
+				$results = $this->updateLeagueExperiences($steamId);
+
+				$steamIdRecord->setLegitProofed(true);
+				$this->steamIdRepository->save($steamIdRecord);
+			}
+			else
+			{
+				$results = $this->leagueExperienceRepository->getAllBySteamId($steamId);
+			}
 		}
+
+		return $results;
+	}
+
+	/**
+	 * @param string|Steam\SteamId $steamId
+	 * @return Steam\SteamId
+	 */
+	private function getModel($steamId)
+	{
+		if ($steamId instanceof Steam\SteamId)
+			return $steamId;
+		else
+			return $this->steamIdRepository->getBySteamId($steamId);
 	}
 
 	/**

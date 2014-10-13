@@ -1,4 +1,6 @@
 <?php namespace Icy\Steam;
+
+use Icy\Common\IBanStatus;
 use Icy\Esea\EseaBanStatus;
 
 /**
@@ -29,15 +31,32 @@ class SteamId extends \Eloquent {
 		return $this->hasOne('Icy\Esea\EseaBan', 'steamid', 'steamid');
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function isLegitProofed()
+	{
+		return $this->legitproofed ? true : false;
+	}
+
+	/**
+	 * @param $bool
+	 */
+	public function setLegitProofed($bool)
+	{
+		$this->legitproofed = $bool;
+	}
+
+	/**
+	 * @return bool
+	 */
 	public function hasBans()
 	{
 		// TODO: maybe keep track of if they have a ban inside the table, so that we don't need to query all of the bans
 
 		$bans = $this->getAllBanStatuses();
 
-		/**
-		 * @var \Icy\Common\IBanStatus $ban
-		 */
+		/** @var \Icy\Common\IBanStatus $ban */
 		foreach ($bans as $ban)
 		{
 			if ($ban->isBanned())
@@ -47,6 +66,9 @@ class SteamId extends \Eloquent {
 		return false;
 	}
 
+	/**
+	 * @return IBanStatus[]
+	 */
 	public function getAllBanStatuses()
 	{
 		return [
@@ -55,22 +77,31 @@ class SteamId extends \Eloquent {
 		];
 	}
 
+	/**
+	 * @return VacBanStatus
+	 */
 	public function getVacBanStatus()
 	{
 		return new VacBanStatus($this->vac_banned, $this->days_since_last_ban);
 	}
 
+	/**
+	 * @return EseaBanStatus
+	 */
 	public function getEseaBanStatus()
 	{
 		$isBanned = false;
-		$banTimestamp = null;
+		$alias = IBanStatus::UNKNOWN_ALIAS;
+		$timestamp = null;
 
 		if ($this->eseaBan)
 		{
 			$isBanned = true;
+			$alias = $this->eseaBan->alias;
+			$timestamp = $this->eseaBan->timestamp;
 		}
 
-		return new EseaBanStatus($isBanned, $this->eseaBan->alias, $this->eseaBan->timestamp);
+		return new EseaBanStatus($isBanned, $alias, $timestamp);
 	}
 
 }

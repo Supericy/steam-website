@@ -20,4 +20,10 @@ interface IUserRepository {
 
 	public function normalize($credentials);
 
+	/**
+	 * @param User $user
+	 * @return bool
+	 */
+	public function save(User $user);
+
 }

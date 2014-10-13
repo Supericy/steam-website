@@ -8,7 +8,16 @@
 
 class PlaygroundController extends Controller {
 
-	public function tests()
+	const CLASS_NAME = 'PlaygroundController';
+
+	public function getIndex()
+	{
+		$urls = $this->getUrls();
+
+		return View::make('tests.list-methods')->withUrls($urls);
+	}
+
+	public function getTestSteamIdDisplay()
 	{
 		$steamId = 76561197960327544;
 		$steamIdText = 'STEAM_0:0:30908';
@@ -22,7 +31,7 @@ class PlaygroundController extends Controller {
 
 		$data = [
 			'steamId' => $steamId,
-			'isFollowing' => false,
+			'isFollowing' => true,
 			'timesChecked' => 144,
 			'hasBans' => count($bans) > 0,
 			'bans' => $bans,
@@ -35,6 +44,34 @@ class PlaygroundController extends Controller {
 		Debugbar::info($data);
 
 		return View::make('steamid.display')->with($data);
+	}
+
+	public function getTestAlert()
+	{
+		Session::forget('alerts.success');
+
+		FlashHelper::append('alerts.success', 'This is just a test alert.');
+
+		return View::make('master');
+	}
+
+	private function getUrls()
+	{
+		$urls = [];
+
+		$class = new ReflectionClass('PlaygroundController');
+
+		foreach ($class->getMethods() as $method)
+		{
+			if ($method->isPublic() && $method->getDeclaringClass()->getName() === self::CLASS_NAME)
+			{
+				$action = self::CLASS_NAME . '@' . $method->getName();
+
+				$urls[] = URL::action($action);
+			}
+		}
+
+		return $urls;
 	}
 
 }

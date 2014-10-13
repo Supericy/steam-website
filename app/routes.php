@@ -24,9 +24,11 @@ Route::get('/', array(function () {
 	'as' => 'home'
 ));
 
-Route::get('/tests', array(
-	'uses' => 'PlaygroundController@tests',
-));
+Route::controller('tests', 'PlaygroundController');
+
+//Route::get('/tests', array(
+//	'uses' => 'PlaygroundController@tests',
+//));
 
 Route::get('/search', array(
 	'uses' => 'SteamIdController@searchSteamId',
