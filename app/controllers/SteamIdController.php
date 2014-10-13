@@ -120,6 +120,8 @@ class SteamIdController extends Controller {
 			'communityUrl' => $this->steam->getCommunityUrl($steamIdRecord->steamid),
 		];
 
+		// test change
+
 		Debugbar::info($data);
 
 		return View::make('steamid.display')->with($data);
