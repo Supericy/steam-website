@@ -4,17 +4,14 @@ use \Illuminate\Support\Str;
 
 class RegisterController extends Controller {
 
-	const ACTIVATION_CODE_PATTERN = '[A-Za-z0-9]{16}';
+	/**
+	 * @var \Icy\User\IUserManager
+	 */
+	private $userManager;
 
-	private $userRepository;
-	private $activationManager;
-	private $activationCode;
-
-	public function __construct(Icy\User\IUserRepository $userRepository, Icy\User\IActivationManager $activationManager, Icy\User\IActivationCodeRepository $activationCode)
+	public function __construct(Icy\User\IUserManager $userManager)
 	{
-		$this->userRepository = $userRepository;
-		$this->activationManager = $activationManager;
-		$this->activationCode = $activationCode;
+		$this->userManager = $userManager;
 	}
 
     public function getRegister()
@@ -24,6 +21,8 @@ class RegisterController extends Controller {
 
     public function postRegister()
 	{
+		// TODO: export validation to UserManager
+
 		$rules = array(
 			'email' => 'required|email|unique:users,email',
 			'password' => 'required|confirmed|min:6'
@@ -33,50 +32,50 @@ class RegisterController extends Controller {
 
 		if ($validator->fails())
 		{
-			return Redirect::route('get.register')->withInput()->withErrors($validator);
+			return Redirect::route('get.register')
+				->withInput()
+				->withErrors($validator);
 		}
 
-		$userRecord = $this->userRepository->create(array(
-			'email' => Str::lower(Input::get('email')),
-			'password' => Hash::make(Input::get('password')),
-			'active' => false
-		));
 
-		$activationCodeRecord = $this->activationManager->createActivationCode($userRecord->id);
-		$this->activationManager->sendActivationEmail($userRecord->email, $activationCodeRecord->code);
+		$credentials = $this->userManager->normalizeCredentials([
+			'email' => Input::get('email'),
 
-		FlashHelper::append('alerts.warn', 'Your account has been created, but needs to be verified.');
+			// UserManager will handle hashing the password
+			'password' => Input::get('password'),
+
+			'activated' => false,
+		]);
+
+		try
+		{
+			$this->userManager->createAccount($credentials);
+
+			FlashHelper::append('alerts.warn', 'Your account has been created, but the email needs to be verified.');
+
+			Auth::attempt($credentials, true);
+		}
+		catch (Icy\User\UserException $e)
+		{
+			Log::error('Your account was not created successfully.', ['credentials' => $credentials, 'user_exception' => $e]);
+			App::abort(500, 'We were not able to create your account at this time.');
+		}
 
 		return View::make('register.success')
-			->with('email', $userRecord->email);
+			->with('email', $credentials['email']);
 	}
 
 	public function activate($code)
 	{
-		if (preg_match('/' . self::ACTIVATION_CODE_PATTERN . '/', $code))
-		{
-			$activationCodeRecord = $this->activationCode->getByCode($code);
+		if (!$this->userManager->verifyActivationCodeFormat($code))
+			return App::abort(400, 'Malformed activation code.');
 
-			if ($activationCodeRecord)
-			{
-				if ($this->activationManager->activate($activationCodeRecord))
-				{
-					$userRecord = $activationCodeRecord->user()->first();
+		$activated = $this->userManager->activateAccount($code);
 
-					Auth::login($userRecord);
+		// FIXME: if we redirect to '/', then this alert will be lost in the redirect to '/search'
+		FlashHelper::append('alerts.success', 'Your account has been activated.');
 
-					FlashHelper::append('alerts.success', 'Your account has been activated.');
-
-					return Redirect::intended('/');
-				}
-				else
-				{
-					return App::abort(403, 'Activation code could not be activated.');
-				}
-			}
-		}
-
-		return App::abort(500, 'Activation code not found.');
+		return Redirect::intended('/');
 	}
 
 }

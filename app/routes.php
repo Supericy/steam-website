@@ -40,10 +40,6 @@ Route::get('/steamid/{id}', array(
 	'as' => 'steamid.display'
 ));
 
-//Route::post('/steamid/create', array(
-//	'uses' => 'SteamIdController@createSteamId',
-//	'as' => 'steamid.create'
-//));
 
 Route::post('/steamid/bulk-create', array(
 	'uses' => 'SteamIdController@createSteamIdBulk'
@@ -52,7 +48,7 @@ Route::post('/steamid/bulk-create', array(
 Route::get('/activate/{code}', array(
 	'uses' => 'RegisterController@activate',
 	'as' => 'user.activate'
-))->where('code', RegisterController::ACTIVATION_CODE_PATTERN);
+));
 
 Route::group(array('before' => 'auth'), function () {
 

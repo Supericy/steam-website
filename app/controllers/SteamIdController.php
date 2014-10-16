@@ -23,9 +23,6 @@ class SteamIdController extends Controller {
 		$this->banManager = $banManager;
 		$this->followManager = $followManager;
 		$this->experienceManager = $experienceManager;
-
-		$this->filter('before', 'auth')
-			->only(['follow', 'unfollow']);
 	}
 
 	public function searchSteamId()

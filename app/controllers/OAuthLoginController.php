@@ -74,8 +74,8 @@ class OAuthLoginController extends Controller {
 		}
 		catch (\OAuth\Common\Http\Exception\TokenResponseException $e)
 		{
-			Log::warning("User's token/code has probably expired", $e);
-			App::abort(500, 'Your token/code has probably expired, please try again.');
+			Log::warning("User's token/code has probably expired", $e->getTrace());
+			App::abort(400, 'Your token/code has probably expired, please try again.');
 		}
 
 		$googleAccountId = $result->id;
@@ -86,7 +86,7 @@ class OAuthLoginController extends Controller {
 		$credentials = [
 			'accountId' => $result->id,
 			'email' => $result->email,
-			'active' => $googleVerifiedEmail,
+			'activated' => $googleVerifiedEmail,
 			'isEmailVerified' => $result->verified_email,
 		];
 
@@ -108,7 +108,7 @@ class OAuthLoginController extends Controller {
 
 			if (!empty($loginMethods))
 			{
-				return $this->redirectDisplayLoginMethods($loginMethods);
+				return $this->redirectDisplayLoginMethods($loginMethods, $credentials);
 			}
 			else
 			{
@@ -119,7 +119,7 @@ class OAuthLoginController extends Controller {
 					'password' => null,
 
 					// we can guarentee $googleVerifiedEmail is true at this point
-					'active' => $googleVerifiedEmail
+					'activated' => $googleVerifiedEmail
 				]);
 
 				// user does not have any way to log in, so let's create an account/loginMethod for them
@@ -132,10 +132,10 @@ class OAuthLoginController extends Controller {
 		return $this->loginSucessful();
 	}
 
-	private function redirectDisplayLoginMethods($loginMethods)
+	private function redirectDisplayLoginMethods(array $loginMethods, array $credentials)
 	{
 		// prompt the user to login with an existing account/method
-		FlashHelper::append('alerts.danger', sprintf('Your email (%s) is already in use. Please login to merge accounts.', $googleEmail));
+		FlashHelper::append('alerts.danger', sprintf('Your email (%s) is already in use. Please login to merge accounts.', $credentials['email']));
 
 		$loginMethodsToDisplay = [];
 

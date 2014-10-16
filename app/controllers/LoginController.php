@@ -8,6 +8,16 @@
 
 class LoginController extends Controller {
 
+	/**
+	 * @var \Icy\User\IUserManager
+	 */
+	private $userManager;
+
+	public function __construct(Icy\User\IUserManager $userManager)
+	{
+		$this->userManager = $userManager;
+	}
+
     public function logout()
     {
         Auth::logout();
@@ -27,6 +37,8 @@ class LoginController extends Controller {
 
     public function postLogin()
     {
+		// TODO: export validation to our UserManager class
+
         $rules = array(
             'email' => 'required|email',
             'password' => 'required'
@@ -36,24 +48,33 @@ class LoginController extends Controller {
 
         if ($validator->fails())
         {
-            return Redirect::route('get.login')->withInput()->withErrors($validator);
+            return Redirect::route('get.login')
+				->withInput()
+				->withErrors($validator);
         }
 
-        $auth = Auth::attempt(array(
-            'email' => Input::get('email'),
-            'password' => Input::get('password'),
-			'active' => true
-        ), true);
+		$credentials = $this->userManager->normalizeCredentials([
+			'email' => Input::get('email'),
 
-        if ($auth)
+			// note that we don't hash the password when using Auth::attempt()
+			'password' => Input::get('password')
+		]);
+
+        if (Auth::attempt($credentials, true))
         {
             FlashHelper::append('alerts.success', 'You have been logged in.');
+
+			// TODO: prompt with activation alert if their email/account needs activation
 
             return Redirect::intended('/');
         }
         else
         {
-            return Redirect::route('get.login')->withInput()->withErrors(['login' => ['Invalid e-mail or password.']]);
+            return Redirect::route('get.login')
+				->withInput()
+				->withErrors([
+					'login' => ['Incorrect e-mail or password.']
+				]);
         }
     }
 

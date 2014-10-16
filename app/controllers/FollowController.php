@@ -28,7 +28,7 @@ class FollowController extends Controller {
 		$this->steam = $steam;
 
 		// user must be logged in to follow
-		$this->filterBefore('auth');
+		$this->beforeFilter('auth');
 	}
 
 	public function follow($potentialId)
@@ -41,6 +41,8 @@ class FollowController extends Controller {
 		$userId = Auth::user()->id;
 
 		$steamIdRecord = $this->banManager->fetchAndUpdate($steamId);
+
+		// FIXME: We need to make sure the user has activated their account/email before they can follow anyone
 
 		$this->followManager->follow($userId, $steamIdRecord->id);
 
