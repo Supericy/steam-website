@@ -25,7 +25,7 @@ class UserServiceProvider extends \Illuminate\Support\ServiceProvider {
 		});
 
 		$this->app->bind('Icy\User\IActivationManager', function ($app) {
-			return new ActivationManager($app->make('mailer'), $app->make('Icy\User\IActivationCodeRepository'));
+			return $app->make('Icy\User\ActivationManager');
 		});
 	}
 

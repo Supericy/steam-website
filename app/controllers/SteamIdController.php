@@ -23,6 +23,9 @@ class SteamIdController extends Controller {
 		$this->banManager = $banManager;
 		$this->followManager = $followManager;
 		$this->experienceManager = $experienceManager;
+
+		$this->filter('before', 'auth')
+			->only(['follow', 'unfollow']);
 	}
 
 	public function searchSteamId()
@@ -43,54 +46,7 @@ class SteamIdController extends Controller {
 	}
 
 	// TODO export this functionality to API controller
-	public function follow($potentialId)
-	{
-		$steamId = $this->steam->resolveId($potentialId);
 
-		if ($steamId === false)
-			return App::abort(404);
-
-		if (Auth::check())
-		{
-			$userId = Auth::user()->id;
-		}
-		else
-		{
-			return App::abort(401);
-		}
-
-		$steamIdRecord = $this->banManager->fetchAndUpdate($steamId);
-
-		$this->followManager->follow($userId, $steamIdRecord->id);
-
-		FlashHelper::append('alerts.success', 'You are now following ' . $steamIdRecord->steamid);
-
-		return Redirect::action('steamid.display', ['id' => $steamIdRecord->steamid]);
-	}
-
-	public function unfollow($potentialId)
-	{
-		$steamId = $this->steam->resolveId($potentialId);
-		if ($steamId === false)
-			return App::abort(404);
-
-		if (Auth::check())
-		{
-			$userId = Auth::user()->id;
-		}
-		else
-		{
-			return App::abort(401);
-		}
-
-		$steamIdRecord = $this->banManager->fetchAndUpdate($steamId);
-
-		$this->followManager->unfollow($userId, $steamIdRecord->id);
-
-		FlashHelper::append('alerts.success', 'You have unfollowed ' . $steamIdRecord->steamid);
-
-		return Redirect::action('steamid.display', ['id' => $steamIdRecord->steamid]);
-	}
 
 	public function display($potentialId)
 	{
@@ -106,7 +62,9 @@ class SteamIdController extends Controller {
 		if (Auth::check())
 			$isFollowing = $this->followManager->isFollowing(Auth::user()->id, $steamIdRecord->id);
 
-		$leagueExperiences = $this->experienceManager->getLeagueExperiences($steamIdRecord->steamid);
+		$leagueExperiences = $this->experienceManager->getLeagueExperiences($steamId);
+
+		$profile = $this->steam->getPlayerProfile($steamId);
 
 		$data = [
 			'steamId' => $steamIdRecord->steamid,
@@ -115,12 +73,10 @@ class SteamIdController extends Controller {
 			'hasBans' => $steamIdRecord->hasBans(),
 			'bans' => $steamIdRecord->getAllBanStatuses(),
 			'steamId64' => $steamIdRecord->steamid,
-			'steamIdText' => $this->steam->convert64ToText($steamIdRecord->steamid, true),
+			'steamIdText' => $this->steam->convert64ToText($steamId, true),
 			'leagueExperiences' => $leagueExperiences,
-			'communityUrl' => $this->steam->getCommunityUrl($steamIdRecord->steamid),
+			'communityUrl' => $this->steam->getCommunityUrl($steamId),
 		];
-
-		// test change
 
 		Debugbar::info($data);
 

@@ -1,4 +1,7 @@
 <?php namespace Icy;
+
+use Illuminate\Cache\Repository;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -23,7 +26,7 @@ class BanManager implements IBanManager {
 		Steam\ISteamIdRepository $steamIdRepository,
 		BanDetection\IBanDetectionRepository $banDetectionRepository,
 		BanDetection\IBanTypeRepository $banTypeRepository,
-		\Illuminate\Cache\Repository $cache)
+		Repository $cache)
 	{
 		$this->steam = $steam;
 		$this->steamIdRepository = $steamIdRepository;

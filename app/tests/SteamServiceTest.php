@@ -12,10 +12,47 @@
  */
 class SteamServiceTest extends TestCase {
 
-	public function testGetVacBanStatusForMultiplePlayers()
+	/**
+	 * @return \Icy\Steam\ISteamService
+	 */
+	public function getISteamServiceInstance()
 	{
-		/** @var Icy\Steam\ISteamService $steam */
 		$steam = $this->app->make('Icy\Steam\ISteamService');
+		$this->assertInstanceOf('Icy\Steam\ISteamService', $steam);
+
+		return $steam;
+	}
+
+	public function testMultipleGetPlayerProfile()
+	{
+		$steam = $this->getISteamServiceInstance();
+
+		$profiles = $steam->getPlayerProfile(['76561197960327544', '76561198050774634']);
+
+		$this->assertEquals(2, count($profiles));
+
+		// good enough for now, we probably won't use anything else anyway
+		$this->assertEquals('76561197960327544', $profiles['76561197960327544']->getSteamId());
+		$this->assertEquals('Supericy', $profiles['76561197960327544']->getAlias());
+
+		$this->assertEquals('76561198050774634', $profiles['76561198050774634']->getSteamId());
+		$this->assertEquals('toastedforkman', $profiles['76561198050774634']->getAlias());
+	}
+
+	public function testSingleGetPlayerProfile()
+	{
+		$steam = $this->getISteamServiceInstance();
+
+		$profile = $steam->getPlayerProfile('76561197960327544');
+
+		// good enough for now, we probably won't use anything else anyway
+		$this->assertEquals('76561197960327544', $profile->getSteamId());
+		$this->assertEquals('Supericy', $profile->getAlias());
+	}
+
+	public function testCreatePlayerAssocArrayForMultiplePlayer()
+	{
+		$steam = $this->getISteamServiceInstance();
 
 		$players = [
 			(object)["SteamId" => "111"],
@@ -45,10 +82,9 @@ class SteamServiceTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testGetVacBanStatusForSinglePlayer()
+	public function testCreatePlayerAssocArrayForSinglePlayer()
 	{
-		/** @var Icy\Steam\ISteamService $steam */
-		$steam = $this->app->make('Icy\Steam\ISteamService');
+		$steam = $this->getISteamServiceInstance();
 
 		// webapi call has more data, but we aren't worried about that
 		$players = [
@@ -71,8 +107,7 @@ class SteamServiceTest extends TestCase {
 
 	public function testConvert64ToText()
 	{
-		/** @var Icy\Steam\ISteamService $steam */
-		$steam = $this->app->make('Icy\Steam\ISteamService');
+		$steam = $this->getISteamServiceInstance();
 
 		$this->assertEquals('0:0:30908', $steam->convert64ToText('76561197960327544'));
 		$this->assertEquals('STEAM_0:0:30908', $steam->convert64ToText('76561197960327544', true));
@@ -92,8 +127,7 @@ class SteamServiceTest extends TestCase {
 
 	public function testConvertTextTo64()
 	{
-		/** @var Icy\Steam\ISteamService $steam */
-		$steam = $this->app->make('Icy\Steam\ISteamService');
+		$steam = $this->getISteamServiceInstance();
 
 		$steamId64 = '76561197960327544';
 

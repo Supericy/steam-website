@@ -54,9 +54,9 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => '',
-			'database'  => '',
-			'username'  => '',
+			'host'      => '192.168.0.50',
+			'database'  => 'homestead',
+			'username'  => 'general',
 			'password'  => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',

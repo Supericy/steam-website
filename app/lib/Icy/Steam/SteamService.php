@@ -9,13 +9,21 @@
 class SteamService implements ISteamService {
 
 	private $api;
-	private $communityUrl;
+	private $baseCommunityUrl;
 
-	public function __construct(Web\ISteamWebAPI $api, $config)
+	public function __construct(Web\ISteamWebAPI $api)
 	{
 		$this->api = $api;
+	}
 
-		$this->communityUrl = $config['community_url'];
+	public function setBaseCommunityUrl($baseCommunityUrl)
+	{
+		$this->baseCommunityUrl = $baseCommunityUrl;
+	}
+
+	public function getBaseCommunityUrl()
+	{
+		return $this->baseCommunityUrl;
 	}
 
 	private function createPlayerAssocArray($players, $key, Callable $callback)
@@ -48,7 +56,7 @@ class SteamService implements ISteamService {
 		if (!$this->is64Id($steamId))
 			throw new SteamException('Community URLs require a 64bit steam ID.');
 
-		return $this->communityUrl . $steamId;
+		return $this->baseCommunityUrl . $steamId;
 	}
 
 	// $steamId = array or string of 64bit steamid
@@ -156,4 +164,33 @@ class SteamService implements ISteamService {
 		return preg_match('/^\d{17}$/', $steamId);
 	}
 
+	public function getPlayerProfile($steamId)
+	{
+		$response = $this->api->getPlayerSummaries($steamId);
+
+		$results = false;
+
+		if ($response !== false)
+		{
+			$results = $this->createPlayerAssocArray($response->players, 'steamid', function ($steamId, $player) {
+				$profile = new PlayerProfile();
+				$profile->setSteamId($player->steamid);
+				$profile->setCommunityVisibilityState($player->communityvisibilitystate);
+				$profile->setProfileState($player->profilestate);
+				$profile->setAlias($player->personaname);
+				$profile->setLastLogOff($player->lastlogoff);
+				$profile->setProfileUrl($player->profileurl);
+				$profile->setAvatarUrl($player->avatar);
+				$profile->setMediumAvatarUrl($player->avatarmedium);
+				$profile->setFullAvatarUrl($player->avatarfull);
+				$profile->setPersonaState($player->personastate);
+				$profile->setPrimaryClanId($player->primaryclanid);
+				$profile->setTimeCreated($player->timecreated);
+				$profile->setPersonaStateFlags($player->personastateflags);
+				return $profile;
+			});
+		}
+
+		return $results;
+	}
 }

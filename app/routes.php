@@ -56,13 +56,17 @@ Route::get('/activate/{code}', array(
 
 Route::group(array('before' => 'auth'), function () {
 
+	Route::get('/profile', array(
+		'uses' => 'UserController@index'
+	));
+
 	Route::get('/steamid/{id}/follow', array(
-		'uses' => 'SteamIdController@follow',
+		'uses' => 'FollowController@follow',
 		'as' => 'steamid.follow'
 	));
 
 	Route::get('/steamid/{id}/unfollow', array(
-		'uses' => 'SteamIdController@unfollow',
+		'uses' => 'FollowController@unfollow',
 		'as' => 'steamid.unfollow'
 	));
 

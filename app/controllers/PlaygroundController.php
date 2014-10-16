@@ -17,7 +17,23 @@ class PlaygroundController extends Controller {
 		return View::make('tests.list-methods')->withUrls($urls);
 	}
 
-	public function getTestSteamIdDisplay()
+	public function getSteamCondenserTest()
+	{
+//		dd(app_path());
+
+//		require_once(app_path() . '/../vendor/koraktor/steam-condenser/lib/steam/servers/SourceServer.php');
+
+		$server = new SourceServer('23.19.172.139:27015');
+
+		dd([
+			'info' => $server->getServerInfo(),
+			'ping' => $server->getPing(),
+			'players' => $server->getPlayers(),
+//			'rules' => $server->getRules(),
+		]);
+	}
+
+	public function getSteamIdDisplayTest()
 	{
 		$steamId = 76561197960327544;
 		$steamIdText = 'STEAM_0:0:30908';
@@ -46,7 +62,7 @@ class PlaygroundController extends Controller {
 		return View::make('steamid.display')->with($data);
 	}
 
-	public function getTestAlert()
+	public function getAlertTest()
 	{
 		Session::forget('alerts.success');
 

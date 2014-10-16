@@ -23,11 +23,15 @@ class ActivationManager implements IActivationManager {
 
 	public function createActivationCode($userId)
 	{
+		$code = Str::random(16);
+
 		// TODO: handle duplicates? (rare but -possible-)
-		return $this->activationCodeRepository->create([
+		$this->activationCodeRepository->create([
 			'user_id' => $userId,
-			'code' => Str::random(16),
+			'code' => $code,
 		]);
+
+		return $code;
 	}
 
 	public function sendActivationEmail($email, $code)
@@ -36,6 +40,12 @@ class ActivationManager implements IActivationManager {
 			$msg->to($email)
 				->subject('Account Activation');
 		});
+	}
+
+	public function createAndSendActivationCode($userId, $email)
+	{
+		$code = $this->createActivationCode($userId);
+		$this->sendActivationEmail($email, $code);
 	}
 
 	public function activate($code)
@@ -62,4 +72,4 @@ class ActivationManager implements IActivationManager {
 		return $activated;
 	}
 
-} 
+}

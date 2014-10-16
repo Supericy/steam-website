@@ -9,12 +9,21 @@
 interface ISteamService {
 
 	/**
+	 * @param string $steamId
+	 * @return PlayerProfile|PlayerProfile[]
+	 */
+	public function getPlayerProfile($steamId);
+
+	/**
 	 * @param $steamId
 	 * @return VacBanStatus|VacBanStatus[]
 	 */
 	public function getVacBanStatus($steamId);
 
 	/**
+	 * This method converts either a steam-nickname (ie. steam.com/profile/supericy to 755565656565656). As well as
+	 * converting text-steamid to it's 64bit steamid form (ie. 755565656565656).
+	 *
 	 * @param $potentialId
 	 * @return string|false
 	 */
@@ -34,6 +43,16 @@ interface ISteamService {
 	 * @return string
 	 */
 	public function convert64ToText($steamId, $includePrefix = false);
+
+	/**
+	 * @param string $baseCommunityUrl
+	 */
+	public function setBaseCommunityUrl($baseCommunityUrl);
+
+	/**
+	 * @return string
+	 */
+	public function getBaseCommunityUrl();
 
 	/**
 	 * @param $steamId

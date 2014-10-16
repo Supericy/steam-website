@@ -1,5 +1,4 @@
 <?php namespace Icy\Steam\Web;
-use SebastianBergmann\Exporter\Exception;
 
 /**
  * Created by PhpStorm.
@@ -10,6 +9,7 @@ use SebastianBergmann\Exporter\Exception;
 
 class SteamWebAPI implements ISteamWebAPI {
 
+	private $client;
 	private $apiKey;
 
 	// https://developer.valvesoftware.com/wiki/Steam_Web_API
@@ -21,10 +21,20 @@ class SteamWebAPI implements ISteamWebAPI {
 
 	private $jsonResponseDecoding;
 
-	public function __construct($apiKey)
+	public function __construct(\GuzzleHttp\ClientInterface $client)
+	{
+		$this->client = $client;
+		$this->jsonResponseDecoding = true;
+	}
+
+	public function setApiKey($apiKey)
 	{
 		$this->apiKey = $apiKey;
-		$this->jsonResponseDecoding = true;
+	}
+
+	public function getApiKey()
+	{
+		return $this->apiKey;
 	}
 
 	// used for testing purposes
@@ -75,39 +85,50 @@ class SteamWebAPI implements ISteamWebAPI {
 	{
 		$url = $endpoint . '?' . http_build_query(array_merge(['key' => $this->apiKey], $params));
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+//		$ch = curl_init();
+//		curl_setopt($ch, CURLOPT_URL, $url);
+//		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+//
+//		if (($erno = curl_error($ch)) > 0)
+//		{
+//			$reason = sprintf('An error (erno:%d) occured while trying to curl: %s', $erno, $endpoint);
+//
+//			// more accurate error message
+//			if ($erno === CURLE_OPERATION_TIMEOUTED)
+//				$reason = 'Steam Web API Timed Out.';
+//
+//			throw new Exception($reason);
+//		}
+//		if (curl_error($ch) === CURLE_OPERATION_TIMEOUTED)
+//		{
+//			throw new Exception('Steam API timed out.');
+//		}
+//
+//		$jsonResponse = curl_exec($ch);
+//
+//		$response = false;
+//
+//		if ($jsonResponse !== false)
+//		{
+//			if ($this->jsonResponseDecoding)
+//			{
+//				$response = json_decode($jsonResponse);
+//			}
+//		}
 
-		if (($erno = curl_error($ch)) > 0)
+
+
+		$response = $this->client->get($url);
+
+		$result = false;
+
+		if ((int)$response->getStatusCode() === 200)
 		{
-			$reason = sprintf('An error (erno:%d) occured while trying to curl: %s', $erno, $endpoint);
-
-			// more accurate error message
-			if ($erno === CURLE_OPERATION_TIMEOUTED)
-				$reason = 'Steam Web API Timed Out.';
-
-			throw new Exception($reason);
-		}
-		if (curl_error($ch) === CURLE_OPERATION_TIMEOUTED)
-		{
-			throw new Exception('Steam API timed out.');
+			$result = $response->json(['object' => true]);
 		}
 
-		$jsonResponse = curl_exec($ch);
-
-		$response = false;
-
-		if ($jsonResponse !== false)
-		{
-			if ($this->jsonResponseDecoding)
-			{
-				$response = json_decode($jsonResponse);
-			}
-		}
-
-		return $response;
+		return $result;
 	}
 
 }

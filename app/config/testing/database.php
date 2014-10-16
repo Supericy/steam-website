@@ -22,21 +22,10 @@ return array(
 
 	'connections' => array(
 
-//		'mysql' => array(
-//			'driver'    => 'mysql',
-//			'host'      => 'localhost',
-//			'database'  => 'homestead',
-//			'username'  => 'homestead',
-//			'password'  => 'secret',
-//			'charset'   => 'utf8',
-//			'collation' => 'utf8_unicode_ci',
-//			'prefix'    => '',
-//		),
-
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => '192.168.0.50',
-			'database'  => 'homestead',
+			'database'  => 'homestead_tests',
 			'username'  => 'general',
 			'password'  => '',
 			'charset'   => 'utf8',

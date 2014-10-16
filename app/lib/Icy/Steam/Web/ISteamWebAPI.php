@@ -26,4 +26,14 @@ interface ISteamWebAPI {
 	 */
 	public function getPlayerSummaries($steamIds);
 
+	/**
+	 * @param string $apiKey
+	 */
+	public function setApiKey($apiKey);
+
+	/**
+	 * @return string
+	 */
+	public function getApiKey();
+
 } 

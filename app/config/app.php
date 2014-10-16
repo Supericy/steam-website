@@ -127,10 +127,6 @@ return array(
 		'Artdarek\OAuth\OAuthServiceProvider',
 
 		'Icy\IcyServiceProvider',
-
-//		'Icy\Steam\SteamServiceProvider',
-//		'Icy\User\UserServiceProvider',
-//		'Icy\BanListener\BanListenerServiceProvider',
 	),
 
 	/*

@@ -12,7 +12,7 @@ interface IActivationManager {
 
 	/**
 	 * @param int $userId
-	 * @return \Icy\User\ActivationCode
+	 * @return string
 	 */
 	public function createActivationCode($userId);
 
@@ -23,6 +23,14 @@ interface IActivationManager {
 	 * 	User's activation code
 	 */
 	public function sendActivationEmail($email, $code);
+
+	/**
+	 * Essentially just a wrapper method for creating an activation code and then emailing it to the user
+	 *
+	 * @param int $userId
+	 * @param string $email
+	 */
+	public function createAndSendActivationCode($userId, $email);
 
 	/**
 	 * @param (Icy\User\ActivationCode|string) $code

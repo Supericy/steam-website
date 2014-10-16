@@ -16,6 +16,11 @@ class IcyServiceProvider extends \Illuminate\Support\ServiceProvider {
 	public function register()
 	{
 		/*
+		 * Bind third-party libraries to our IoC
+		 */
+		$this->app->register('Icy\VendorServiceProvider');
+
+		/*
 		 * We'll put single binds here, so that we don't need to create
 		 * a new service provider for every-single-table/repository.
 		 *
