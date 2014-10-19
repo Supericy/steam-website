@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateEseaBansTable extends Migration {
@@ -12,7 +11,8 @@ class CreateEseaBansTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('esea_bans', function ($table) {
+		Schema::create('esea_bans', function ($table)
+		{
 
 			$table->increments('id');
 

@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -14,5 +14,5 @@ return array(
 	*/
 
 	'debug' => true,
-    'profiler' => true,
-);
+	'profiler' => true,
+];

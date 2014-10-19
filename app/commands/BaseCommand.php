@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,7 +11,7 @@ class BaseCommand extends Command {
 	private $styleDelimiter = '-';
 	private $createdStyles = [];
 
-	public function run( InputInterface $input, OutputInterface $output )
+	public function run(InputInterface $input, OutputInterface $output)
 	{
 		// Set extra colors.
 		// The most problem is $output->getFormatter() don't work...
@@ -31,7 +30,7 @@ class BaseCommand extends Command {
 //		$formatter->setStyle( 'yellow-blue', new OutputFormatterStyle( 'yellow', 'blue' ) );
 //		$output->setFormatter( $formatter );
 
-		return parent::run( $input, $output );
+		return parent::run($input, $output);
 	}
 
 	/**

@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Chad
  * Date: 9/21/2014
  * Time: 10:44 PM
  */
-
 class UserRepositoryTest extends TestCase {
 
 	/**
@@ -18,8 +18,7 @@ class UserRepositoryTest extends TestCase {
 		try
 		{
 			$record = $user->getByProviderNameAndAccountId('google', 1337);
-		}
-		catch (PDOException $e)
+		} catch (PDOException $e)
 		{
 			echo $e->getMessage() . "\n";
 		}

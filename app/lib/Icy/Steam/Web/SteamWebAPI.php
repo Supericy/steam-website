@@ -118,7 +118,6 @@ class SteamWebAPI implements ISteamWebAPI {
 //		}
 
 
-
 		$response = $this->client->get($url);
 
 		$result = false;

@@ -27,15 +27,18 @@ class IcyServiceProvider extends \Illuminate\Support\ServiceProvider {
 		 * If we end up needing a service provider, then we'll extract
 		 * the binds to it's own service provider
 		 */
-		$this->app->bind('Icy\Esea\IEseaBanRepository', function ($app) {
+		$this->app->bind('Icy\Esea\IEseaBanRepository', function ($app)
+		{
 			return $app->make('Icy\Esea\EseaBanRepository');
 		});
 
-		$this->app->bind('Icy\Favourite\IFavouriteRepository', function ($app) {
+		$this->app->bind('Icy\Favourite\IFavouriteRepository', function ($app)
+		{
 			return $app->make('Icy\Favourite\FavouriteRepository');
 		});
 
-		$this->app->bind('Icy\BanNotification\IBanNotificationRepository', function ($app) {
+		$this->app->bind('Icy\BanNotification\IBanNotificationRepository', function ($app)
+		{
 			return $app->make('Icy\BanNotification\BanNotificationRepository');
 		});
 
@@ -58,15 +61,18 @@ class IcyServiceProvider extends \Illuminate\Support\ServiceProvider {
 		/*
 		 * Bind Managers
 		 */
-		$this->app->bind('Icy\IFollowManager', function ($app) {
+		$this->app->bind('Icy\IFollowManager', function ($app)
+		{
 			return $app->make('Icy\FollowManager');
 		});
 
-		$this->app->bind('Icy\IBanManager', function ($app) {
+		$this->app->bind('Icy\IBanManager', function ($app)
+		{
 			return $app->make('Icy\BanManager');
 		});
 
-		$this->app->bind('Icy\ILeagueExperienceManager', function ($app) {
+		$this->app->bind('Icy\ILeagueExperienceManager', function ($app)
+		{
 			return $app->make('Icy\LeagueExperienceManager');
 		});
 	}

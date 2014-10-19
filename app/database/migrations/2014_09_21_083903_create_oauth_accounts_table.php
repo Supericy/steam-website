@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateOauthAccountsTable extends Migration {
@@ -12,7 +11,8 @@ class CreateOauthAccountsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('oauth_accounts', function ($table) {
+		Schema::create('oauth_accounts', function ($table)
+		{
 
 			$table->increments('id');
 
@@ -27,7 +27,8 @@ class CreateOauthAccountsTable extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::table('oauth_accounts', function ($table) {
+		Schema::table('oauth_accounts', function ($table)
+		{
 
 			$table->foreign('user_id')
 				->references('id')

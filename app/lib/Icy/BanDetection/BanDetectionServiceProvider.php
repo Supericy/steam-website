@@ -16,11 +16,13 @@ class BanDetectionServiceProvider extends \Illuminate\Support\ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('Icy\BanDetection\IBanDetectionRepository', function ($app) {
+		$this->app->bind('Icy\BanDetection\IBanDetectionRepository', function ($app)
+		{
 			return $app->make('Icy\BanDetection\BanDetectionRepository');
 		});
 
-		$this->app->bind('Icy\BanDetection\IBanTypeRepository', function ($app) {
+		$this->app->bind('Icy\BanDetection\IBanTypeRepository', function ($app)
+		{
 			return $app->make('Icy\BanDetection\BanTypeRepository');
 		});
 	}

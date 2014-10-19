@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Chad
  * Date: 10/15/2014
  * Time: 9:49 PM
  */
-
 class FollowController extends Controller {
 
 	/**

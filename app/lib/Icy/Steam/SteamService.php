@@ -33,12 +33,10 @@ class SteamService implements ISteamService {
 		if ($count == 0)
 		{
 			$results = false;
-		}
-		else if ($count == 1)
+		} else if ($count == 1)
 		{
 			$results = $callback($players[0]->{$key}, $players[0]);
-		}
-		else if ($count > 1)
+		} else if ($count > 1)
 		{
 			$results = [];
 
@@ -70,7 +68,8 @@ class SteamService implements ISteamService {
 
 		if ($response !== false)
 		{
-			$results = $this->createPlayerAssocArray($response->players, 'SteamId', function ($steamId, $player){
+			$results = $this->createPlayerAssocArray($response->players, 'SteamId', function ($steamId, $player)
+			{
 				return new VacBanStatus($player->VACBanned, $player->VACBanned ? $player->DaysSinceLastBan : null);
 			});
 		}
@@ -94,12 +93,10 @@ class SteamService implements ISteamService {
 		if ($this->is64Id($potentialId))
 		{
 			$steamId = $potentialId;
-		}
-		else if ($this->isTextId($potentialId))
+		} else if ($this->isTextId($potentialId))
 		{
 			$steamId = $this->convertTextTo64($potentialId);
-		}
-		else
+		} else
 		{
 			// id might be a vanity url, so let's attempt to resolve it.
 
@@ -137,7 +134,7 @@ class SteamService implements ISteamService {
 
 		list(, $Y, $Z) = explode(':', $textId);
 
-		return ($Z*2) + $V + $Y;
+		return ($Z * 2) + $V + $Y;
 	}
 
 	// documentation: https://developer.valvesoftware.com/wiki/SteamID
@@ -172,7 +169,8 @@ class SteamService implements ISteamService {
 
 		if ($response !== false)
 		{
-			$results = $this->createPlayerAssocArray($response->players, 'steamid', function ($steamId, $player) {
+			$results = $this->createPlayerAssocArray($response->players, 'steamid', function ($steamId, $player)
+			{
 				$profile = new PlayerProfile();
 				$profile->setSteamId($player->steamid);
 				$profile->setCommunityVisibilityState($player->communityvisibilitystate);

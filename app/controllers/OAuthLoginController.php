@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Chad
  * Date: 9/20/2014
  * Time: 6:19 PM
- */ 
-
+ */
 class OAuthLoginController extends Controller {
 
 	const METHOD_PREFIX = 'loginWith';
@@ -33,8 +33,7 @@ class OAuthLoginController extends Controller {
 		if (($methodName = $this->generateMethodName($providerName)) !== false)
 		{
 			return $this->{$methodName}();
-		}
-		else
+		} else
 		{
 			App::abort(404, sprintf('OAuth provider (%s) is not supported.', $providerName));
 		}
@@ -70,9 +69,8 @@ class OAuthLoginController extends Controller {
 			$token = $google->requestAccessToken($code);
 
 			// Send a request with it
-			$result = json_decode($google->request('https://www.googleapis.com/oauth2/v1/userinfo' ));
-		}
-		catch (\OAuth\Common\Http\Exception\TokenResponseException $e)
+			$result = json_decode($google->request('https://www.googleapis.com/oauth2/v1/userinfo'));
+		} catch (\OAuth\Common\Http\Exception\TokenResponseException $e)
 		{
 			Log::warning("User's token/code has probably expired", $e->getTrace());
 			App::abort(400, 'Your token/code has probably expired, please try again.');
@@ -109,8 +107,7 @@ class OAuthLoginController extends Controller {
 			if (!empty($loginMethods))
 			{
 				return $this->redirectDisplayLoginMethods($loginMethods, $credentials);
-			}
-			else
+			} else
 			{
 				assert('$googleVerifiedEmail == true', 'google email must be verified before we can create an account with it');
 
@@ -157,5 +154,5 @@ class OAuthLoginController extends Controller {
 		FlashHelper::append('alerts.success', 'You have been logged in.');
 		return Redirect::intended('/');
 	}
-	
+
 }

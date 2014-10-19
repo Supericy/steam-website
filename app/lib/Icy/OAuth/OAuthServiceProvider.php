@@ -15,15 +15,18 @@ class OAuthServiceProvider extends \Illuminate\Support\ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('Icy\OAuth\IOAuthProviderRepository', function ($app) {
+		$this->app->bind('Icy\OAuth\IOAuthProviderRepository', function ($app)
+		{
 			return new OAuthProviderRepository(new OAuthProvider());
 		});
 
-		$this->app->bind('Icy\OAuth\IOAuthAccountRepository', function ($app) {
+		$this->app->bind('Icy\OAuth\IOAuthAccountRepository', function ($app)
+		{
 			return new OAuthAccountRepository(new OAuthAccount(), $app->make('Icy\OAuth\IOAuthProviderRepository'));
 		});
 
-		$this->app->bind('Icy\OAuth\IOAuthManager', function ($app) {
+		$this->app->bind('Icy\OAuth\IOAuthManager', function ($app)
+		{
 			return $app->make('Icy\OAuth\OAuthManager');
 //			return new OAuthManager(
 //				$app->make('auth'),

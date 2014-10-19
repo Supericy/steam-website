@@ -1,7 +1,7 @@
-<?php 
+<?php
 
-return array( 
-	
+return [
+
 	/*
 	|--------------------------------------------------------------------------
 	| oAuth Config
@@ -11,22 +11,22 @@ return array(
 	/**
 	 * Storage
 	 */
-	'storage' => 'Session', 
+	'storage' => 'Session',
 
 	/**
 	 * Consumers
 	 */
-	'consumers' => array(
+	'consumers' => [
 
 		/*
 		 * Google
 		 */
-		'Google' => array(
+		'Google' => [
 			'client_id' => '273077973467-h8etbp571pmgjas7vqkslueo6sfseqo3.apps.googleusercontent.com',
 			'client_secret' => 'nCgAkX6JbS5JwIxeRD_GbleE',
-			'scope' => array('userinfo_email', 'userinfo_profile'),
-		)
+			'scope' => ['userinfo_email', 'userinfo_profile'],
+		]
 
-	)
+	]
 
-);
+];

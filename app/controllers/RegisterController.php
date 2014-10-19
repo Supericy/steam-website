@@ -1,7 +1,5 @@
 <?php
 
-use \Illuminate\Support\Str;
-
 class RegisterController extends Controller {
 
 	/**
@@ -14,19 +12,19 @@ class RegisterController extends Controller {
 		$this->userManager = $userManager;
 	}
 
-    public function getRegister()
-    {
-        return View::make('register.prompt');
-    }
+	public function getRegister()
+	{
+		return View::make('register.prompt');
+	}
 
-    public function postRegister()
+	public function postRegister()
 	{
 		// TODO: export validation to UserManager
 
-		$rules = array(
+		$rules = [
 			'email' => 'required|email|unique:users,email',
 			'password' => 'required|confirmed|min:6'
-		);
+		];
 
 		$validator = Validator::make(Input::get(), $rules);
 
@@ -54,10 +52,9 @@ class RegisterController extends Controller {
 			FlashHelper::append('alerts.warn', 'Your account has been created, but the email needs to be verified.');
 
 			Auth::attempt($credentials, true);
-		}
-		catch (Icy\User\UserException $e)
+		} catch (Icy\User\UserException $e)
 		{
-			Log::error('Your account was not created successfully.', ['credentials' => $credentials, 'user_exception' => $e]);
+			Log::error('Your account was not created successfully.', ['credentials' => $credentials, 'user_exception' => $e->getTrace()]);
 			App::abort(500, 'We were not able to create your account at this time.');
 		}
 

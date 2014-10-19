@@ -10,9 +10,9 @@ interface IUserRepository {
 
 	/**
 	 * @param $code
-	 * 		The activation code for the user we want to activate.
+	 *        The activation code for the user we want to activate.
 	 * @return bool
-	 * 		Returns true if a user was successfully activated, false in every other case
+	 *        Returns true if a user was successfully activated, false in every other case
 	 */
 	public function activate($code);
 
@@ -39,7 +39,7 @@ interface IUserRepository {
 	 * check data types.
 	 *
 	 * @param array $credentials
-	 * 		Array of credentials we want to check
+	 *        Array of credentials we want to check
 	 * @return bool
 	 */
 	public function isMissingFields(array $credentials);

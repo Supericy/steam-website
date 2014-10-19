@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateAuthTokensTable extends Migration {
@@ -12,7 +11,7 @@ class CreateAuthTokensTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('auth_tokens', function($table)
+		Schema::create('auth_tokens', function ($table)
 		{
 			$table->increments('id');
 			$table->integer('user_id')
@@ -21,7 +20,8 @@ class CreateAuthTokensTable extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::table('auth_tokens', function ($table) {
+		Schema::table('auth_tokens', function ($table)
+		{
 			$table->foreign('user_id')
 				->references('id')
 				->on('users')

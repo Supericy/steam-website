@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Chad
  * Date: 8/28/14
  * Time: 4:38 AM
  */
-
 class SteamIdController extends Controller {
 
 	// steam API's max steamids per request
@@ -33,17 +33,13 @@ class SteamIdController extends Controller {
 		{
 			// no steamId given, so prompt the user for one
 			return View::make('steamid.prompt');
-		}
-		else
+		} else
 		{
 			$steamId = $this->steam->resolveId(Input::get('steamid'));
 
 			return Redirect::action('steamid.display', ['id' => $steamId]);
 		}
 	}
-
-	// TODO export this functionality to API controller
-
 
 	public function display($potentialId)
 	{

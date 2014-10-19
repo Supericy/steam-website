@@ -1,4 +1,5 @@
 <?php namespace Icy\User;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -6,7 +7,7 @@
  * Time: 6:48 PM
  */
 
-use \Illuminate\Support\Str;
+use Illuminate\Support\Str;
 
 class UserRepository implements IUserRepository {
 
@@ -55,7 +56,8 @@ class UserRepository implements IUserRepository {
 
 	public function getByAuthToken($token)
 	{
-		return $this->model->whereHas('authTokens', function ($q) use ($token) {
+		return $this->model->whereHas('authTokens', function ($q) use ($token)
+		{
 			$q->where('token', $token);
 		})->first();
 	}
@@ -63,7 +65,8 @@ class UserRepository implements IUserRepository {
 	// returns an array with only the data needed to create a user
 	private function removeUnused(array $credentials)
 	{
-		return array_filter($credentials, function ($key) {
+		return array_filter($credentials, function ($key)
+		{
 			return in_array($key, self::$_CREDENTIAL_FIELDS);
 		}, \ARRAY_FILTER_USE_KEY);
 	}
@@ -92,7 +95,8 @@ class UserRepository implements IUserRepository {
 
 	public function getByProviderNameAndAccountId($providerName, $accountId)
 	{
-		return $this->model->whereHas('oauthProviders', function ($q) use ($providerName, $accountId) {
+		return $this->model->whereHas('oauthProviders', function ($q) use ($providerName, $accountId)
+		{
 			$q->where('account_id', $accountId)
 				->where('oauth_providers.name', $providerName);
 		})->first();

@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Chad
  * Date: 8/29/14
  * Time: 3:10 PM
  */
-
 class PlaygroundController extends Controller {
 
 	const CLASS_NAME = 'PlaygroundController';

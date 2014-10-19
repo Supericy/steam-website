@@ -8,7 +8,6 @@ use Illuminate\Cache\Repository;
  * Date: 9/2/14
  * Time: 10:24 AM
  */
-
 class BanManager implements IBanManager {
 
 	private $steam;
@@ -50,8 +49,7 @@ class BanManager implements IBanManager {
 			$steamId = $potentialId->steamid;
 
 			$steamIdRecord = $potentialId;
-		}
-		else
+		} else
 		{
 			$steamId = $this->steam->resolveId($potentialId);
 

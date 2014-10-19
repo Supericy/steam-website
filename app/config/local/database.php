@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -18,9 +18,9 @@ return array(
 	|
 	*/
 
-    'profiler' => true,
+	'profiler' => true,
 
-	'connections' => array(
+	'connections' => [
 
 //		'mysql' => array(
 //			'driver'    => 'mysql',
@@ -33,28 +33,28 @@ return array(
 //			'prefix'    => '',
 //		),
 
-		'mysql' => array(
-			'driver'    => 'mysql',
-			'host'      => '192.168.0.50',
-			'database'  => 'homestead',
-			'username'  => 'general',
-			'password'  => '',
-			'charset'   => 'utf8',
+		'mysql' => [
+			'driver' => 'mysql',
+			'host' => '192.168.0.50',
+			'database' => 'homestead',
+			'username' => 'general',
+			'password' => '',
+			'charset' => 'utf8',
 			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
-		),
+			'prefix' => '',
+		],
 
-		'pgsql' => array(
-			'driver'   => 'pgsql',
-			'host'     => 'localhost',
+		'pgsql' => [
+			'driver' => 'pgsql',
+			'host' => 'localhost',
 			'database' => 'homestead',
 			'username' => 'homestead',
 			'password' => 'secret',
-			'charset'  => 'utf8',
-			'prefix'   => '',
-			'schema'   => 'public',
-		),
+			'charset' => 'utf8',
+			'prefix' => '',
+			'schema' => 'public',
+		],
 
-	),
+	],
 
-);
+];

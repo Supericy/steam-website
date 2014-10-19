@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddBanTypeColumnToBanDetections extends Migration {
@@ -12,7 +11,8 @@ class AddBanTypeColumnToBanDetections extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('ban_detections', function ($table) {
+		Schema::table('ban_detections', function ($table)
+		{
 
 			$table->dropColumn('new_vac_status');
 
@@ -25,7 +25,8 @@ class AddBanTypeColumnToBanDetections extends Migration {
 
 		});
 
-		Schema::table('ban_detections', function ($table) {
+		Schema::table('ban_detections', function ($table)
+		{
 
 			$table->foreign('ban_type_id')
 				->references('id')

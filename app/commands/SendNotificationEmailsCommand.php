@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 class SendNotificationEmailsCommand extends Command {
 
@@ -42,7 +40,8 @@ class SendNotificationEmailsCommand extends Command {
 	{
 //		DB::disableQueryLog();
 
-		Icy\Steam\SteamId::where('changed', '=', 1)->with('banListeners')->chunk(100, function ($steamIdRecords) {
+		Icy\Steam\SteamId::where('changed', '=', 1)->with('banListeners')->chunk(100, function ($steamIdRecords)
+		{
 
 			foreach ($steamIdRecords as $steamIdRecord)
 			{
@@ -64,7 +63,7 @@ class SendNotificationEmailsCommand extends Command {
 							'steamId' => $steamIdRecord->steamid
 						];
 
-						Mail::send('emails.ban-notification', $data, function($message) use ($user)
+						Mail::send('emails.ban-notification', $data, function ($message) use ($user)
 						{
 							$message
 								->to($user->email, $user->username)

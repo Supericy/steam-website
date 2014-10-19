@@ -36,4 +36,9 @@ class FavouriteRepository implements IFavouriteRepository {
 			->first();
 	}
 
+	public function delete(Favourite $record)
+	{
+		return $record->delete();
+	}
+
 }

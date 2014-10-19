@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateBanNotificationsTable extends Migration {
@@ -12,7 +11,8 @@ class CreateBanNotificationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('ban_notifications', function ($table) {
+		Schema::create('ban_notifications', function ($table)
+		{
 
 			$table->increments('id');
 
@@ -25,7 +25,8 @@ class CreateBanNotificationsTable extends Migration {
 
 		});
 
-		Schema::table('ban_notifications', function ($table) {
+		Schema::table('ban_notifications', function ($table)
+		{
 
 			$table->foreign('favourite_id')
 				->references('id')

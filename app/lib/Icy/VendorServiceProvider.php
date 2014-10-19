@@ -15,7 +15,8 @@ class VendorServiceProvider extends \Illuminate\Support\ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('\GuzzleHttp\ClientInterface', function ($app) {
+		$this->app->bind('\GuzzleHttp\ClientInterface', function ($app)
+		{
 			return $app->make('\GuzzleHttp\Client');
 		});
 	}

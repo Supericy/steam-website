@@ -49,8 +49,7 @@ class LeagueExperienceManager implements ILeagueExperienceManager {
 		if ($forceUpdate)
 		{
 			$results = $this->updateLeagueExperiences($steamId);
-		}
-		else
+		} else
 		{
 			$steamIdRecord = $this->getModel($steamId);
 
@@ -63,8 +62,7 @@ class LeagueExperienceManager implements ILeagueExperienceManager {
 
 				$steamIdRecord->setLegitProofed(true);
 				$this->steamIdRepository->save($steamIdRecord);
-			}
-			else
+			} else
 			{
 				$results = $this->leagueExperienceRepository->getAllBySteamId($steamId);
 			}

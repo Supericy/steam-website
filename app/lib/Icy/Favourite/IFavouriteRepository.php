@@ -28,4 +28,10 @@ interface IFavouriteRepository {
 	 */
 	public function firstOrCreate(array $values);
 
+	/**
+	 * @param Favourite
+	 * @return bool
+	 */
+	public function delete(Favourite $record);
+
 } 

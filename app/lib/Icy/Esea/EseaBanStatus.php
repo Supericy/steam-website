@@ -1,4 +1,5 @@
 <?php namespace Icy\Esea;
+
 use Icy\Common\IBanStatus;
 
 /**
@@ -7,7 +8,6 @@ use Icy\Common\IBanStatus;
  * Date: 10/3/2014
  * Time: 3:13 PM
  */
-
 class EseaBanStatus implements IBanStatus {
 
 	private $isBanned;

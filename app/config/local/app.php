@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -14,10 +14,10 @@ return array(
 	*/
 
 	'debug' => true,
-    'profiler' => true,
+	'profiler' => true,
 
 	'url' => 'http://homestead.app:8000',
 
 	'port' => 8000,
 
-);
+];

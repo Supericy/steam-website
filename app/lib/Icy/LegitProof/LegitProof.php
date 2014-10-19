@@ -33,13 +33,15 @@ class LegitProof implements ILegitProof {
 
 		$lpLeagueExperiences = [];
 
-		$crawler->filter('#content > table.jqor > tbody > tr')->each(function ($node) use (&$lpLeagueExperiences) {
+		$crawler->filter('#content > table.jqor > tbody > tr')->each(function ($node) use (&$lpLeagueExperiences)
+		{
 			/** @var \Symfony\Component\DomCrawler\Crawler $node */
 
 			$rows = [];
 
 			// get row text
-			$node->filter('td')->each(function ($td) use (&$rows) {
+			$node->filter('td')->each(function ($td) use (&$rows)
+			{
 				$rows[] = $td->text();
 			});
 

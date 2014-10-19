@@ -1,9 +1,5 @@
 <?php
 
-use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-
 class UpdateVacBansCommand extends \BaseCommand {
 
 	/**
@@ -78,7 +74,8 @@ class UpdateVacBansCommand extends \BaseCommand {
 		 */
 		$this->banManager->incrementOnUpdate(false);
 
-		Icy\Steam\SteamId::chunk($chunk, function ($records) {
+		Icy\Steam\SteamId::chunk($chunk, function ($records)
+		{
 
 			$steamIds = [];
 

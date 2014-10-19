@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateLeagueExperiencesTable extends Migration {
@@ -12,7 +11,8 @@ class CreateLeagueExperiencesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('league_experiences', function ($table) {
+		Schema::create('league_experiences', function ($table)
+		{
 
 			$table->increments('id');
 

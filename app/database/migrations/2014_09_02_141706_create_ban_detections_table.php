@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateBanLogTable extends Migration {
@@ -12,7 +11,8 @@ class CreateBanLogTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('ban_detections', function ($table) {
+		Schema::create('ban_detections', function ($table)
+		{
 
 			$table->increments('id');
 			$table->integer('steamid_id')
@@ -22,7 +22,8 @@ class CreateBanLogTable extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::table('ban_detections', function ($table) {
+		Schema::table('ban_detections', function ($table)
+		{
 
 			$table->foreign('steamid_id')
 				->references('id')

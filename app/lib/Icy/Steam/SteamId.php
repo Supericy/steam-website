@@ -9,12 +9,11 @@ use Icy\Esea\EseaBanStatus;
  * Date: 8/28/14
  * Time: 5:13 AM
  */
-
 class SteamId extends \Eloquent {
 
-    protected $table = 'steamids';
+	protected $table = 'steamids';
 
-	protected $guarded = array('id');
+	protected $guarded = ['id'];
 
 	public function banListeners()
 	{

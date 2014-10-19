@@ -38,7 +38,8 @@ class FollowManager implements IFollowManager {
 		if ($favouriteRecord)
 		{
 			// should cascade
-			$favouriteRecord->delete();
+//			$favouriteRecord->delete();
+			$this->favouriteRepository->delete($favouriteRecord);
 		}
 	}
 

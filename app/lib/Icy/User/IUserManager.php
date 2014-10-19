@@ -24,7 +24,7 @@ interface IUserManager {
 	/**
 	 * @param $credentials
 	 * @return bool
-	 * 		Returns true if successful
+	 *        Returns true if successful
 	 * @throws UserException
 	 */
 	public function createAccount($credentials);
@@ -32,13 +32,13 @@ interface IUserManager {
 	/**
 	 * @param $code
 	 * @return bool
-	 * 		Whether or not an account was activated
+	 *        Whether or not an account was activated
 	 */
 	public function activateAccount($code);
 
 	/**
 	 * @param $email
-	 * 		Email address to send the activation code to
+	 *        Email address to send the activation code to
 	 * @param $code
 	 */
 	public function sendActivationEmail($email, $code);
@@ -51,7 +51,7 @@ interface IUserManager {
 	/**
 	 * @param $code
 	 * @return bool
-	 * 		Returns true if the activation code is in an acceptable format
+	 *        Returns true if the activation code is in an acceptable format
 	 */
 	public function verifyActivationCodeFormat($code);
 

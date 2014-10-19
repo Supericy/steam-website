@@ -63,7 +63,8 @@ class UserManager implements IUserManager {
 		 * We'll use queue rather than send since we can choose our queue driver in the config, letting us choose
 		 * between offloading our emails to a worker or sending immediately via the synchronous driver
 		 */
-		$this->mailer->queue('emails.activation', ['code' => $code], function ($msg) use ($email) {
+		$this->mailer->queue('emails.activation', ['code' => $code], function ($msg) use ($email)
+		{
 			$msg->to($email)
 				->subject('Account Activation');
 		});

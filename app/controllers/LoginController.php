@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Chad
  * Date: 8/19/14
  * Time: 2:59 AM
  */
-
 class LoginController extends Controller {
 
 	/**
@@ -18,40 +18,40 @@ class LoginController extends Controller {
 		$this->userManager = $userManager;
 	}
 
-    public function logout()
-    {
-        Auth::logout();
+	public function logout()
+	{
+		Auth::logout();
 
-        FlashHelper::append('alerts.success', 'You have been logged out.');
+		FlashHelper::append('alerts.success', 'You have been logged out.');
 
-        return Redirect::back();
-    }
+		return Redirect::back();
+	}
 
-    public function getLogin()
-    {
+	public function getLogin()
+	{
 		$displayLoginMethod = Session::get('displayLoginMethod', []);
 
-        return View::make('login.prompt')
+		return View::make('login.prompt')
 			->with('displayLoginMethod', $displayLoginMethod);
-    }
+	}
 
-    public function postLogin()
-    {
+	public function postLogin()
+	{
 		// TODO: export validation to our UserManager class
 
-        $rules = array(
-            'email' => 'required|email',
-            'password' => 'required'
-        );
+		$rules = [
+			'email' => 'required|email',
+			'password' => 'required'
+		];
 
-        $validator = Validator::make(Input::get(), $rules);
+		$validator = Validator::make(Input::get(), $rules);
 
-        if ($validator->fails())
-        {
-            return Redirect::route('get.login')
+		if ($validator->fails())
+		{
+			return Redirect::route('get.login')
 				->withInput()
 				->withErrors($validator);
-        }
+		}
 
 		$credentials = $this->userManager->normalizeCredentials([
 			'email' => Input::get('email'),
@@ -60,22 +60,21 @@ class LoginController extends Controller {
 			'password' => Input::get('password')
 		]);
 
-        if (Auth::attempt($credentials, true))
-        {
-            FlashHelper::append('alerts.success', 'You have been logged in.');
+		if (Auth::attempt($credentials, true))
+		{
+			FlashHelper::append('alerts.success', 'You have been logged in.');
 
 			// TODO: prompt with activation alert if their email/account needs activation
 
-            return Redirect::intended('/');
-        }
-        else
-        {
-            return Redirect::route('get.login')
+			return Redirect::intended('/');
+		} else
+		{
+			return Redirect::route('get.login')
 				->withInput()
 				->withErrors([
 					'login' => ['Incorrect e-mail or password.']
 				]);
-        }
-    }
+		}
+	}
 
 } 

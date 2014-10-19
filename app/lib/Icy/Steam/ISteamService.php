@@ -39,7 +39,7 @@ interface ISteamService {
 	/**
 	 * @param $steamId
 	 * @param bool $includePrefix
-	 * 		Toggles whether to prepend STEAM_ to the ID or not before returning
+	 *        Toggles whether to prepend STEAM_ to the ID or not before returning
 	 * @return string
 	 */
 	public function convert64ToText($steamId, $includePrefix = false);

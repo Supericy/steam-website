@@ -15,7 +15,8 @@ class BanListenerServiceProvider extends \Illuminate\Support\ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('Icy\BanListener\IBanListenerRepository', function ($app) {
+		$this->app->bind('Icy\BanListener\IBanListenerRepository', function ($app)
+		{
 			return new BanListenerRepository(new BanListener());
 		});
 	}

@@ -18,7 +18,7 @@ interface ILegitProof {
 
 	/**
 	 * @param string $steamIdText
-	 * 		Must be a TEXT steamid, ('STEAM_' part is optional)
+	 *        Must be a TEXT steamid, ('STEAM_' part is optional)
 	 * @return LegitProofLeagueExperience[]
 	 */
 	public function getLeagueExperience($steamIdText);

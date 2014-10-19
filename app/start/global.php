@@ -11,14 +11,14 @@
 |
 */
 
-ClassLoader::addDirectories(array(
+ClassLoader::addDirectories([
 
-	app_path().'/commands',
-	app_path().'/controllers',
-	app_path().'/models',
-	app_path().'/database/seeds',
+	app_path() . '/commands',
+	app_path() . '/controllers',
+	app_path() . '/models',
+	app_path() . '/database/seeds',
 
-));
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ ClassLoader::addDirectories(array(
 |
 */
 
-Log::useFiles(storage_path().'/logs/laravel.log');
+Log::useFiles(storage_path() . '/logs/laravel.log');
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
-App::error(function(Exception $exception, $code)
+App::error(function (Exception $exception, $code)
 {
 	Log::error($exception);
 });
@@ -62,18 +62,15 @@ App::error(function(Exception $exception, $code)
 |
 */
 
-App::down(function()
+App::down(function ()
 {
 	return Response::make("Be right back!", 503);
 });
 
 
-
-
-
-App::missing(function($exception)
+App::missing(function ($exception)
 {
-	return Response::view('errors.404', array(), 404);
+	return Response::view('errors.404', [], 404);
 });
 
 
@@ -88,35 +85,33 @@ App::missing(function($exception)
 |
 */
 
-require app_path().'/filters.php';
+require app_path() . '/filters.php';
 
 /*
  * Blade Extensions
  */
-require_once app_path().'/blade.php';
+require_once app_path() . '/blade.php';
 
 /*
  * Helpers
  */
-require_once app_path().'/helpers.php';
+require_once app_path() . '/helpers.php';
 
 /*
  * HTML Macros
  */
-require_once app_path().'/macros.php';
+require_once app_path() . '/macros.php';
 
 /*
  * Validators
  */
-require_once app_path().'/validators.php';
-
-
+require_once app_path() . '/validators.php';
 
 
 // http://stackoverflow.com/questions/19131731/laravel-4-logging-sql-queries
 if (Config::get('database.log', false))
 {
-	Event::listen('illuminate.query', function($query, $bindings, $time, $name)
+	Event::listen('illuminate.query', function ($query, $bindings, $time, $name)
 	{
 		$data = compact('bindings', 'time', 'name');
 
@@ -126,15 +121,14 @@ if (Config::get('database.log', false))
 			if ($binding instanceof \DateTime)
 			{
 				$bindings[$i] = $binding->format('\'Y-m-d H:i:s\'');
-			}
-			else if (is_string($binding))
+			} else if (is_string($binding))
 			{
 				$bindings[$i] = "'$binding'";
 			}
 		}
 
 		// Insert bindings into query
-		$query = str_replace(array('%', '?'), array('%%', '%s'), $query);
+		$query = str_replace(['%', '?'], ['%%', '%s'], $query);
 		$query = vsprintf($query, $bindings);
 
 		Log::info($query, $data);

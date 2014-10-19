@@ -1,6 +1,7 @@
 <?php
 
-Validator::extend('steamid', function ($attribute, $value, $parameters) {
+Validator::extend('steamid', function ($attribute, $value, $parameters)
+{
 
 	// valid variations of a steamid
 	$patterns = [

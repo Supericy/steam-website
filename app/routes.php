@@ -12,17 +12,17 @@
 */
 
 
-
 //Route::get('/', array(
 //    'uses' => 'SteamIdController@searchSteamId',
 //    'as' => 'home'
 //));
 
-Route::get('/', array(function () {
+Route::get('/', [function ()
+{
 	return Redirect::action('search-steamid');
 },
 	'as' => 'home'
-));
+]);
 
 Route::controller('tests', 'PlaygroundController');
 
@@ -30,91 +30,93 @@ Route::controller('tests', 'PlaygroundController');
 //	'uses' => 'PlaygroundController@tests',
 //));
 
-Route::get('/search', array(
+Route::get('/search', [
 	'uses' => 'SteamIdController@searchSteamId',
 	'as' => 'search-steamid'
-));
+]);
 
-Route::get('/steamid/{id}', array(
+Route::get('/steamid/{id}', [
 	'uses' => 'SteamIdController@display',
 	'as' => 'steamid.display'
-));
+]);
 
 
-Route::post('/steamid/bulk-create', array(
+Route::post('/steamid/bulk-create', [
 	'uses' => 'SteamIdController@createSteamIdBulk'
-));
+]);
 
-Route::get('/activate/{code}', array(
+Route::get('/activate/{code}', [
 	'uses' => 'RegisterController@activate',
 	'as' => 'user.activate'
-));
+]);
 
-Route::group(array('before' => 'auth'), function () {
 
-	Route::get('/profile', array(
-		'uses' => 'UserController@index'
-	));
+/**
+ * Follow and unfollow routes
+ */
+Route::get('/steamid/{id}/follow', [
+	'uses' => 'FollowController@follow',
+	'as' => 'steamid.follow'
+]);
 
-	Route::get('/steamid/{id}/follow', array(
-		'uses' => 'FollowController@follow',
-		'as' => 'steamid.follow'
-	));
+Route::get('/steamid/{id}/unfollow', [
+	'uses' => 'FollowController@unfollow',
+	'as' => 'steamid.unfollow'
+]);
 
-	Route::get('/steamid/{id}/unfollow', array(
-		'uses' => 'FollowController@unfollow',
-		'as' => 'steamid.unfollow'
-	));
 
-});
 
-Route::group(array('before' => 'guest'), function () {
+Route::group(['before' => 'guest'], function ()
+{
 
-	Route::get('/login', array(
+	Route::get('/login', [
 		'uses' => 'LoginController@getLogin',
 		'as' => 'get.login'
-	));
+	]);
 
-	Route::get('login/oauth/{serviceProvider}', array(
+	Route::get('login/oauth/{serviceProvider}', [
 		'as' => 'login.oauth',
 		'uses' => 'OAuthLoginController@login'
-	));
+	]);
 
 	// password recovery
 	// TODO: implement
-	Route::get('/blah', array(
+	Route::get('/blah', [
 		'as' => 'login.recovery',
-		function () {
+		function ()
+		{
 			return 'sux';
 		}
-	));
+	]);
 
-    Route::group(array('before', 'csrf'), function () {
-        Route::post('/login', array(
-            'uses' => 'LoginController@postLogin',
-            'as' => 'post.login'
-        ));
+	Route::group(['before', 'csrf'], function ()
+	{
+		Route::post('/login', [
+			'uses' => 'LoginController@postLogin',
+			'as' => 'post.login'
+		]);
 
-        Route::post('/register', array(
-            'uses' => 'RegisterController@postRegister',
-            'as' => 'post.register'
-        ));
-    });
+		Route::post('/register', [
+			'uses' => 'RegisterController@postRegister',
+			'as' => 'post.register'
+		]);
+	});
 
 
-    Route::get('/register', array(
-        'uses' => 'RegisterController@getRegister',
-        'as' => 'get.register'
-    ));
+	Route::get('/register', [
+		'uses' => 'RegisterController@getRegister',
+		'as' => 'get.register'
+	]);
 
 });
 
-Route::group(array('before' => 'auth'), function () {
+Route::group(['before' => 'auth'], function ()
+{
 
-    Route::get('/logout', array(
-       'uses' => 'LoginController@logout',
-        'as' => 'logout'
-    ));
+	Route::get('/logout', [
+		'uses' => 'LoginController@logout',
+		'as' => 'logout'
+	]);
 
 });
 

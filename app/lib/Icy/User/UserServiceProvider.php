@@ -16,11 +16,13 @@ class UserServiceProvider extends \Illuminate\Support\ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('Icy\User\IUserRepository', function ($app) {
+		$this->app->bind('Icy\User\IUserRepository', function ($app)
+		{
 			return $app->make('Icy\User\UserRepository');
 		});
 
-		$this->app->bind('Icy\User\IUserManager', function ($app) {
+		$this->app->bind('Icy\User\IUserManager', function ($app)
+		{
 			return $app->make('Icy\User\UserManager');
 		});
 	}

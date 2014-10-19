@@ -67,7 +67,8 @@ class SteamServiceTest extends TestCase {
 		);
 		$method->setAccessible(TRUE);
 
-		$result = $method->invoke($steam, $players, 'SteamId', function ($steamId, $player) {
+		$result = $method->invoke($steam, $players, 'SteamId', function ($steamId, $player)
+		{
 			return (object)['steamid' => $player->SteamId];
 		});
 
@@ -96,7 +97,8 @@ class SteamServiceTest extends TestCase {
 		);
 		$method->setAccessible(TRUE);
 
-		$result = $method->invoke($steam, $players, 'SteamId', function ($steamId, $player) {
+		$result = $method->invoke($steam, $players, 'SteamId', function ($steamId, $player)
+		{
 			return (object)['steamid' => $player->SteamId];
 		});
 
@@ -134,31 +136,38 @@ class SteamServiceTest extends TestCase {
 		$this->assertEquals($steamId64, $steam->convertTextTo64('0:0:30908'));
 		$this->assertEquals($steamId64, $steam->convertTextTo64('STEAM_0:0:30908'));
 
-		$this->assertException(function () use ($steam) {
+		$this->assertException(function () use ($steam)
+		{
 			$steam->convertTextTo64('');
 		}, 'Icy\Steam\SteamException');
 
-		$this->assertException(function () use ($steam) {
+		$this->assertException(function () use ($steam)
+		{
 			$steam->convertTextTo64('76561197960327544');
 		}, 'Icy\Steam\SteamException');
 
-		$this->assertException(function () use ($steam) {
+		$this->assertException(function () use ($steam)
+		{
 			$steam->convertTextTo64('f42f4f4f24f24f');
 		}, 'Icy\Steam\SteamException');
 
-		$this->assertException(function () use ($steam) {
+		$this->assertException(function () use ($steam)
+		{
 			$steam->convertTextTo64(':0:30908');
 		}, 'Icy\Steam\SteamException');
 
-		$this->assertException(function () use ($steam) {
+		$this->assertException(function () use ($steam)
+		{
 			$steam->convertTextTo64('00:0:30908');
 		}, 'Icy\Steam\SteamException');
 
-		$this->assertException(function () use ($steam) {
+		$this->assertException(function () use ($steam)
+		{
 			$steam->convertTextTo64('0::30908');
 		}, 'Icy\Steam\SteamException');
 
-		$this->assertException(function () use ($steam) {
+		$this->assertException(function () use ($steam)
+		{
 			$steam->convertTextTo64('0:0:');
 		}, 'Icy\Steam\SteamException');
 	}
