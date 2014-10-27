@@ -1,4 +1,5 @@
-<?php namespace Icy;
+<?php namespace Icy\Favourite;
+use Icy\BanNotification\IBanNotificationRepository;
 
 /**
  * Created by PhpStorm.
@@ -7,18 +8,23 @@
  * Time: 10:31 PM
  */
 
-class FollowManager implements IFollowManager {
+class FavouriteService implements IFavouriteService {
 
 	private $favouriteRepository;
 	private $banNotificationRepository;
 
-	public function __construct(Favourite\IFavouriteRepository $favouriteRepository, BanNotification\IBanNotificationRepository $banNotificationRepository)
+	public function __construct(IFavouriteRepository $favouriteRepository, IBanNotificationRepository $banNotificationRepository)
 	{
 		$this->favouriteRepository = $favouriteRepository;
 		$this->banNotificationRepository = $banNotificationRepository;
 	}
 
-	public function follow($userId, $steamIdId)
+	public function getAllFavourites($userId)
+	{
+		return $this->favouriteRepository->getAllByUserId($userId);
+	}
+
+	public function favourite($userId, $steamIdId)
 	{
 		$favouriteRecord = $this->favouriteRepository->firstOrCreate([
 			'user_id' => $userId,
@@ -31,7 +37,7 @@ class FollowManager implements IFollowManager {
 		return $favouriteRecord;
 	}
 
-	public function unfollow($userId, $steamIdId)
+	public function unfavourite($userId, $steamIdId)
 	{
 		$favouriteRecord = $this->favouriteRepository->getByUserIdAndSteamIdId($userId, $steamIdId);
 
@@ -43,12 +49,12 @@ class FollowManager implements IFollowManager {
 		}
 	}
 
-	public function isFollowing($userId, $steamIdId)
+	public function isFavourited($userId, $steamIdId)
 	{
 		return $this->favouriteRepository->isFavourited($userId, $steamIdId);
 	}
 
-	public function enableNotifications($userId, $steamIdId, $banName)
+	public function enableNotification($userId, $steamIdId, $banName)
 	{
 		$banNotificationRecord = $this->getBanNotificationRecord($userId, $steamIdId, $banName);
 
@@ -61,7 +67,7 @@ class FollowManager implements IFollowManager {
 		}
 	}
 
-	public function disableNotifications($userId, $steamIdId, $banName)
+	public function disableNotification($userId, $steamIdId, $banName)
 	{
 		$banNotificationRecord = $this->getBanNotificationRecord($userId, $steamIdId, $banName);
 

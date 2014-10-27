@@ -8,7 +8,7 @@ use Illuminate\Cache\Repository;
  * Date: 9/2/14
  * Time: 10:24 AM
  */
-class BanManager implements IBanManager {
+class BanService implements IBanService {
 
 	private $steam;
 	private $steamIdRepository;

@@ -14,7 +14,7 @@ namespace Icy\User;
  * Date: 10/16/2014
  * Time: 1:53 AM
  */
-interface IUserManager {
+interface IUserService {
 
 	/**
 	 * Does not include wrapping slashes (ie. -> /pattern/ <-)

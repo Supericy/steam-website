@@ -6,7 +6,7 @@
  * Time: 4:30 PM
  */
 
-interface IBanManager {
+interface IBanService {
 
 	/**
 	 * @param string|Steam\SteamId $steamId

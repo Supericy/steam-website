@@ -3,13 +3,16 @@
 class RegisterController extends Controller {
 
 	/**
-	 * @var \Icy\User\IUserManager
+	 * @var \Icy\User\IUserService
 	 */
-	private $userManager;
+	private $userService;
 
-	public function __construct(Icy\User\IUserManager $userManager)
+	public function __construct(Icy\User\IUserService $userService)
 	{
-		$this->userManager = $userManager;
+		$this->userService = $userService;
+
+		$this->beforeFilter('guest', ['only' => ['getRegister', 'postRegister']]);
+		$this->beforeFilter('csrf', ['only' => ['postRegister']]);
 	}
 
 	public function getRegister()
@@ -36,7 +39,7 @@ class RegisterController extends Controller {
 		}
 
 
-		$credentials = $this->userManager->normalizeCredentials([
+		$credentials = $this->userService->normalizeCredentials([
 			'email' => Input::get('email'),
 
 			// UserManager will handle hashing the password
@@ -47,7 +50,7 @@ class RegisterController extends Controller {
 
 		try
 		{
-			$this->userManager->createAccount($credentials);
+			$this->userService->createAccount($credentials);
 
 			FlashHelper::append('alerts.warn', 'Your account has been created, but the email needs to be verified.');
 
@@ -64,10 +67,10 @@ class RegisterController extends Controller {
 
 	public function activate($code)
 	{
-		if (!$this->userManager->verifyActivationCodeFormat($code))
+		if (!$this->userService->verifyActivationCodeFormat($code))
 			return App::abort(400, 'Malformed activation code.');
 
-		$activated = $this->userManager->activateAccount($code);
+		$activated = $this->userService->activateAccount($code);
 
 		// FIXME: if we redirect to '/', then this alert will be lost in the redirect to '/search'
 		FlashHelper::append('alerts.success', 'Your account has been activated.');

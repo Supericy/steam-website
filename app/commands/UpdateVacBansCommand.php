@@ -25,7 +25,7 @@ class UpdateVacBansCommand extends \BaseCommand {
 	 * Create a new command instance.
 	 *
 	 */
-	public function __construct(Icy\Steam\ISteamService $steam, Icy\IBanManager $banManager)
+	public function __construct(Icy\Steam\ISteamService $steam, Icy\IBanService $banManager)
 	{
 		parent::__construct();
 

@@ -22,17 +22,6 @@ return [
 
 	'connections' => [
 
-//		'mysql' => array(
-//			'driver'    => 'mysql',
-//			'host'      => 'localhost',
-//			'database'  => 'homestead',
-//			'username'  => 'homestead',
-//			'password'  => 'secret',
-//			'charset'   => 'utf8',
-//			'collation' => 'utf8_unicode_ci',
-//			'prefix'    => '',
-//		),
-
 		'mysql' => [
 			'driver' => 'mysql',
 			'host' => '192.168.0.50',

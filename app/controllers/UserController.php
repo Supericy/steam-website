@@ -1,37 +1,41 @@
 <?php
 
-class UserController extends \BaseController {
+use Icy\Favourite\IFavouriteService;
+use Icy\User\IUserService;
+
+class UserController extends Controller {
 
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
+	 * @var IUserService
 	 */
-	public function index()
+	private $userService;
+	/**
+	 * @var \Icy\Favourite\FavouriteService
+	 */
+	private $favouriteService;
+
+	public function __construct(IUserService $userService, IFavouriteService $favouriteService)
 	{
-		//
+		$this->userService = $userService;
+		$this->favouriteService = $favouriteService;
+
+		$this->beforeFilter('auth', ['only' => ['profile']]);
 	}
 
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
+	public function profile()
 	{
-		//
+		return View::make('user.profile');
 	}
 
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
+	public function favourites()
 	{
-		//
+		// TODO: place authentication in our own service and remove dependency on eloquent
+		$userId = Auth::id();
+
+		$favourites = $this->favouriteService->getAllFavourites($userId);
+
+		return View::make('user.favourites')
+			->withFavourites($favourites);
 	}
 
 }

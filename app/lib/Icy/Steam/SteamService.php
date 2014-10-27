@@ -1,4 +1,8 @@
 <?php namespace Icy\Steam;
+use Icy\Steam\Web\States\CommunityVisibilityState;
+use Icy\Steam\Web\States\PersonaState;
+use Icy\Steam\Web\States\ProfileState;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -173,15 +177,15 @@ class SteamService implements ISteamService {
 			{
 				$profile = new PlayerProfile();
 				$profile->setSteamId($player->steamid);
-				$profile->setCommunityVisibilityState($player->communityvisibilitystate);
-				$profile->setProfileState($player->profilestate);
+				$profile->setCommunityVisibilityState(new CommunityVisibilityState($player->communityvisibilitystate));
+				$profile->setProfileState(new ProfileState($player->profilestate));
 				$profile->setAlias($player->personaname);
 				$profile->setLastLogOff($player->lastlogoff);
 				$profile->setProfileUrl($player->profileurl);
 				$profile->setAvatarUrl($player->avatar);
 				$profile->setMediumAvatarUrl($player->avatarmedium);
 				$profile->setFullAvatarUrl($player->avatarfull);
-				$profile->setPersonaState($player->personastate);
+				$profile->setPersonaState(new PersonaState($player->personastate));
 				$profile->setPrimaryClanId($player->primaryclanid);
 				$profile->setTimeCreated($player->timecreated);
 				$profile->setPersonaStateFlags($player->personastateflags);

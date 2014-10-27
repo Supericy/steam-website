@@ -48,7 +48,14 @@ Log::useFiles(storage_path() . '/logs/laravel.log');
 
 App::error(function (Exception $exception, $code)
 {
-	Log::error($exception);
+	Log::error($exception, ['code' => $code]);
+});
+
+App::error(function (\Illuminate\Session\TokenMismatchException $exception, $code)
+{
+	Log::error($exception, ['code' => $code]);
+
+	return Response::view('errors.403', [], 403);
 });
 
 /*

@@ -1,4 +1,6 @@
 <?php namespace Icy\Favourite;
+use Icy\Common\AbstractRepository;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -6,13 +8,28 @@
  * Time: 12:47 AM
  */
 
-class FavouriteRepository implements IFavouriteRepository {
+class FavouriteRepository extends AbstractRepository implements IFavouriteRepository {
 
 	private $model;
 
 	public function __construct(Favourite $model)
 	{
 		$this->model = $model;
+	}
+
+	/**
+	 * @param $userId
+	 * @return mixed
+	 */
+	public function getAllByUserId($userId)
+	{
+		$recordsArray = $this->model
+			->where('user_id', $userId)
+			->leftJoin('users', 'favourites.user_id', '=', 'users.id')
+			->leftJoin('steamids', 'favourites.steamid_id', '=', 'steamids.id')
+			->get()->toArray();
+
+		return $this->toObject($recordsArray);
 	}
 
 	public function isFavourited($userId, $steamIdId)

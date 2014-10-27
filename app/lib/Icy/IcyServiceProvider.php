@@ -1,4 +1,6 @@
 <?php namespace Icy;
+use Illuminate\Support\ServiceProvider;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -6,7 +8,7 @@
  * Time: 9:32 AM
  */
 
-class IcyServiceProvider extends \Illuminate\Support\ServiceProvider {
+class IcyServiceProvider extends ServiceProvider {
 
 	/**
 	 * Register the service provider.
@@ -53,6 +55,7 @@ class IcyServiceProvider extends \Illuminate\Support\ServiceProvider {
 			'Icy\BanDetection\BanDetectionServiceProvider',
 			'Icy\OAuth\OAuthServiceProvider',
 			'Icy\LegitProof\LegitProofServiceProvider',
+			'Icy\Favourite\FavouriteServiceProvider',
 		];
 
 		foreach ($providers as $provider)
@@ -61,19 +64,15 @@ class IcyServiceProvider extends \Illuminate\Support\ServiceProvider {
 		/*
 		 * Bind Managers
 		 */
-		$this->app->bind('Icy\IFollowManager', function ($app)
+
+		$this->app->bind('Icy\IBanService', function ($app)
 		{
-			return $app->make('Icy\FollowManager');
+			return $app->make('Icy\BanService');
 		});
 
-		$this->app->bind('Icy\IBanManager', function ($app)
+		$this->app->bind('Icy\ILeagueExperienceService', function ($app)
 		{
-			return $app->make('Icy\BanManager');
-		});
-
-		$this->app->bind('Icy\ILeagueExperienceManager', function ($app)
-		{
-			return $app->make('Icy\LeagueExperienceManager');
+			return $app->make('Icy\LeagueExperienceService');
 		});
 	}
 

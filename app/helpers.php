@@ -26,6 +26,25 @@ class ViewHelper {
 		return $ret;
 	}
 
+	public static function displayAlerts($alerts, $type, $dismissible = true)
+	{
+		if (!in_array($type, ['success', 'info', 'warning', 'danger']))
+			trigger_error('"' . $type . '" is not a valid alert type.');
+
+		$dismissibleButton = '';
+		$dismissibleClass = '';
+
+		if ($dismissible)
+		{
+			$dismissibleButton = '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>';
+			$dismissibleClass = 'alert-dismissible';
+		}
+
+		$format = '<div class="alert alert-' . $type . ' ' . $dismissibleClass . '" role="alert">' . $dismissibleButton . ':message</div>';
+
+		return self::displayArray($alerts, $format);
+	}
+
 }
 
 class FlashHelper {

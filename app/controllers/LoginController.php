@@ -9,13 +9,17 @@
 class LoginController extends Controller {
 
 	/**
-	 * @var \Icy\User\IUserManager
+	 * @var \Icy\User\IUserService
 	 */
 	private $userManager;
 
-	public function __construct(Icy\User\IUserManager $userManager)
+	public function __construct(Icy\User\IUserService $userManager)
 	{
 		$this->userManager = $userManager;
+
+		$this->beforeFilter('guest', ['only' => ['getLogin', 'postLogin']]);
+		$this->beforeFilter('csrf', ['only' => ['postLogin']]);
+		$this->beforeFilter('auth', ['only' => ['logout']]);
 	}
 
 	public function logout()

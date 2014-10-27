@@ -8,7 +8,7 @@
 namespace Icy\OAuth;
 
 
-class OAuthManager implements IOAuthManager {
+class OAuthService implements IOAuthService {
 
 	public static $LOGIN_METHODS = [
 		'Default',
@@ -74,12 +74,12 @@ class OAuthManager implements IOAuthManager {
 		return $loginMethods;
 	}
 
-	public function createOAuthAccount(\Icy\User\User $userRecord, $providerName, $accountId)
+	public function createOAuthAccount($userId, $providerName, $accountId)
 	{
 		$oauthProviderRecord = $this->oauthProvider->getByName($providerName);
 
 		$oauthAccountRecord = $this->oauthAccount->create([
-			'user_id' => $userRecord->id,
+			'user_id' => $userId,
 			'provider_id' => $oauthProviderRecord->id,
 			'account_id' => $accountId
 		]);

@@ -20,28 +20,36 @@ return [
 
 	'profiler' => true,
 
+	/*
+	|--------------------------------------------------------------------------
+	| Default Database Connection Name
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify which of the database connections below you wish
+	| to use as your default connection for all database work. Of course
+	| you may use many connections at once using the Database library.
+	|
+	*/
+
+	'default' => 'mysql',
+
 	'connections' => [
+
+		'sqlite' => [
+			'driver' => 'sqlite',
+			'database' => ':memory:',
+			'prefix' => '',
+		],
 
 		'mysql' => [
 			'driver' => 'mysql',
 			'host' => '192.168.0.50',
-			'database' => 'homestead_tests',
+			'database' => 'homestead',
 			'username' => 'general',
 			'password' => '',
 			'charset' => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix' => '',
-		],
-
-		'pgsql' => [
-			'driver' => 'pgsql',
-			'host' => 'localhost',
-			'database' => 'homestead',
-			'username' => 'homestead',
-			'password' => 'secret',
-			'charset' => 'utf8',
-			'prefix' => '',
-			'schema' => 'public',
 		],
 
 	],

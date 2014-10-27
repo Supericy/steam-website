@@ -13,7 +13,7 @@
  * Date: 10/6/2014
  * Time: 6:54 PM
  */
-interface ILeagueExperienceManager {
+interface ILeagueExperienceService {
 
 	/**
 	 * @param string $steamId

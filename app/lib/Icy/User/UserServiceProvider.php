@@ -21,9 +21,9 @@ class UserServiceProvider extends \Illuminate\Support\ServiceProvider {
 			return $app->make('Icy\User\UserRepository');
 		});
 
-		$this->app->bind('Icy\User\IUserManager', function ($app)
+		$this->app->bind('Icy\User\IUserService', function ($app)
 		{
-			return $app->make('Icy\User\UserManager');
+			return $app->make('Icy\User\UserService');
 		});
 	}
 

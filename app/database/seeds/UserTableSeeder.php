@@ -1,4 +1,5 @@
 <?php
+use Carbon\Carbon;
 
 /**
  * Created by PhpStorm.
@@ -12,12 +13,21 @@ class UserTableSeeder extends Seeder {
 	{
 		DB::table('users')->delete();
 
-		User::create([
-			'username' => 'Supericy',
-			'email' => 'koise150@hotmail.com',
-			'password' => Hash::make('testpassword'),
-			'active' => true,
+		DB::table('users')->insert([
+			$this->createRecordArray('koise150@hotmail.com', 'testpassword', 1, null),
 		]);
+	}
+
+	private function createRecordArray($email, $password, $activated, $activationCode)
+	{
+		return [
+			'email' => $email,
+			'password' => Hash::make($password),
+			'activated' => $activated,
+			'activation_code' => $activationCode,
+			'created_at' => Carbon::now(),
+			'updated_at' => Carbon::now(),
+		];
 	}
 
 }

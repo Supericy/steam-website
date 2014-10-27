@@ -1,4 +1,6 @@
 <?php
+use Icy\OAuth\IOAuthService;
+use Icy\User\IUserService;
 
 /**
  * Created by PhpStorm.
@@ -15,17 +17,15 @@ class OAuthLoginController extends Controller {
 		'google' => 'Google'
 	];
 
-	private $userRepository;
-	private $oauthAccountRepository;
-	private $oauthProviderRepository;
-	private $oauthManager;
+	private $userService;
+	private $oauthService;
 
-	public function __construct(Icy\User\IUserRepository $userRepository, Icy\OAuth\IOAuthAccountRepository $oauthAccountRepository, Icy\OAuth\IOAuthProviderRepository $oauthProviderRepository, Icy\OAuth\IOAuthManager $oauthManager)
+	public function __construct(IUserService $userService, IOAuthService $oauthService)
 	{
-		$this->userRepository = $userRepository;
-		$this->oauthAccountRepository = $oauthAccountRepository;
-		$this->oauthProviderRepository = $oauthProviderRepository;
-		$this->oauthManager = $oauthManager;
+		$this->userService = $userService;
+		$this->oauthService = $oauthService;
+
+		$this->beforeFilter('guest', ['only' => ['login']]);
 	}
 
 	public function login($providerName)
@@ -79,50 +79,50 @@ class OAuthLoginController extends Controller {
 		$googleAccountId = $result->id;
 		$googleEmail = $result->email;
 		$googleVerifiedEmail = $result->verified_email;
-		$needsVerification = !$googleVerifiedEmail;
+		$needsVerification = !$result->verified_email;
 
-		$credentials = [
+		$accountDetails = [
 			'accountId' => $result->id,
 			'email' => $result->email,
-			'activated' => $googleVerifiedEmail,
+			'activated' => $result->verified_email,
 			'isEmailVerified' => $result->verified_email,
 		];
 
-		if ($needsVerification)
+//		if ($needsVerification)
+//		{
+//			// TODO: if their email hasn't been verified with the provider, we'll send them an e-mail to verify it. Set the account to NOT ACTIVE until they verify it
+//
+//			// users email has not been verified
+//			FlashHelper::append('alerts.danger', sprintf('Your e-mail address (%s) has not been verified with Google, please verify it with them before attempting to login.', $accountDetails['email']));
+//			return Redirect::action('get.login');
+//		}
+
+
+		if (!$this->oauthService->attemptLogin($providerName, $accountDetails['accountId'], true))
 		{
-			// TODO: if their email hasn't been verified with the provider, we'll send them an e-mail to verify it. Set the account to NOT ACTIVE until they verify it
-
-			// users email has not been verified
-			FlashHelper::append('alerts.danger', sprintf('Your e-mail address (%s) has not been verified with Google, please verify it with them before attempting to login.', $googleEmail));
-			return Redirect::action('get.login');
-		}
-
-
-		if (!$this->oauthManager->attemptLogin($providerName, $googleAccountId, true))
-		{
-			$loginMethods = $this->oauthManager->getLoginMethodsByEmail($credentials['email']);
+			$loginMethods = $this->oauthService->getLoginMethodsByEmail($accountDetails['email']);
 
 			Debugbar::info(['loginMethods' => $loginMethods]);
 
 			if (!empty($loginMethods))
 			{
-				return $this->redirectDisplayLoginMethods($loginMethods, $credentials);
+				return $this->redirectDisplayLoginMethods($loginMethods, $accountDetails);
 			} else
 			{
 				assert('$googleVerifiedEmail == true', 'google email must be verified before we can create an account with it');
 
-				$userRecord = $this->userRepository->firstOrCreate([
-					'email' => $googleEmail,
+				$credentials = [
+					'email' => $accountDetails['email'],
 					'password' => null,
+					'activated' => $accountDetails['activated'],
+				];
 
-					// we can guarentee $googleVerifiedEmail is true at this point
-					'activated' => $googleVerifiedEmail
-				]);
+				$userId = $this->userService->createAccount($credentials);
 
 				// user does not have any way to log in, so let's create an account/loginMethod for them
-				$this->oauthManager->createOAuthAccount($userRecord, $providerName, $googleAccountId);
+				$this->oauthService->createOAuthAccount($userId, $providerName, $accountDetails['accountId']);
 
-				Auth::login($userRecord, true);
+				Auth::loginUsingId($userId, true);
 			}
 		}
 
@@ -136,7 +136,7 @@ class OAuthLoginController extends Controller {
 
 		$loginMethodsToDisplay = [];
 
-		foreach (Icy\OAuth\OAuthManager::$LOGIN_METHODS as $loginMethod)
+		foreach (Icy\OAuth\OAuthService::$LOGIN_METHODS as $loginMethod)
 		{
 			$loginMethodsToDisplay[$loginMethod] = in_array($loginMethod, $loginMethods);
 		}

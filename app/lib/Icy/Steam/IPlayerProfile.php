@@ -1,4 +1,7 @@
 <?php namespace Icy\Steam;
+use Icy\Steam\Web\States\CommunityVisibilityState;
+use Icy\Steam\Web\States\PersonaState;
+use Icy\Steam\Web\States\ProfileState;
 
 /**
  * Created by PhpStorm.
@@ -19,7 +22,7 @@ interface IPlayerProfile {
 	public function getAvatarUrl();
 
 	/**
-	 * @return mixed
+	 * @return CommunityVisibilityState
 	 */
 	public function getCommunityVisibilityState();
 
@@ -39,7 +42,7 @@ interface IPlayerProfile {
 	public function getMediumAvatarUrl();
 
 	/**
-	 * @return mixed
+	 * @return PersonaState
 	 */
 	public function getPersonaState();
 
@@ -54,7 +57,7 @@ interface IPlayerProfile {
 	public function getPrimaryClanId();
 
 	/**
-	 * @return mixed
+	 * @return ProfileState
 	 */
 	public function getProfileState();
 

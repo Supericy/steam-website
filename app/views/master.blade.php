@@ -36,10 +36,15 @@
 	<div id="content">
 		<div class="pad-top">
 			<div class="container">
-				{{ ViewHelper::displayArray(Session::get('alerts.success'),    '<div class="alert alert-success" role="alert">:message</div>') }}
-				{{ ViewHelper::displayArray(Session::get('alerts.info'),       '<div class="alert alert-info" role="alert">:message</div>') }}
-				{{ ViewHelper::displayArray(Session::get('alerts.warning'),    '<div class="alert alert-warning" role="alert">:message</div>') }}
-				{{ ViewHelper::displayArray(Session::get('alerts.danger'),     '<div class="alert alert-danger" role="alert">:message</div>') }}
+				{{--{{ ViewHelper::displayArray(Session::get('alerts.success'),	'<div class="alert alert-success alert-dismissible" role="alert">:message</div>') }}--}}
+				{{--{{ ViewHelper::displayArray(Session::get('alerts.info'),	'<div class="alert alert-info alert-dismissible" role="alert">:message</div>') }}--}}
+                {{--{{ ViewHelper::displayArray(Session::get('alerts.warning'),	'<div class="alert alert-warning alert-dismissible" role="alert">:message</div>') }}--}}
+                {{--{{ ViewHelper::displayArray(Session::get('alerts.danger'),	'<div class="alert alert-danger alert-dismissible" role="alert">:message</div>') }}--}}
+
+				{{ ViewHelper::displayAlerts(Session::get('alerts.success'), 	'success', 	true) }}
+				{{ ViewHelper::displayAlerts(Session::get('alerts.info'), 		'info', 	true) }}
+				{{ ViewHelper::displayAlerts(Session::get('alerts.warning'), 	'warning', 	true) }}
+				{{ ViewHelper::displayAlerts(Session::get('alerts.danger'), 	'danger', 	true) }}
 			</div>
 
 			@yield('content')

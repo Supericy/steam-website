@@ -23,6 +23,12 @@ interface IFavouriteRepository {
 	public function getByUserIdAndSteamIdId($userId, $steamIdId);
 
 	/**
+	 * @param $userId
+	 * @return mixed
+	 */
+	public function getAllByUserId($userId);
+
+	/**
 	 * @param array $values
 	 * @return Favourite
 	 */

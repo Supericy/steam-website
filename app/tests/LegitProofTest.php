@@ -12,7 +12,7 @@
  */
 class LegitProofTest extends TestCase {
 
-	public function testGetLeagueExperience()
+	public function test_getLeagueExperience()
 	{
 		/** @var Icy\LegitProof\ILegitProof $legitproof */
 		$legitproof = $this->app->make('Icy\LegitProof\ILegitProof');

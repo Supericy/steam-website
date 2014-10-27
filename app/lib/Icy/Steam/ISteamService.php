@@ -10,7 +10,7 @@ interface ISteamService {
 
 	/**
 	 * @param string $steamId
-	 * @return PlayerProfile|PlayerProfile[]
+	 * @return IPlayerProfile|IPlayerProfile[]
 	 */
 	public function getPlayerProfile($steamId);
 

@@ -1,7 +1,7 @@
 <div class="container">
 	{{--<div class="alert alert-success text-center">This account has <span style="font-weight: bolder">league experience!</span></div>--}}
 
-    <div class="panel panel-primary">
+    <div class="panel panel-primary panel-shadow">
         <div class="panel-heading medium-pad">
             <table class="table">
                 <thead>

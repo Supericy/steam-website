@@ -4,7 +4,7 @@ use Illuminate\Hashing\HasherInterface;
 use Illuminate\Mail\Mailer;
 use Illuminate\Support\Str;
 
-class UserManager implements IUserManager {
+class UserService implements IUserService {
 
 	/**
 	 * @var Mailer
@@ -34,13 +34,13 @@ class UserManager implements IUserManager {
 
 		// basically, assert that we have $creds['password'] and $creds['activated'], since we'll be using those.
 		if ($this->userRepository->isMissingFields($credentials, ['email', 'password', 'activated']))
-			dd('UserManager::createAccount requires the credentials array to have a password and activated entry.');
+			dd('UserManager::createAccount => $credentials array is missing required elements');
 
 		// don't store passwords in plain-text
-		$credentials['password'] = $this->hasher->make($credentials['password']);
+		$credentials['password'] = isset($credentials['password']) ? $this->hasher->make($credentials['password']) : null;
 		$credentials['activation_code'] = $credentials['activated'] ? null : $this->generateActivationCode();
 
-		if (!$this->userRepository->create($credentials))
+		if (!($record = $this->userRepository->create($credentials)))
 			throw new UserException('Failed to create new user account.');
 
 		if (!$credentials['activated'])
@@ -48,8 +48,8 @@ class UserManager implements IUserManager {
 			$this->sendActivationEmail($credentials['email'], $credentials['activation_code']);
 		}
 
-		// perhaps test if the account exists somehow?
-		return true;
+		// return new record id
+		return $record->id;
 	}
 
 	public function activateAccount($code)
@@ -77,7 +77,7 @@ class UserManager implements IUserManager {
 
 	public function verifyActivationCodeFormat($code)
 	{
-		return preg_match('/' . IUserManager::ACTIVATION_CODE_PATTERN . '/', $code);
+		return preg_match('/' . IUserService::ACTIVATION_CODE_PATTERN . '/', $code);
 	}
 
 	public function normalizeCredentials(array $credentials)

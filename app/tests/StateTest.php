@@ -25,7 +25,7 @@ class TestState extends \Icy\Steam\Web\States\AbstractState {
  */
 class StateTest extends TestCase {
 
-	public function testCreateStateFromString()
+	public function test_createStateFromInteger()
 	{
 		$state = TestState::fromInteger(0);
 		$this->assertSame(0, $state->integer());

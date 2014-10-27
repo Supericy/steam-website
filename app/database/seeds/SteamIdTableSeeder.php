@@ -1,4 +1,5 @@
 <?php
+use Carbon\Carbon;
 
 /**
  * Created by PhpStorm.
@@ -12,10 +13,29 @@ class SteamIdTableSeeder extends Seeder {
 	{
 		DB::table('steamids')->delete();
 
-		SteamId::create([
-			'steamid' => '76561197960327544',
-			'vac_status' => false,
+		// TODO: seed a few steamids
+		DB::table('steamids')->insert([
+			$this->createRecordArray(76561197960327544, true, 3000, 1)
 		]);
+	}
+
+	/**
+	 * @param $steamId
+	 * @param $vacBanned
+	 * @param $daysSinceLastBan
+	 * @param $legitProofed
+	 * @return array
+	 */
+	private function createRecordArray($steamId, $vacBanned, $daysSinceLastBan, $legitProofed)
+	{
+		return [
+			'steamid' => $steamId,
+			'vac_banned' => $vacBanned,
+			'days_since_last_ban' => $daysSinceLastBan,
+			'legitproofed' => $legitProofed,
+			'created_at' => Carbon::now(),
+			'updated_at' => Carbon::now(),
+		];
 	}
 
 }

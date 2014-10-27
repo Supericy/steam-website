@@ -1,6 +1,6 @@
 <?php namespace Icy;
 
-class LeagueExperienceManager implements ILeagueExperienceManager {
+class LeagueExperienceService implements ILeagueExperienceService {
 
 	private $legitProof;
 	private $steam;

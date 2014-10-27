@@ -8,7 +8,7 @@
  */
 class FlashHelperTest extends TestCase {
 
-	public function testConvertKeyStringToArray()
+	public function test_append()
 	{
 		FlashHelper::append('test', 'expectedValue1');
 		$this->assertEquals('expectedValue1', Session::get('test')[0]);

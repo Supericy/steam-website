@@ -7,17 +7,16 @@
 	<div class="container text-center">
 		<div class="profile-header">
 			<div class="profile-image">
-				<img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/c0/c0b62592da6bde522c256157b58d9fb786daf025_full.jpg" width="100px" height="100px" />
+				<img src="{{ $profile->getFullAvatarUrl() }}" width="100px" height="100px" />
 			</div>
 
-			<div class="profile-name">Supericy</div>
-
-			<div class="profile-follow">@include('steamid.follow')</div>
+			<div class="profile-name">
+				<div>{{ $profile->getAlias() }}</div>
+				<div class="profile-status">{{ $profile->getPersonaState()->string() }}</div>
+			</div>
 
 			<div class="pull-right text-right">
-
-
-				<div class="profile-status">Currently Online</div>
+				@include('steamid.follow')
 			</div>
 		</div>
 	</div>
@@ -28,7 +27,7 @@
 				@include('steamid.ban-list')
 			@endif
 
-			@if(count($leagueExperiences) > 0)
+			@if($hasLeagueExperiences)
 				@include('steamid.league-experience-list')
 			@endif
 

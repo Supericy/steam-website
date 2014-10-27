@@ -13,7 +13,7 @@ abstract class AbstractState implements IState {
 
 	private $intValue;
 
-	private function __construct($intValue)
+	public function __construct($intValue)
 	{
 		$this->intValue = $intValue;
 	}

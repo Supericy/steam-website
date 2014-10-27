@@ -49,10 +49,11 @@ class PlaygroundController extends Controller {
 			'steamId' => $steamId,
 			'isFollowing' => true,
 			'timesChecked' => 144,
-			'hasBans' => count($bans) > 0,
+			'hasBans', true,
 			'bans' => $bans,
 			'steamId64' => $steamId,
 			'steamIdText' => $steamIdText,
+			'hasLeagueExperience' => count($leagueExperiences) > 0,
 			'leagueExperiences' => $leagueExperiences,
 			'communityUrl' => 'http://steamcommunity.com/profiles/' . 76561197960327544,
 		];
@@ -66,7 +67,10 @@ class PlaygroundController extends Controller {
 	{
 		Session::forget('alerts.success');
 
-		FlashHelper::append('alerts.success', 'This is just a test alert.');
+		FlashHelper::append('alerts.success', 'This is just a test success alert.');
+		FlashHelper::append('alerts.info', 'This is just a test info alert.');
+		FlashHelper::append('alerts.warning', 'This is just a test warning alert.');
+		FlashHelper::append('alerts.danger', 'This is just a test danger alert.');
 
 		return View::make('master');
 	}
