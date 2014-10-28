@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -44,46 +44,46 @@ return array(
 	|
 	*/
 
-	'connections' => array(
+	'connections' => [
 
-		'sqlite' => array(
-			'driver'   => 'sqlite',
-			'database' => __DIR__.'/../database/production.sqlite',
-			'prefix'   => '',
-		),
+		'sqlite' => [
+			'driver' => 'sqlite',
+			'database' => __DIR__ . '/../database/production.sqlite',
+			'prefix' => '',
+		],
 
-		'mysql' => array(
-			'driver'    => 'mysql',
-			'host'      => '',
-			'database'  => '',
-			'username'  => '',
-			'password'  => '',
-			'charset'   => 'utf8',
+		'mysql' => [
+			'driver' => 'mysql',
+			'host' => '192.168.0.50',
+			'database' => 'homestead',
+			'username' => 'general',
+			'password' => '',
+			'charset' => 'utf8',
 			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
-		),
+			'prefix' => '',
+		],
 
-		'pgsql' => array(
-			'driver'   => 'pgsql',
-			'host'     => 'localhost',
+		'pgsql' => [
+			'driver' => 'pgsql',
+			'host' => 'localhost',
 			'database' => 'forge',
 			'username' => 'forge',
 			'password' => '',
-			'charset'  => 'utf8',
-			'prefix'   => '',
-			'schema'   => 'public',
-		),
+			'charset' => 'utf8',
+			'prefix' => '',
+			'schema' => 'public',
+		],
 
-		'sqlsrv' => array(
-			'driver'   => 'sqlsrv',
-			'host'     => 'localhost',
+		'sqlsrv' => [
+			'driver' => 'sqlsrv',
+			'host' => 'localhost',
 			'database' => 'database',
 			'username' => 'root',
 			'password' => '',
-			'prefix'   => '',
-		),
+			'prefix' => '',
+		],
 
-	),
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -109,17 +109,17 @@ return array(
 	|
 	*/
 
-	'redis' => array(
+	'redis' => [
 
 		'cluster' => false,
 
-		'default' => array(
-			'host'     => '127.0.0.1',
-			'port'     => 6379,
+		'default' => [
+			'host' => '127.0.0.1',
+			'port' => 6379,
 			'database' => 0,
-		),
+		],
 
-	),
+	],
 
 	'log' => false,
-);
+];

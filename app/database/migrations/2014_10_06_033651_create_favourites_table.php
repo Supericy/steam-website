@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateFavouritesTable extends Migration {
@@ -12,7 +11,8 @@ class CreateFavouritesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('favourites', function ($table) {
+		Schema::create('favourites', function ($table)
+		{
 
 			$table->increments('id');
 
@@ -26,7 +26,8 @@ class CreateFavouritesTable extends Migration {
 
 		});
 
-		Schema::table('favourites', function ($table) {
+		Schema::table('favourites', function ($table)
+		{
 
 			$table->foreign('user_id')
 				->references('id')

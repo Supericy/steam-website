@@ -11,13 +11,13 @@ interface IBanStatus {
 
 	/**
 	 * @return int|null
-	 * 		Returns null if the user is not banned (ie. no timestamp exists...)
+	 *        Returns null if the user is not banned (ie. no timestamp exists...)
 	 */
 	public function getTimestamp();
 
 	/**
 	 * @return string
-	 * 		Name of ban type (ie. VAC, ESEA, etc).
+	 *        Name of ban type (ie. VAC, ESEA, etc).
 	 */
 	public function getBanName();
 

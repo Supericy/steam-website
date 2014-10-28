@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Chad
  * Date: 8/28/14
  * Time: 4:38 AM
  */
-
 class SteamIdController extends Controller {
 
 	// steam API's max steamids per request
@@ -13,16 +13,16 @@ class SteamIdController extends Controller {
 
 	private $steam;
 	private $steamId;
-	private $banManager;
-	private $followManager;
-	private $experienceManager;
+	private $banService;
+	private $favouriteService;
+	private $experienceService;
 
-	public function __construct(Icy\IBanManager $banManager, Icy\IFollowManager $followManager, Icy\ILeagueExperienceManager $experienceManager, Icy\Steam\ISteamService $steam)
+	public function __construct(Icy\IBanService $banService, Icy\Favourite\IFavouriteService $favouriteService, Icy\ILeagueExperienceService $experienceService, Icy\Steam\ISteamService $steam)
 	{
 		$this->steam = $steam;
-		$this->banManager = $banManager;
-		$this->followManager = $followManager;
-		$this->experienceManager = $experienceManager;
+		$this->banService = $banService;
+		$this->favouriteService = $favouriteService;
+		$this->experienceService = $experienceService;
 	}
 
 	public function searchSteamId()
@@ -33,63 +33,12 @@ class SteamIdController extends Controller {
 		{
 			// no steamId given, so prompt the user for one
 			return View::make('steamid.prompt');
-		}
-		else
+		} else
 		{
 			$steamId = $this->steam->resolveId(Input::get('steamid'));
 
 			return Redirect::action('steamid.display', ['id' => $steamId]);
 		}
-	}
-
-	// TODO export this functionality to API controller
-	public function follow($potentialId)
-	{
-		$steamId = $this->steam->resolveId($potentialId);
-
-		if ($steamId === false)
-			return App::abort(404);
-
-		if (Auth::check())
-		{
-			$userId = Auth::user()->id;
-		}
-		else
-		{
-			return App::abort(401);
-		}
-
-		$steamIdRecord = $this->banManager->fetchAndUpdate($steamId);
-
-		$this->followManager->follow($userId, $steamIdRecord->id);
-
-		FlashHelper::append('alerts.success', 'You are now following ' . $steamIdRecord->steamid);
-
-		return Redirect::action('steamid.display', ['id' => $steamIdRecord->steamid]);
-	}
-
-	public function unfollow($potentialId)
-	{
-		$steamId = $this->steam->resolveId($potentialId);
-		if ($steamId === false)
-			return App::abort(404);
-
-		if (Auth::check())
-		{
-			$userId = Auth::user()->id;
-		}
-		else
-		{
-			return App::abort(401);
-		}
-
-		$steamIdRecord = $this->banManager->fetchAndUpdate($steamId);
-
-		$this->followManager->unfollow($userId, $steamIdRecord->id);
-
-		FlashHelper::append('alerts.success', 'You have unfollowed ' . $steamIdRecord->steamid);
-
-		return Redirect::action('steamid.display', ['id' => $steamIdRecord->steamid]);
 	}
 
 	public function display($potentialId)
@@ -99,25 +48,31 @@ class SteamIdController extends Controller {
 		if ($steamId === false)
 			return App::abort(404);
 
-		$steamIdRecord = $this->banManager->fetchAndUpdate($steamId);
+		$steamIdRecord = $this->banService->fetchAndUpdate($steamId);
 //		Debugbar::info($steamIdRecord);
 
 		$isFollowing = false;
 		if (Auth::check())
-			$isFollowing = $this->followManager->isFollowing(Auth::user()->id, $steamIdRecord->id);
+			$isFollowing = $this->favouriteService->isFavourited(Auth::user()->id, $steamIdRecord->id);
 
-		$leagueExperiences = $this->experienceManager->getLeagueExperiences($steamIdRecord->steamid);
+		$leagueExperiences = $this->experienceService->getLeagueExperiences($steamId);
+
+		$profile = $this->steam->getPlayerProfile($steamId);
 
 		$data = [
+			/** @var profile IPlayerProfile */
+			'profile' => $profile,
+
 			'steamId' => $steamIdRecord->steamid,
 			'isFollowing' => $isFollowing,
 			'timesChecked' => $steamIdRecord->times_checked,
 			'hasBans' => $steamIdRecord->hasBans(),
 			'bans' => $steamIdRecord->getAllBanStatuses(),
 			'steamId64' => $steamIdRecord->steamid,
-			'steamIdText' => $this->steam->convert64ToText($steamIdRecord->steamid, true),
+			'steamIdText' => $this->steam->convert64ToText($steamId, true),
+			'hasLeagueExperiences' => count($leagueExperiences) > 0,
 			'leagueExperiences' => $leagueExperiences,
-			'communityUrl' => $this->steam->getCommunityUrl($steamIdRecord->steamid),
+			'communityUrl' => $this->steam->getCommunityUrl($steamId),
 		];
 
 		Debugbar::info($data);

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddBanTypeIdColumnToBanNotifications extends Migration {
@@ -12,7 +11,8 @@ class AddBanTypeIdColumnToBanNotifications extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('ban_notifications', function ($table) {
+		Schema::table('ban_notifications', function ($table)
+		{
 
 			$table->integer('ban_type_id')
 				->unsigned()
@@ -20,7 +20,8 @@ class AddBanTypeIdColumnToBanNotifications extends Migration {
 
 		});
 
-		Schema::table('ban_notifications', function ($table) {
+		Schema::table('ban_notifications', function ($table)
+		{
 
 			$table->foreign('ban_type_id')
 				->references('id')
@@ -36,7 +37,8 @@ class AddBanTypeIdColumnToBanNotifications extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('ban_notifications', function ($table) {
+		Schema::table('ban_notifications', function ($table)
+		{
 
 			$table->dropColumn('ban_type_id');
 

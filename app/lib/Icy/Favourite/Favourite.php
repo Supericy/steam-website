@@ -22,4 +22,14 @@ class Favourite extends \Eloquent {
 		return $this->belongsTo('Icy\Steam\SteamId', 'steamid_id');
 	}
 
+	public function getUserId()
+	{
+		return $this->userid;
+	}
+
+	public function getSteamIdId()
+	{
+		return $this->steamid_id;
+	}
+
 } 

@@ -10,7 +10,7 @@ class OAuthProvider extends \Eloquent {
 
 	protected $table = 'oauth_providers';
 
-	protected $guarded = array('id');
+	protected $guarded = ['id'];
 
 	public function users()
 	{

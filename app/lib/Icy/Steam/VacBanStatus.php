@@ -1,4 +1,5 @@
 <?php namespace Icy\Steam;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -6,7 +7,7 @@
  * Time: 2:41 AM
  */
 
-use \Carbon\Carbon;
+use Carbon\Carbon;
 use Icy\Common\IBanStatus;
 
 class VacBanStatus implements IBanStatus {
@@ -44,7 +45,7 @@ class VacBanStatus implements IBanStatus {
 
 	/**
 	 * @return int|null
-	 * 		Returns null if isBanned returns false
+	 *        Returns null if isBanned returns false
 	 */
 	public function getDaysSinceLastBan()
 	{

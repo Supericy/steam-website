@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	'download_path' => storage_path() . '/esea/ban_list.csv',
 
@@ -8,4 +8,4 @@ return array(
 
 	'cookie_file' => storage_path() . '/esea/cookie.tmp',
 
-);
+];

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddSteamidTimesCheckedColumn extends Migration {
@@ -12,7 +11,8 @@ class AddSteamidTimesCheckedColumn extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('steamids', function ($table) {
+		Schema::table('steamids', function ($table)
+		{
 			$table->integer('times_checked')
 				->default(0);
 		});
@@ -25,7 +25,8 @@ class AddSteamidTimesCheckedColumn extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('steamids', function ($table) {
+		Schema::table('steamids', function ($table)
+		{
 			$table->dropColumn('times_checked');
 		});
 	}

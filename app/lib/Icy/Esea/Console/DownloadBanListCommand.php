@@ -1,6 +1,5 @@
 <?php namespace Icy\Esea\Console;
 
-use Icy\Esea\EseaBanRepository;
 use Icy\Esea\IEseaBanRepository;
 
 class DownloadBanListCommand extends \BaseCommand {
@@ -69,8 +68,8 @@ class DownloadBanListCommand extends \BaseCommand {
 		$added = 0;
 
 
-
-		$this->csvReadExecute($downloadUri, function ($csv, $isFirst) use ($latestTimestamp, &$added) {
+		$this->csvReadExecute($downloadUri, function ($csv, $isFirst) use ($latestTimestamp, &$added)
+		{
 
 			// first line is meta data, so skip it
 			if (!$isFirst)
@@ -99,8 +98,7 @@ class DownloadBanListCommand extends \BaseCommand {
 					$this->info(sprintf('%4d: added. %16s %16s %16s', $record->id, $steamId, $alias, $timestamp), 'green');
 
 					$added++;
-				}
-				else
+				} else
 				{
 //					$this->line("Skipping " . $steamId . ':' . $alias . ':' . $timestamp, 'green');
 

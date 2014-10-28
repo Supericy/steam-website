@@ -1,4 +1,6 @@
 <?php namespace Icy;
+use Illuminate\Support\ServiceProvider;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -6,7 +8,7 @@
  * Time: 9:32 AM
  */
 
-class IcyServiceProvider extends \Illuminate\Support\ServiceProvider {
+class IcyServiceProvider extends ServiceProvider {
 
 	/**
 	 * Register the service provider.
@@ -16,21 +18,29 @@ class IcyServiceProvider extends \Illuminate\Support\ServiceProvider {
 	public function register()
 	{
 		/*
+		 * Bind third-party libraries to our IoC
+		 */
+		$this->app->register('Icy\VendorServiceProvider');
+
+		/*
 		 * We'll put single binds here, so that we don't need to create
 		 * a new service provider for every-single-table/repository.
 		 *
 		 * If we end up needing a service provider, then we'll extract
 		 * the binds to it's own service provider
 		 */
-		$this->app->bind('Icy\Esea\IEseaBanRepository', function ($app) {
+		$this->app->bind('Icy\Esea\IEseaBanRepository', function ($app)
+		{
 			return $app->make('Icy\Esea\EseaBanRepository');
 		});
 
-		$this->app->bind('Icy\Favourite\IFavouriteRepository', function ($app) {
+		$this->app->bind('Icy\Favourite\IFavouriteRepository', function ($app)
+		{
 			return $app->make('Icy\Favourite\FavouriteRepository');
 		});
 
-		$this->app->bind('Icy\BanNotification\IBanNotificationRepository', function ($app) {
+		$this->app->bind('Icy\BanNotification\IBanNotificationRepository', function ($app)
+		{
 			return $app->make('Icy\BanNotification\BanNotificationRepository');
 		});
 
@@ -45,24 +55,25 @@ class IcyServiceProvider extends \Illuminate\Support\ServiceProvider {
 			'Icy\BanDetection\BanDetectionServiceProvider',
 			'Icy\OAuth\OAuthServiceProvider',
 			'Icy\LegitProof\LegitProofServiceProvider',
+			'Icy\Favourite\FavouriteServiceProvider',
+			'Icy\Authentication\AuthenticationServiceProvider',
 		];
 
 		foreach ($providers as $provider)
 			$this->app->register($provider);
 
 		/*
-		 * Bind Managers
+		 * Bind Services that don't have a provider yet
 		 */
-		$this->app->bind('Icy\IFollowManager', function ($app) {
-			return $app->make('Icy\FollowManager');
+
+		$this->app->bind('Icy\IBanService', function ($app)
+		{
+			return $app->make('Icy\BanService');
 		});
 
-		$this->app->bind('Icy\IBanManager', function ($app) {
-			return $app->make('Icy\BanManager');
-		});
-
-		$this->app->bind('Icy\ILeagueExperienceManager', function ($app) {
-			return $app->make('Icy\LeagueExperienceManager');
+		$this->app->bind('Icy\ILeagueExperienceService', function ($app)
+		{
+			return $app->make('Icy\LeagueExperienceService');
 		});
 	}
 

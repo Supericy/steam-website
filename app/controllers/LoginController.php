@@ -1,60 +1,89 @@
 <?php
+use Icy\Authentication\AuthenticationException;
+use Icy\Authentication\IAuthenticationService;
+use Icy\User\IUserService;
+use Illuminate\Routing\Controller;
+
 /**
  * Created by PhpStorm.
  * User: Chad
  * Date: 8/19/14
  * Time: 2:59 AM
  */
-
 class LoginController extends Controller {
 
-    public function logout()
-    {
-        Auth::logout();
+	/**
+	 * @var IAuthenticationService
+	 */
+	private $auth;
 
-        FlashHelper::append('alerts.success', 'You have been logged out.');
+	public function __construct(IAuthenticationService $auth)
+	{
+		$this->beforeFilter('guest', ['only' => ['getLogin', 'postLogin']]);
+		$this->beforeFilter('csrf', ['only' => ['postLogin']]);
+		$this->beforeFilter('auth', ['only' => ['logout']]);
 
-        return Redirect::back();
-    }
+		$this->auth = $auth;
+	}
 
-    public function getLogin()
-    {
+	public function logout()
+	{
+		$this->auth->logout();
+
+		FlashHelper::append('alerts.success', 'You have been logged out.');
+
+		return Redirect::back();
+	}
+
+	public function getLogin()
+	{
 		$displayLoginMethod = Session::get('displayLoginMethod', []);
 
-        return View::make('login.prompt')
+		return View::make('login.prompt')
 			->with('displayLoginMethod', $displayLoginMethod);
-    }
+	}
 
-    public function postLogin()
-    {
-        $rules = array(
-            'email' => 'required|email',
-            'password' => 'required'
-        );
+	public function postLogin()
+	{
+		$rules = [
+			'email' => 'required|email',
+			'password' => 'required'
+		];
 
-        $validator = Validator::make(Input::get(), $rules);
+		$validator = Validator::make(Input::get(), $rules);
 
-        if ($validator->fails())
-        {
-            return Redirect::route('get.login')->withInput()->withErrors($validator);
-        }
+		if ($validator->fails())
+		{
+			return Redirect::route('get.login')
+				->withInput()
+				->withErrors($validator);
+		}
 
-        $auth = Auth::attempt(array(
-            'email' => Input::get('email'),
-            'password' => Input::get('password'),
-			'active' => true
-        ), true);
+		$credentials = [
+			'email' => Input::get('email'),
 
-        if ($auth)
-        {
-            FlashHelper::append('alerts.success', 'You have been logged in.');
+			// note that we don't hash the password when using Auth::attempt()
+			'password' => Input::get('password')
+		];
 
-            return Redirect::intended('/');
-        }
-        else
-        {
-            return Redirect::route('get.login')->withInput()->withErrors(['login' => ['Invalid e-mail or password.']]);
-        }
-    }
+		try
+		{
+			$this->auth->login($credentials, true);
+
+			FlashHelper::append('alerts.success', 'You have been logged in.');
+
+			// TODO: prompt with activation alert if their email/account needs activation
+		}
+		catch (AuthenticationException $e)
+		{
+			return Redirect::route('get.login')
+				->withInput()
+				->withErrors([
+					'login' => [$e->getMessage()]
+				]);
+		}
+
+		return Redirect::intended('/');
+	}
 
 } 

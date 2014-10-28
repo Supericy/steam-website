@@ -15,21 +15,21 @@ class OAuthServiceProvider extends \Illuminate\Support\ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('Icy\OAuth\IOAuthProviderRepository', function ($app) {
-			return new OAuthProviderRepository(new OAuthProvider());
+		$this->app->bind('Icy\OAuth\IOAuthProviderRepository', function ($app)
+		{
+//			return new OAuthProviderRepository(new OAuthProvider());
+			return $app->make('Icy\OAuth\OAuthProviderRepository');
 		});
 
-		$this->app->bind('Icy\OAuth\IOAuthAccountRepository', function ($app) {
-			return new OAuthAccountRepository(new OAuthAccount(), $app->make('Icy\OAuth\IOAuthProviderRepository'));
+		$this->app->bind('Icy\OAuth\IOAuthAccountRepository', function ($app)
+		{
+//			return new OAuthAccountRepository(new OAuthAccount(), $app->make('Icy\OAuth\IOAuthProviderRepository'));
+			return $app->make('Icy\OAuth\OAuthAccountRepository');
 		});
 
-		$this->app->bind('Icy\OAuth\IOAuthManager', function ($app) {
-			return $app->make('Icy\OAuth\OAuthManager');
-//			return new OAuthManager(
-//				$app->make('auth'),
-//				$app->make('Icy\User\IUserRepository'),
-//				$app->make('Icy\OAuth\IOAuthAccountRepository'),
-//				$app->make('Icy\OAuth\IOAuthProviderRepository'));
+		$this->app->bind('Icy\OAuth\IOAuthService', function ($app)
+		{
+			return $app->make('Icy\OAuth\OAuthService');
 		});
 	}
 

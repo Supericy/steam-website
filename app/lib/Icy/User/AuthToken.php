@@ -15,7 +15,7 @@ class AuthToken extends \Eloquent {
 	 */
 	protected $table = 'auth_tokens';
 
-	protected $guarded = array('id');
+	protected $guarded = ['id'];
 
 	public function user()
 	{

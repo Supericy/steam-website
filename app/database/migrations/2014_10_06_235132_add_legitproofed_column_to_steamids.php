@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddLegitproofedColumnToSteamids extends Migration {
@@ -12,7 +11,8 @@ class AddLegitproofedColumnToSteamids extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('steamids', function ($table) {
+		Schema::table('steamids', function ($table)
+		{
 
 			$table->boolean('legitproofed');
 
@@ -26,7 +26,8 @@ class AddLegitproofedColumnToSteamids extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('steamids', function ($table) {
+		Schema::table('steamids', function ($table)
+		{
 
 			$table->dropColumns('legitproofed');
 

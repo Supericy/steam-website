@@ -1,4 +1,5 @@
 <?php namespace Icy\Esea\Console;
+
 use Icy\Esea\IEseaBanRepository;
 
 /**
@@ -7,7 +8,6 @@ use Icy\Esea\IEseaBanRepository;
  * Date: 10/3/2014
  * Time: 3:48 PM
  */
-
 class ConvertSteamIdFromTextTo64Command extends \BaseCommand {
 
 	protected $name = 'esea:convert';
@@ -29,7 +29,8 @@ class ConvertSteamIdFromTextTo64Command extends \BaseCommand {
 	{
 		$this->line('Converting esea ban steamids...', 'black-yellow');
 
-		\Icy\Esea\EseaBan::chunk(100, function ($records) {
+		\Icy\Esea\EseaBan::chunk(100, function ($records)
+		{
 
 			foreach ($records as $record)
 			{

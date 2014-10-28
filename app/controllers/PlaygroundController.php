@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Chad
  * Date: 8/29/14
  * Time: 3:10 PM
  */
-
 class PlaygroundController extends Controller {
 
 	const CLASS_NAME = 'PlaygroundController';
@@ -17,7 +17,23 @@ class PlaygroundController extends Controller {
 		return View::make('tests.list-methods')->withUrls($urls);
 	}
 
-	public function getTestSteamIdDisplay()
+	public function getSteamCondenserTest()
+	{
+//		dd(app_path());
+
+//		require_once(app_path() . '/../vendor/koraktor/steam-condenser/lib/steam/servers/SourceServer.php');
+
+		$server = new SourceServer('23.19.172.139:27015');
+
+		dd([
+			'info' => $server->getServerInfo(),
+			'ping' => $server->getPing(),
+			'players' => $server->getPlayers(),
+//			'rules' => $server->getRules(),
+		]);
+	}
+
+	public function getSteamIdDisplayTest()
 	{
 		$steamId = 76561197960327544;
 		$steamIdText = 'STEAM_0:0:30908';
@@ -33,10 +49,11 @@ class PlaygroundController extends Controller {
 			'steamId' => $steamId,
 			'isFollowing' => true,
 			'timesChecked' => 144,
-			'hasBans' => count($bans) > 0,
+			'hasBans', true,
 			'bans' => $bans,
 			'steamId64' => $steamId,
 			'steamIdText' => $steamIdText,
+			'hasLeagueExperience' => count($leagueExperiences) > 0,
 			'leagueExperiences' => $leagueExperiences,
 			'communityUrl' => 'http://steamcommunity.com/profiles/' . 76561197960327544,
 		];
@@ -46,11 +63,14 @@ class PlaygroundController extends Controller {
 		return View::make('steamid.display')->with($data);
 	}
 
-	public function getTestAlert()
+	public function getAlertTest()
 	{
 		Session::forget('alerts.success');
 
-		FlashHelper::append('alerts.success', 'This is just a test alert.');
+		FlashHelper::append('alerts.success', 'This is just a test success alert.');
+		FlashHelper::append('alerts.info', 'This is just a test info alert.');
+		FlashHelper::append('alerts.warning', 'This is just a test warning alert.');
+		FlashHelper::append('alerts.danger', 'This is just a test danger alert.');
 
 		return View::make('master');
 	}

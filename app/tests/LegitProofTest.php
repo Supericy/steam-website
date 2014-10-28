@@ -12,9 +12,9 @@
  */
 class LegitProofTest extends TestCase {
 
-	public function testGetLeagueExperience()
+	public function test_getLeagueExperience()
 	{
-		/** @var Icy\LegitProof\ILegitProof $legitproof */
+		/** @var Icy\LegitProof\ILegitProofService $legitproof */
 		$legitproof = $this->app->make('Icy\LegitProof\ILegitProof');
 
 		$this->assertInstanceOf('Icy\LegitProof\ILegitProof', $legitproof, 'App is not returning an instance of Icy\LegitProof\ILegitProof');

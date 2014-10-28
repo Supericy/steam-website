@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddDaysSinceLastBanColumn extends Migration {
@@ -12,7 +11,8 @@ class AddDaysSinceLastBanColumn extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('steamids', function ($table) {
+		Schema::table('steamids', function ($table)
+		{
 
 			$table->integer('days_since_last_ban')
 				->nullable()
@@ -28,7 +28,8 @@ class AddDaysSinceLastBanColumn extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('steamids', function ($table) {
+		Schema::table('steamids', function ($table)
+		{
 
 			$table->dropColumn('days_since_last_ban');
 

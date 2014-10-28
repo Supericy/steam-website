@@ -15,7 +15,7 @@ class BanListener extends \Eloquent {
 	 */
 	protected $table = 'ban_listeners';
 
-	protected $guarded = array('id');
+	protected $guarded = ['id'];
 
 	public function user()
 	{

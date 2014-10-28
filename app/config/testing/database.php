@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -18,43 +18,40 @@ return array(
 	|
 	*/
 
-    'profiler' => true,
+	'profiler' => true,
 
-	'connections' => array(
+	/*
+	|--------------------------------------------------------------------------
+	| Default Database Connection Name
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify which of the database connections below you wish
+	| to use as your default connection for all database work. Of course
+	| you may use many connections at once using the Database library.
+	|
+	*/
 
-//		'mysql' => array(
-//			'driver'    => 'mysql',
-//			'host'      => 'localhost',
-//			'database'  => 'homestead',
-//			'username'  => 'homestead',
-//			'password'  => 'secret',
-//			'charset'   => 'utf8',
-//			'collation' => 'utf8_unicode_ci',
-//			'prefix'    => '',
-//		),
+	'default' => 'mysql',
 
-		'mysql' => array(
-			'driver'    => 'mysql',
-			'host'      => '192.168.0.50',
-			'database'  => 'homestead',
-			'username'  => 'general',
-			'password'  => '',
-			'charset'   => 'utf8',
-			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
-		),
+	'connections' => [
 
-		'pgsql' => array(
-			'driver'   => 'pgsql',
-			'host'     => 'localhost',
+		'sqlite' => [
+			'driver' => 'sqlite',
+			'database' => ':memory:',
+			'prefix' => '',
+		],
+
+		'mysql' => [
+			'driver' => 'mysql',
+			'host' => '192.168.0.50',
 			'database' => 'homestead',
-			'username' => 'homestead',
-			'password' => 'secret',
-			'charset'  => 'utf8',
-			'prefix'   => '',
-			'schema'   => 'public',
-		),
+			'username' => 'general',
+			'password' => '',
+			'charset' => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix' => '',
+		],
 
-	),
+	],
 
-);
+];

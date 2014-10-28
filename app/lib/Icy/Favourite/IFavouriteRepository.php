@@ -23,9 +23,21 @@ interface IFavouriteRepository {
 	public function getByUserIdAndSteamIdId($userId, $steamIdId);
 
 	/**
+	 * @param $userId
+	 * @return mixed
+	 */
+	public function getAllByUserId($userId);
+
+	/**
 	 * @param array $values
 	 * @return Favourite
 	 */
 	public function firstOrCreate(array $values);
+
+	/**
+	 * @param Favourite
+	 * @return bool
+	 */
+	public function delete(Favourite $record);
 
 } 

@@ -1,82 +1,90 @@
 <?php
 
-use \Illuminate\Support\Str;
+use Icy\Authentication\IAuthenticationService;
+use Icy\User\IUserService;
 
 class RegisterController extends Controller {
 
-	const ACTIVATION_CODE_PATTERN = '[A-Za-z0-9]{16}';
+	/**
+	 * @var IUserService
+	 */
+	private $userService;
+	/**
+	 * @var IAuthenticationService
+	 */
+	private $auth;
 
-	private $userRepository;
-	private $activationManager;
-	private $activationCode;
-
-	public function __construct(Icy\User\IUserRepository $userRepository, Icy\User\IActivationManager $activationManager, Icy\User\IActivationCodeRepository $activationCode)
+	public function __construct(IUserService $userService, IAuthenticationService $auth)
 	{
-		$this->userRepository = $userRepository;
-		$this->activationManager = $activationManager;
-		$this->activationCode = $activationCode;
+		$this->beforeFilter('guest', ['only' => ['getRegister', 'postRegister']]);
+		$this->beforeFilter('csrf', ['only' => ['postRegister']]);
+
+		$this->userService = $userService;
+		$this->auth = $auth;
 	}
 
-    public function getRegister()
-    {
-        return View::make('register.prompt');
-    }
-
-    public function postRegister()
+	public function getRegister()
 	{
-		$rules = array(
+		return View::make('register.prompt');
+	}
+
+	public function postRegister()
+	{
+		// TODO: export validation to UserManager
+
+		$rules = [
 			'email' => 'required|email|unique:users,email',
 			'password' => 'required|confirmed|min:6'
-		);
+		];
 
 		$validator = Validator::make(Input::get(), $rules);
 
 		if ($validator->fails())
 		{
-			return Redirect::route('get.register')->withInput()->withErrors($validator);
+			return Redirect::route('get.register')
+				->withInput()
+				->withErrors($validator);
 		}
 
-		$userRecord = $this->userRepository->create(array(
-			'email' => Str::lower(Input::get('email')),
-			'password' => Hash::make(Input::get('password')),
-			'active' => false
-		));
 
-		$activationCodeRecord = $this->activationManager->createActivationCode($userRecord->id);
-		$this->activationManager->sendActivationEmail($userRecord->email, $activationCodeRecord->code);
+		$credentials = $this->userService->normalizeCredentials([
+			'email' => Input::get('email'),
 
-		FlashHelper::append('alerts.warn', 'Your account has been created, but needs to be verified.');
+			// UserManager will handle hashing the password
+			'password' => Input::get('password'),
+
+			'activated' => false,
+		]);
+
+		try
+		{
+			$userId = $this->userService->createAccount($credentials);
+
+			$this->auth->forceLoginUsingId($userId, true);
+
+			FlashHelper::append('alerts.warn', 'Your account has been created, but the email needs to be verified.');
+
+		} catch (Icy\User\UserException $e)
+		{
+			Log::error('Your account was not created successfully.', ['credentials' => $credentials, 'user_exception' => $e->getTrace()]);
+			App::abort(500, 'We were not able to create your account at this time.');
+		}
 
 		return View::make('register.success')
-			->with('email', $userRecord->email);
+			->with('email', $credentials['email']);
 	}
 
 	public function activate($code)
 	{
-		if (preg_match('/' . self::ACTIVATION_CODE_PATTERN . '/', $code))
-		{
-			$activationCodeRecord = $this->activationCode->getByCode($code);
+		if (!$this->userService->verifyActivationCodeFormat($code))
+			return App::abort(400, 'Malformed activation code.');
 
-			if ($activationCodeRecord)
-			{
-				if ($this->activationManager->activate($activationCodeRecord))
-				{
-					$userRecord = $activationCodeRecord->user()->first();
+		$activated = $this->userService->activateAccount($code);
 
-					Auth::login($userRecord);
+		// FIXME: if we redirect to '/', then this alert will be lost in the redirect to '/search'
+		FlashHelper::append('alerts.success', 'Your account has been activated.');
 
-					FlashHelper::append('alerts.success', 'Your account has been activated.');
-
-					return Redirect::intended('/');
-				}
-				else
-				{
-					return App::abort(403, 'Activation code could not be activated.');
-				}
-			}
-		}
-
-		return App::abort(500, 'Activation code not found.');
+		return Redirect::intended('/');
 	}
 
 }

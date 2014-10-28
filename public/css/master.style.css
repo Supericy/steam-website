@@ -155,7 +155,7 @@ tbody tr:last-of-type {
 
     color: #66afe9;
 
-    border: solid 2px transparent;
+    /*border: solid 2px transparent;*/
 }
 
 .profile-body {

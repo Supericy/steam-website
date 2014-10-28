@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ URL::action('home') }}">Laravel Project</a>
+            <a class="navbar-brand" href="{{ URL::action('home') }}">Steam Stats</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -19,6 +19,7 @@
 
 			@if (Auth::check())
 				{{ HTML::nav([
+					action('profile.favourites') => 'Favourites',
 					action('logout') => 'Logout'
 				], ['class' => 'nav navbar-nav navbar-right']) }}
 			@else

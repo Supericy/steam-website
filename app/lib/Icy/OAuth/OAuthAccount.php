@@ -10,7 +10,7 @@ class OAuthAccount extends \Eloquent {
 
 	protected $table = 'oauth_accounts';
 
-	protected $guarded = array('id');
+	protected $guarded = ['id'];
 
 	public function user()
 	{

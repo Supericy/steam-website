@@ -1,4 +1,5 @@
 <?php namespace Icy\LegitProof;
+
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -7,7 +8,6 @@ use Illuminate\Support\ServiceProvider;
  * Date: 10/6/2014
  * Time: 4:21 PM
  */
-
 class LegitProofServiceProvider extends ServiceProvider {
 
 	/**
@@ -17,12 +17,14 @@ class LegitProofServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('Icy\LegitProof\ILeagueExperienceRepository', function ($app) {
+		$this->app->bind('Icy\LegitProof\ILeagueExperienceRepository', function ($app)
+		{
 			return $app->make('Icy\LegitProof\LeagueExperienceRepository');
 		});
 
-		$this->app->bind('Icy\LegitProof\ILegitProof', function ($app) {
-			return $app->make('Icy\LegitProof\LegitProof');
+		$this->app->bind('Icy\LegitProof\ILegitProofService', function ($app)
+		{
+			return $app->make('Icy\LegitProof\LegitProofService');
 		});
 	}
 
