@@ -22,9 +22,9 @@ class LegitProofServiceProvider extends ServiceProvider {
 			return $app->make('Icy\LegitProof\LeagueExperienceRepository');
 		});
 
-		$this->app->bind('Icy\LegitProof\ILegitProof', function ($app)
+		$this->app->bind('Icy\LegitProof\ILegitProofService', function ($app)
 		{
-			return $app->make('Icy\LegitProof\LegitProof');
+			return $app->make('Icy\LegitProof\LegitProofService');
 		});
 	}
 

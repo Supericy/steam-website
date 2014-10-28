@@ -1,5 +1,6 @@
 <?php namespace Icy\Favourite;
 use Icy\BanNotification\IBanNotificationRepository;
+use Icy\Steam\ISteamService;
 
 /**
  * Created by PhpStorm.
@@ -12,16 +13,48 @@ class FavouriteService implements IFavouriteService {
 
 	private $favouriteRepository;
 	private $banNotificationRepository;
+	/**
+	 * @var ISteamService
+	 */
+	private $steamService;
 
-	public function __construct(IFavouriteRepository $favouriteRepository, IBanNotificationRepository $banNotificationRepository)
+	public function __construct(IFavouriteRepository $favouriteRepository, IBanNotificationRepository $banNotificationRepository, ISteamService $steamService)
 	{
 		$this->favouriteRepository = $favouriteRepository;
 		$this->banNotificationRepository = $banNotificationRepository;
+		$this->steamService = $steamService;
 	}
 
-	public function getAllFavourites($userId)
+	public function getAllFavourites($userId, $getProfileData = true)
 	{
-		return $this->favouriteRepository->getAllByUserId($userId);
+		$favourites = $this->favouriteRepository->getAllByUserId($userId);
+
+		if ($getProfileData)
+		{
+			$steamIds = array_map(function ($favourite)
+			{
+				return $favourite->steamid;
+			}, $favourites);
+
+			$profiles = $this->steamService->getPlayerProfile($steamIds);
+
+			// getPlayerProfile returns a single result if there is only 1 steamId, so lets make it into an array
+			if (!is_array($profiles))
+			{
+				$profile = $profiles;
+
+				$profiles = [
+					$profile->getSteamId() => $profile,
+				];
+			}
+
+			foreach ($favourites as &$favourite)
+			{
+				$favourite->profile = $profiles[$favourite->steamid];
+			}
+		}
+
+		return $favourites;
 	}
 
 	public function favourite($userId, $steamIdId)

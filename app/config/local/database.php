@@ -18,7 +18,7 @@ return [
 	|
 	*/
 
-	'profiler' => true,
+	'profiler' => false,
 
 	'connections' => [
 

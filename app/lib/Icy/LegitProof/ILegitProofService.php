@@ -14,7 +14,7 @@ namespace Icy\LegitProof;
  * Date: 10/6/2014
  * Time: 4:21 PM
  */
-interface ILegitProof {
+interface ILegitProofService {
 
 	/**
 	 * @param string $steamIdText

@@ -7,7 +7,7 @@ class LeagueExperienceService implements ILeagueExperienceService {
 	private $leagueExperienceRepository;
 	private $steamIdRepository;
 
-	public function __construct(LegitProof\ILegitProof $legitProof, Steam\ISteamService $steam, LegitProof\ILeagueExperienceRepository $leagueExperienceRepository, Steam\ISteamIdRepository $steamIdRepository)
+	public function __construct(LegitProof\ILegitProofService $legitProof, Steam\ISteamService $steam, LegitProof\ILeagueExperienceRepository $leagueExperienceRepository, Steam\ISteamIdRepository $steamIdRepository)
 	{
 		$this->legitProof = $legitProof;
 		$this->steam = $steam;
@@ -20,6 +20,9 @@ class LeagueExperienceService implements ILeagueExperienceService {
 		$steamIdText = $this->steam->convert64ToText($steamId);
 
 		$lpLeagueExperiences = $this->legitProof->getLeagueExperience($steamIdText);
+
+		if ($lpLeagueExperiences === false)
+			return false;
 
 		$leagueExperiences = [];
 
@@ -57,11 +60,20 @@ class LeagueExperienceService implements ILeagueExperienceService {
 			{
 				/*
 				 * Update our league experience and then set our steamid as updated
+				 *
+				 * This will return false if we couldn't connect to legit-proof
 				 */
 				$results = $this->updateLeagueExperiences($steamId);
 
-				$steamIdRecord->setLegitProofed(true);
-				$this->steamIdRepository->save($steamIdRecord);
+				if ($results !== false)
+				{
+					$steamIdRecord->setLegitProofed(true);
+					$this->steamIdRepository->save($steamIdRecord);
+				}
+
+				// we didn't get any results, so lets just return an empty array for now
+				if ($results === false)
+					$results = [];
 			} else
 			{
 				$results = $this->leagueExperienceRepository->getAllBySteamId($steamId);

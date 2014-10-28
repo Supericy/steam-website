@@ -1,18 +1,26 @@
 <?php
 
+use Icy\Authentication\IAuthenticationService;
+use Icy\User\IUserService;
+
 class RegisterController extends Controller {
 
 	/**
-	 * @var \Icy\User\IUserService
+	 * @var IUserService
 	 */
 	private $userService;
+	/**
+	 * @var IAuthenticationService
+	 */
+	private $auth;
 
-	public function __construct(Icy\User\IUserService $userService)
+	public function __construct(IUserService $userService, IAuthenticationService $auth)
 	{
-		$this->userService = $userService;
-
 		$this->beforeFilter('guest', ['only' => ['getRegister', 'postRegister']]);
 		$this->beforeFilter('csrf', ['only' => ['postRegister']]);
+
+		$this->userService = $userService;
+		$this->auth = $auth;
 	}
 
 	public function getRegister()
@@ -50,11 +58,12 @@ class RegisterController extends Controller {
 
 		try
 		{
-			$this->userService->createAccount($credentials);
+			$userId = $this->userService->createAccount($credentials);
+
+			$this->auth->forceLoginUsingId($userId, true);
 
 			FlashHelper::append('alerts.warn', 'Your account has been created, but the email needs to be verified.');
 
-			Auth::attempt($credentials, true);
 		} catch (Icy\User\UserException $e)
 		{
 			Log::error('Your account was not created successfully.', ['credentials' => $credentials, 'user_exception' => $e->getTrace()]);

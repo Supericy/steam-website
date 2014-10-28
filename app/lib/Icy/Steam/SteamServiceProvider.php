@@ -1,5 +1,8 @@
 <?php namespace Icy\Steam;
 
+use Icy\Common\DebugbarProfiler;
+use Icy\Steam\Web\SteamWebAPI;
+
 class SteamServiceProvider extends \Illuminate\Support\ServiceProvider {
 
 	/**
@@ -9,10 +12,13 @@ class SteamServiceProvider extends \Illuminate\Support\ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('Icy\Steam\Web\ISteamWebAPI', function ($app)
+		$this->app->bindShared('Icy\Steam\Web\ISteamWebAPI', function ($app)
 		{
+			/** @var SteamWebAPI $api */
 			$api = $app->make('Icy\Steam\Web\SteamWebAPI');
 			$api->setApiKey($app['config']['steam.api_key']);
+
+			$api->setProfiler(new DebugbarProfiler($app['debugbar']));
 
 			return $api;
 		});

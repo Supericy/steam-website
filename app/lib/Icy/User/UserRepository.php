@@ -93,6 +93,13 @@ class UserRepository implements IUserRepository {
 		return $this->model->where('email', $email)->first();
 	}
 
+	public function getIdByProviderNameAndAccountId($providerName, $accountId)
+	{
+		$record = $this->getByProviderNameAndAccountId($providerName, $accountId);
+
+		return $record ? $record->id() : false;
+	}
+
 	public function getByProviderNameAndAccountId($providerName, $accountId)
 	{
 		return $this->model->whereHas('oauthProviders', function ($q) use ($providerName, $accountId)

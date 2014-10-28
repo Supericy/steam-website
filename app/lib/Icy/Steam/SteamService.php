@@ -186,9 +186,9 @@ class SteamService implements ISteamService {
 				$profile->setMediumAvatarUrl($player->avatarmedium);
 				$profile->setFullAvatarUrl($player->avatarfull);
 				$profile->setPersonaState(new PersonaState($player->personastate));
-				$profile->setPrimaryClanId($player->primaryclanid);
-				$profile->setTimeCreated($player->timecreated);
-				$profile->setPersonaStateFlags($player->personastateflags);
+//				$profile->setPrimaryClanId($player->primaryclanid);
+//				$profile->setTimeCreated($player->timecreated);
+//				$profile->setPersonaStateFlags($player->personastateflags);
 				return $profile;
 			});
 		}

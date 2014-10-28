@@ -56,13 +56,14 @@ class IcyServiceProvider extends ServiceProvider {
 			'Icy\OAuth\OAuthServiceProvider',
 			'Icy\LegitProof\LegitProofServiceProvider',
 			'Icy\Favourite\FavouriteServiceProvider',
+			'Icy\Authentication\AuthenticationServiceProvider',
 		];
 
 		foreach ($providers as $provider)
 			$this->app->register($provider);
 
 		/*
-		 * Bind Managers
+		 * Bind Services that don't have a provider yet
 		 */
 
 		$this->app->bind('Icy\IBanService', function ($app)

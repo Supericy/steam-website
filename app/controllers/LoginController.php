@@ -1,4 +1,8 @@
 <?php
+use Icy\Authentication\AuthenticationException;
+use Icy\Authentication\IAuthenticationService;
+use Icy\User\IUserService;
+use Illuminate\Routing\Controller;
 
 /**
  * Created by PhpStorm.
@@ -9,22 +13,22 @@
 class LoginController extends Controller {
 
 	/**
-	 * @var \Icy\User\IUserService
+	 * @var IAuthenticationService
 	 */
-	private $userManager;
+	private $auth;
 
-	public function __construct(Icy\User\IUserService $userManager)
+	public function __construct(IAuthenticationService $auth)
 	{
-		$this->userManager = $userManager;
-
 		$this->beforeFilter('guest', ['only' => ['getLogin', 'postLogin']]);
 		$this->beforeFilter('csrf', ['only' => ['postLogin']]);
 		$this->beforeFilter('auth', ['only' => ['logout']]);
+
+		$this->auth = $auth;
 	}
 
 	public function logout()
 	{
-		Auth::logout();
+		$this->auth->logout();
 
 		FlashHelper::append('alerts.success', 'You have been logged out.');
 
@@ -41,8 +45,6 @@ class LoginController extends Controller {
 
 	public function postLogin()
 	{
-		// TODO: export validation to our UserManager class
-
 		$rules = [
 			'email' => 'required|email',
 			'password' => 'required'
@@ -57,28 +59,31 @@ class LoginController extends Controller {
 				->withErrors($validator);
 		}
 
-		$credentials = $this->userManager->normalizeCredentials([
+		$credentials = [
 			'email' => Input::get('email'),
 
 			// note that we don't hash the password when using Auth::attempt()
 			'password' => Input::get('password')
-		]);
+		];
 
-		if (Auth::attempt($credentials, true))
+		try
 		{
+			$this->auth->login($credentials, true);
+
 			FlashHelper::append('alerts.success', 'You have been logged in.');
 
 			// TODO: prompt with activation alert if their email/account needs activation
-
-			return Redirect::intended('/');
-		} else
+		}
+		catch (AuthenticationException $e)
 		{
 			return Redirect::route('get.login')
 				->withInput()
 				->withErrors([
-					'login' => ['Incorrect e-mail or password.']
+					'login' => [$e->getMessage()]
 				]);
 		}
+
+		return Redirect::intended('/');
 	}
 
 } 

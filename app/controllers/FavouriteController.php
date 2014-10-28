@@ -1,4 +1,5 @@
 <?php
+use Icy\Authentication\IAuthenticationService;
 use Icy\Favourite\IFavouriteService;
 use Icy\IBanService;
 use Icy\Steam\ISteamService;
@@ -14,40 +15,45 @@ class FavouriteController extends Controller {
 	/**
 	 * @var \Icy\IBanService
 	 */
-	private $banManager;
+	private $banService;
 	/**
 	 * @var \Icy\IFavouriteService
 	 */
-	private $favouriteManager;
+	private $favouriteService;
 	/**
 	 * @var \Icy\Steam\ISteamService
 	 */
 	private $steam;
+	/**
+	 * @var IAuthenticationService
+	 */
+	private $auth;
 
-	public function __construct(IBanService $banManager, IFavouriteService $favouriteManager, ISteamService $steam)
+	public function __construct(IBanService $banService, IFavouriteService $favouriteService, ISteamService $steam, IAuthenticationService $auth)
 	{
-		$this->banManager = $banManager;
-		$this->favouriteManager = $favouriteManager;
-		$this->steam = $steam;
-
 		// user must be logged in to follow
 		$this->beforeFilter('auth');
+
+		$this->banService = $banService;
+		$this->favouriteService = $favouriteService;
+		$this->steam = $steam;
+
+		$this->auth = $auth;
 	}
 
 	public function favourite($potentialId)
 	{
 		$steamId = $this->steam->resolveId($potentialId);
-
 		if ($steamId === false)
 			return App::abort(404);
 
-		$userId = Auth::user()->id;
+		$userId = $this->auth->userId();
 
-		$steamIdRecord = $this->banManager->fetchAndUpdate($steamId);
+		$steamIdRecord = $this->banService->fetchAndUpdate($steamId);
 
 		// FIXME: We need to make sure the user has activated their account/email before they can follow anyone
 
-		$this->favouriteManager->favourite($userId, $steamIdRecord->id);
+		$this->favouriteService->favourite($userId, $steamIdRecord->id);
 
 		FlashHelper::append('alerts.success', 'You are now following ' . $steamIdRecord->steamid);
 
@@ -61,11 +67,11 @@ class FavouriteController extends Controller {
 		if ($steamId === false)
 			return App::abort(404);
 
-		$userId = Auth::user()->id;
+		$userId = $this->auth->userId();
 
-		$steamIdRecord = $this->banManager->fetchAndUpdate($steamId);
+		$steamIdRecord = $this->banService->fetchAndUpdate($steamId);
 
-		$this->favouriteManager->unfavourite($userId, $steamIdRecord->id);
+		$this->favouriteService->unfavourite($userId, $steamIdRecord->id);
 
 		FlashHelper::append('alerts.success', 'You have unfollowed ' . $steamIdRecord->steamid);
 

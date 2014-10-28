@@ -1,18 +1,18 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Chad
- * Date: 10/26/2014
- * Time: 3:50 PM
- */
-namespace Icy\OAuth;
+<?php namespace Icy\OAuth;
+use Icy\User\User;
 
 interface IOAuthService {
 
-	public function attemptLogin($providerName, $accountId, $remember = true);
+	/**
+	 * @param $providerName
+	 * @param $accountId
+	 * @param bool $remember
+	 * @return User
+	 */
+	public function login($providerName, $accountId, $remember = true);
 
 	// TODO: remove dependency on EloquentUser record
-	public function getLoginMethods(\Icy\User\User $userRecord);
+	public function getLoginMethods(User $userRecord);
 
 	public function getLoginMethodsByEmail($email);
 

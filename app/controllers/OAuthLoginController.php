@@ -1,4 +1,5 @@
 <?php
+use Icy\Authentication\AuthenticationService;
 use Icy\OAuth\IOAuthService;
 use Icy\User\IUserService;
 
@@ -17,11 +18,13 @@ class OAuthLoginController extends Controller {
 		'google' => 'Google'
 	];
 
+	private $auth;
 	private $userService;
 	private $oauthService;
 
-	public function __construct(IUserService $userService, IOAuthService $oauthService)
+	public function __construct(AuthenticationService $auth, IUserService $userService, IOAuthService $oauthService)
 	{
+		$this->auth = $auth;
 		$this->userService = $userService;
 		$this->oauthService = $oauthService;
 
@@ -88,17 +91,7 @@ class OAuthLoginController extends Controller {
 			'isEmailVerified' => $result->verified_email,
 		];
 
-//		if ($needsVerification)
-//		{
-//			// TODO: if their email hasn't been verified with the provider, we'll send them an e-mail to verify it. Set the account to NOT ACTIVE until they verify it
-//
-//			// users email has not been verified
-//			FlashHelper::append('alerts.danger', sprintf('Your e-mail address (%s) has not been verified with Google, please verify it with them before attempting to login.', $accountDetails['email']));
-//			return Redirect::action('get.login');
-//		}
-
-
-		if (!$this->oauthService->attemptLogin($providerName, $accountDetails['accountId'], true))
+		if (!$this->auth->oauthLogin($providerName, $accountDetails['accountId'], true))
 		{
 			$loginMethods = $this->oauthService->getLoginMethodsByEmail($accountDetails['email']);
 
@@ -122,7 +115,9 @@ class OAuthLoginController extends Controller {
 				// user does not have any way to log in, so let's create an account/loginMethod for them
 				$this->oauthService->createOAuthAccount($userId, $providerName, $accountDetails['accountId']);
 
-				Auth::loginUsingId($userId, true);
+//				Auth::loginUsingId($userId, true);
+
+				$this->auth->forceLoginUsingId($userId);
 			}
 		}
 

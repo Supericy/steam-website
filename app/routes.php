@@ -33,12 +33,12 @@ Route::get('/', [function ()
 
 
 Route::get('/profile', [
-	'uses' => 'UserController@profile',
+	'uses' => 'ProfileController@profile',
 	'as' => 'profile'
 ]);
 
 Route::get('/profile/favourites', [
-	'uses' => 'UserController@favourites',
+	'uses' => 'ProfileController@favourites',
 	'as' => 'profile.favourites',
 ]);
 

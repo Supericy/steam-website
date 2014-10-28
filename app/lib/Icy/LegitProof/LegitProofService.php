@@ -1,4 +1,6 @@
 <?php namespace Icy\LegitProof;
+use Goutte\Client;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -6,7 +8,7 @@
  * Time: 4:21 PM
  */
 
-class LegitProof implements ILegitProof {
+class LegitProofService implements ILegitProofService {
 
 	private $endpoints = [
 		'Search' => 'http://www.legit-proof.com/search/'
@@ -15,7 +17,7 @@ class LegitProof implements ILegitProof {
 	private $client;
 	private $leagueExperienceRepository;
 
-	public function __construct(\Goutte\Client $client, ILeagueExperienceRepository $leagueExperienceRepository)
+	public function __construct(Client $client, ILeagueExperienceRepository $leagueExperienceRepository)
 	{
 		$this->client = $client;
 		$this->leagueExperienceRepository = $leagueExperienceRepository;
@@ -30,6 +32,14 @@ class LegitProof implements ILegitProof {
 	{
 		/** @var \Symfony\Component\DomCrawler\Crawler $crawler */
 		$crawler = $this->client->request('GET', $this->createSearchEndpoint($steamIdText));
+
+		/** @var \Symfony\Component\BrowserKit\Response $response */
+		$response = $this->client->getResponse();
+
+		if ($response->getStatus() !== 200)
+		{
+			return false;
+		}
 
 		$lpLeagueExperiences = [];
 

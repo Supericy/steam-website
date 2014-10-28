@@ -1,4 +1,6 @@
 <?php namespace Icy\Steam\Web;
+use GuzzleHttp\ClientInterface;
+use Icy\Common\MeasurableTrait;
 
 /**
  * Created by PhpStorm.
@@ -8,6 +10,8 @@
  */
 
 class SteamWebAPI implements ISteamWebAPI {
+
+	use MeasurableTrait;
 
 	private $client;
 	private $apiKey;
@@ -21,7 +25,7 @@ class SteamWebAPI implements ISteamWebAPI {
 
 	private $jsonResponseDecoding;
 
-	public function __construct(\GuzzleHttp\ClientInterface $client)
+	public function __construct(ClientInterface $client)
 	{
 		$this->client = $client;
 		$this->jsonResponseDecoding = true;
@@ -83,40 +87,9 @@ class SteamWebAPI implements ISteamWebAPI {
 
 	private function call($endpoint, $params = [])
 	{
+		$this->startMeasure('steam', 'SteamWebAPI');
+
 		$url = $endpoint . '?' . http_build_query(array_merge(['key' => $this->apiKey], $params));
-
-//		$ch = curl_init();
-//		curl_setopt($ch, CURLOPT_URL, $url);
-//		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-//
-//		if (($erno = curl_error($ch)) > 0)
-//		{
-//			$reason = sprintf('An error (erno:%d) occured while trying to curl: %s', $erno, $endpoint);
-//
-//			// more accurate error message
-//			if ($erno === CURLE_OPERATION_TIMEOUTED)
-//				$reason = 'Steam Web API Timed Out.';
-//
-//			throw new Exception($reason);
-//		}
-//		if (curl_error($ch) === CURLE_OPERATION_TIMEOUTED)
-//		{
-//			throw new Exception('Steam API timed out.');
-//		}
-//
-//		$jsonResponse = curl_exec($ch);
-//
-//		$response = false;
-//
-//		if ($jsonResponse !== false)
-//		{
-//			if ($this->jsonResponseDecoding)
-//			{
-//				$response = json_decode($jsonResponse);
-//			}
-//		}
-
 
 		$response = $this->client->get($url);
 
@@ -126,6 +99,8 @@ class SteamWebAPI implements ISteamWebAPI {
 		{
 			$result = $response->json(['object' => true]);
 		}
+
+		$this->stopMeasure('steam');
 
 		return $result;
 	}

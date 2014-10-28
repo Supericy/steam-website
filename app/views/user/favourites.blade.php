@@ -4,6 +4,7 @@
 
 <div class="jumbotron">
     <div class="container">
+		<h1>Favourites:</h1>
 
         <div class="panel panel-primary panel-shadow">
             <div class="panel-heading medium-pad">
@@ -11,7 +12,8 @@
                     <thead>
                         <tr>
                             <th>Steam ID</th>
-                            <th>Following</th>
+                            <th>Steam ID</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -23,8 +25,11 @@
                     <tbody>
                         @foreach ($favourites as $favourite)
 							<tr>
+								<td><img src="{{ $favourite->profile->getAvatarUrl() }}" alt="" /> {{ $favourite->profile->getAlias() }}</td>
 								<td>{{ $favourite->steamid }}</td>
-								<td>@include('steamid.follow', ['steamId' => $favourite->steamid, 'isFollowing' => true])</td>
+								<td>
+									<div  class="pull-right">@include('steamid.follow', ['steamId' => $favourite->steamid, 'isFollowing' => true])</div>
+								</td>
 							</tr>
 						@endforeach
                     </tbody>

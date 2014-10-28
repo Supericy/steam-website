@@ -3,7 +3,7 @@
 use Icy\Favourite\IFavouriteService;
 use Icy\User\IUserService;
 
-class UserController extends Controller {
+class ProfileController extends Controller {
 
 	/**
 	 * @var IUserService
@@ -32,7 +32,7 @@ class UserController extends Controller {
 		// TODO: place authentication in our own service and remove dependency on eloquent
 		$userId = Auth::id();
 
-		$favourites = $this->favouriteService->getAllFavourites($userId);
+		$favourites = $this->favouriteService->getAllFavourites($userId, true);
 
 		return View::make('user.favourites')
 			->withFavourites($favourites);

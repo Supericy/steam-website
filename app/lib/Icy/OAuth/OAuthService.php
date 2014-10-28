@@ -8,6 +8,9 @@
 namespace Icy\OAuth;
 
 
+use Icy\User\IUserRepository;
+use Illuminate\Auth\AuthManager;
+
 class OAuthService implements IOAuthService {
 
 	public static $LOGIN_METHODS = [
@@ -16,21 +19,21 @@ class OAuthService implements IOAuthService {
 	];
 
 	private $auth;
-	private $user;
-	private $oauthAccount;
-	private $oauthProvider;
+	private $userRepository;
+	private $oauthAccountRepository;
+	private $oauthProviderRepository;
 
-	public function __construct(\Illuminate\Auth\AuthManager $auth, \Icy\User\IUserRepository $user, IOAuthAccountRepository $oauthAccount, IOAuthProviderRepository $oauthProvider)
+	public function __construct(AuthManager $auth, IUserRepository $userRepository, IOAuthAccountRepository $oauthAccountRepository, IOAuthProviderRepository $oauthProviderRepository)
 	{
 		$this->auth = $auth;
-		$this->user = $user;
-		$this->oauthAccount = $oauthAccount;
-		$this->oauthProvider = $oauthProvider;
+		$this->userRepository = $userRepository;
+		$this->oauthAccountRepository = $oauthAccountRepository;
+		$this->oauthProviderRepository = $oauthProviderRepository;
 	}
 
-	public function attemptLogin($providerName, $accountId, $remember = true)
+	public function login($providerName, $accountId, $remember = true)
 	{
-		if ($userRecord = $this->user->getByProviderNameAndAccountId($providerName, $accountId))
+		if ($userRecord = $this->userRepository->getByProviderNameAndAccountId($providerName, $accountId))
 		{
 			$this->auth->login($userRecord, $remember);
 
@@ -62,11 +65,11 @@ class OAuthService implements IOAuthService {
 
 	public function getLoginMethodsByEmail($email)
 	{
-		$email = $this->user->normalize(['email' => $email])['email'];
+		$email = $this->userRepository->normalize(['email' => $email])['email'];
 
 		$loginMethods = [];
 
-		if ($userRecord = $this->user->getByEmail($email))
+		if ($userRecord = $this->userRepository->getByEmail($email))
 		{
 			$loginMethods = $this->getLoginMethods($userRecord);
 		}
@@ -76,9 +79,9 @@ class OAuthService implements IOAuthService {
 
 	public function createOAuthAccount($userId, $providerName, $accountId)
 	{
-		$oauthProviderRecord = $this->oauthProvider->getByName($providerName);
+		$oauthProviderRecord = $this->oauthProviderRepository->getByName($providerName);
 
-		$oauthAccountRecord = $this->oauthAccount->create([
+		$oauthAccountRecord = $this->oauthAccountRepository->create([
 			'user_id' => $userId,
 			'provider_id' => $oauthProviderRecord->id,
 			'account_id' => $accountId
