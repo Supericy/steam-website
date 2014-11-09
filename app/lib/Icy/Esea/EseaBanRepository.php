@@ -1,11 +1,11 @@
-<?php
+<?php namespace Icy\Esea;
 /**
  * Created by PhpStorm.
  * User: Chad
  * Date: 10/1/2014
  * Time: 1:34 AM
  */
-namespace Icy\Esea;
+
 
 
 class EseaBanRepository implements IEseaBanRepository {
