@@ -14,7 +14,7 @@ return [
 	*/
 
 	'debug' => true,
-	'profiler' => true,
+	'profiler' => false,
 
 	'url' => 'http://homestead.app:8000',
 

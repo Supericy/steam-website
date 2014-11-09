@@ -109,12 +109,10 @@ require_once app_path() . '/helpers.php';
  */
 require_once app_path() . '/macros.php';
 
+
 /*
- * Validators
+ * Extend Auth to make use of our own UserProvider, mainly so we can make use of our cache
  */
-require_once app_path() . '/validators.php';
-
-
 Auth::extend(
 	'userRepository',
 	function ($app)

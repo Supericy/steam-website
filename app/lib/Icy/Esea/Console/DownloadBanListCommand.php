@@ -3,6 +3,7 @@
 use Icy\Esea\EseaBanStatus;
 use Icy\Esea\IEseaBanRepository;
 use Icy\IBanService;
+use Icy\Steam\ISteamIdRepository;
 use Icy\Steam\ISteamService;
 use Illuminate\Foundation\Application;
 use Illuminate\Log\Writer;
@@ -33,27 +34,35 @@ class DownloadBanListCommand extends \BaseCommand {
 	 * @var IBanService
 	 */
 	private $banService;
+	/**
+	 * @var ISteamIdRepository
+	 */
+	private $steamIdRepository;
 
 	/**
 	 * Create a new command instance.
-	 *
+	 * @param Application $app
+	 * @param Writer $log
+	 * @param ISteamService $steam
+	 * @param IBanService $banService
+	 * @param ISteamIdRepository $steamIdRepository
 	 */
 	public function __construct(
 		Application $app,
 		Writer $log,
-		IEseaBanRepository $ban,
 		ISteamService $steam,
-		IBanService $banService)
+		IBanService $banService,
+		ISteamIdRepository $steamIdRepository)
 	{
 		parent::__construct();
 
 		$this->app = $app;
 		$this->log = $log;
-		$this->ban = $ban;
 		$this->steam = $steam;
 
 		$this->enableLog = true;
 		$this->banService = $banService;
+		$this->steamIdRepository = $steamIdRepository;
 	}
 
 	/**
@@ -89,14 +98,11 @@ class DownloadBanListCommand extends \BaseCommand {
 			if (!$isFirst)
 			{
 				$steamIdText = trim($csv[0]);
+				$steamId = $this->steam->convertTextTo64($steamIdText);
 				$alias = $csv[1];
 				$lastname = $csv[2];
 				$firstname = $csv[3];
 				$timestamp = $this->dateToTimestamp($csv[4]);
-
-				$steamId = $this->steam->convertTextTo64($steamIdText);
-
-//				$steamIdRecord = $this->banService->fetchAndUpdate($steamId);
 
 				try
 				{
@@ -107,7 +113,7 @@ class DownloadBanListCommand extends \BaseCommand {
 							'alias' => $alias,
 							'lastname' => $lastname,
 							'firstname' => $firstname,
-							'timestamp' => $timestamp,
+							'timestamp' => $timestamp, // converted unix timestamp
 						];
 
 						$recordAdded = true;
@@ -117,15 +123,19 @@ class DownloadBanListCommand extends \BaseCommand {
 						$recordAdded = false;
 					}
 
-					// new value, add to db
-//					$eseaRecord = $this->ban->create();
-
-//					$this->banService->checkForEseaBans($steamIdRecord, new EseaBanStatus(true, $alias, $timestamp));
-
 					$this->info(sprintf('%16s %16s %16s %16s', $recordAdded ? 'added' : 'skip', $steamIdText, $alias, $timestamp), $recordAdded ? 'yellow' : 'green');
 
 					if (count($recordsToAdd) >= 50)
 					{
+						array_walk($recordsToAdd, function ($r)
+						{
+							$newBanStatus = new EseaBanStatus(true, $r['alias'], $r['timestamp']);
+
+							$steamIdRecord = $this->steamIdRepository->getBySteamId($r['steamid']);
+
+							$this->banService->checkForEseaBans($steamIdRecord, $newBanStatus);
+						});
+
 						$added += count($recordsToAdd);
 						foreach ($recordsToAdd as $r)
 							$inserted[$r['steamid'] . "_" . $r['timestamp']] = true;
@@ -137,7 +147,6 @@ class DownloadBanListCommand extends \BaseCommand {
 				catch (\Exception $e)
 				{
 					$this->line($e->getMessage(), 'black-red');
-					// $this->csvFinished(true);
 				}
 			}
 

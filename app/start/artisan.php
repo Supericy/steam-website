@@ -16,4 +16,3 @@ Artisan::resolve('SendNotificationEmailsCommand');
 Artisan::resolve('Icy\LegitProof\Console\LegitProofCrawlerCommand');
 Artisan::resolve('Icy\Steam\Console\UpdateVacBansCommand');
 Artisan::resolve('Icy\Esea\Console\DownloadBanListCommand');
-Artisan::resolve('Icy\Esea\Console\ConvertSteamIdFromTextTo64Command');
