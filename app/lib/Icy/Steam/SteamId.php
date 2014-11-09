@@ -15,10 +15,7 @@ class SteamId extends \Eloquent {
 
 	protected $guarded = ['id'];
 
-	public function banListeners()
-	{
-		return $this->hasMany('Icy\BanListener\BanListener', 'steamid_id');
-	}
+	protected $with = ['eseaBan'];
 
 	public function banDetections()
 	{

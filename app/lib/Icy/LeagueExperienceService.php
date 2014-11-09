@@ -37,8 +37,8 @@ class LeagueExperienceService implements ILeagueExperienceService {
 				'team' => $exp->getTeam(),
 				'league' => $exp->getLeague(),
 				'division' => $exp->getDivision(),
-				'join' => $this->createTimestampFromDate($exp->getJoin()),
-				'leave' => $this->createTimestampFromDate($exp->getLeave())
+				'join' => $exp->getJoinTimestamp(),
+				'leave' => $exp->getLeaveTimestamp()
 			]);
 		}
 
@@ -47,41 +47,46 @@ class LeagueExperienceService implements ILeagueExperienceService {
 
 	public function getLeagueExperiences($steamId, $forceUpdate = false)
 	{
-		$results = [];
-
-		if ($forceUpdate)
-		{
-			$results = $this->updateLeagueExperiences($steamId);
-		} else
-		{
-			$steamIdRecord = $this->getModel($steamId);
-
-			if (!$steamIdRecord->isLegitProofed())
-			{
-				/*
-				 * Update our league experience and then set our steamid as updated
-				 *
-				 * This will return false if we couldn't connect to legit-proof
-				 */
-				$results = $this->updateLeagueExperiences($steamId);
-
-				if ($results !== false)
-				{
-					$steamIdRecord->setLegitProofed(true);
-					$this->steamIdRepository->save($steamIdRecord);
-				}
-
-				// we didn't get any results, so lets just return an empty array for now
-				if ($results === false)
-					$results = [];
-			} else
-			{
-				$results = $this->leagueExperienceRepository->getAllBySteamId($steamId);
-			}
-		}
-
-		return $results;
+		return $this->leagueExperienceRepository->getAllBySteamId($steamId);
 	}
+
+//	public function getLeagueExperiences($steamId, $forceUpdate = false)
+//	{
+//		$results = [];
+//
+//		if ($forceUpdate)
+//		{
+//			$results = $this->updateLeagueExperiences($steamId);
+//		} else
+//		{
+//			$steamIdRecord = $this->getModel($steamId);
+//
+//			if (!$steamIdRecord->isLegitProofed())
+//			{
+//				/*
+//				 * Update our league experience and then set our steamid as updated
+//				 *
+//				 * This will return false if we couldn't connect to legit-proof
+//				 */
+//				$results = $this->updateLeagueExperiences($steamId);
+//
+//				if ($results !== false)
+//				{
+//					$steamIdRecord->setLegitProofed(true);
+//					$this->steamIdRepository->save($steamIdRecord);
+//				}
+//
+//				// we didn't get any results, so lets just return an empty array for now
+//				if ($results === false)
+//					$results = [];
+//			} else
+//			{
+//				$results = $this->leagueExperienceRepository->getAllBySteamId($steamId);
+//			}
+//		}
+//
+//		return $results;
+//	}
 
 	/**
 	 * @param string|Steam\SteamId $steamId
@@ -95,27 +100,6 @@ class LeagueExperienceService implements ILeagueExperienceService {
 			return $this->steamIdRepository->getBySteamId($steamId);
 	}
 
-	/**
-	 * @param $date
-	 * @return int|null
-	 */
-	private function createTimestampFromDate($date)
-	{
-		if ($date === LegitProof\LegitProofLeagueExperience::UNKNOWN_DATE)
-			return null;
 
-		$parsed = date_parse($date);
-
-		$timestamp = mktime(
-			$parsed['hour'],
-			$parsed['minute'],
-			$parsed['second'],
-			$parsed['month'],
-			$parsed['day'],
-			$parsed['year']
-		);
-
-		return $timestamp;
-	}
 
 } 

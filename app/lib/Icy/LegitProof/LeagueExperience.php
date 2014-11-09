@@ -8,7 +8,9 @@
 
 class LeagueExperience extends \Eloquent {
 
-	protected $table = 'league_experiences';
+	protected $table = 'legitproof_crawl';
+
+	public $timestamps = false;
 
 	protected $guarded = ['id'];
 

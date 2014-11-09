@@ -12,7 +12,7 @@ class SteamServiceProvider extends \Illuminate\Support\ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bindShared('Icy\Steam\Web\ISteamWebAPI', function ($app)
+		$this->app->singleton('Icy\Steam\Web\ISteamWebAPI', function ($app)
 		{
 			/** @var SteamWebAPI $api */
 			$api = $app->make('Icy\Steam\Web\SteamWebAPI');
@@ -23,7 +23,7 @@ class SteamServiceProvider extends \Illuminate\Support\ServiceProvider {
 			return $api;
 		});
 
-		$this->app->bind('Icy\Steam\ISteamService', function ($app)
+		$this->app->singleton('Icy\Steam\ISteamService', function ($app)
 		{
 			$steamService = $app->make('Icy\Steam\SteamService');
 			$steamService->setBaseCommunityUrl($app['config']['steam']['base_community_url']);
@@ -31,9 +31,9 @@ class SteamServiceProvider extends \Illuminate\Support\ServiceProvider {
 			return $steamService;
 		});
 
-		$this->app->bind('Icy\Steam\ISteamIdRepository', function ($app)
+		$this->app->singleton('Icy\Steam\ISteamIdRepository', function ($app)
 		{
-			return $app->make('Icy\Steam\SteamIdRepository');
+			return new CachedSteamIdRepository($app->make('cache'), $app->make('Icy\Steam\SteamIdRepository'));
 		});
 	}
 

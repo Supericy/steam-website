@@ -1,4 +1,6 @@
 <?php namespace Icy\Favourite;
+use Illuminate\Support\Collection;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -9,35 +11,37 @@
 interface IFavouriteRepository {
 
 	/**
-	 * @param int $userId
-	 * @param int $steamIdId
-	 * @return bool
-	 */
-	public function isFavourited($userId, $steamIdId);
-
-	/**
-	 * @param int $userId
-	 * @param int $steamIdId
+	 * @param $userId
+	 * @param $steamIdId
 	 * @return Favourite
 	 */
 	public function getByUserIdAndSteamIdId($userId, $steamIdId);
 
 	/**
 	 * @param $userId
-	 * @return mixed
+	 * @return Collection
 	 */
 	public function getAllByUserId($userId);
 
 	/**
-	 * @param array $values
-	 * @return Favourite
-	 */
-	public function firstOrCreate(array $values);
-
-	/**
-	 * @param Favourite
+	 * @param $userId
+	 * @param $steamIdId
 	 * @return bool
 	 */
-	public function delete(Favourite $record);
+	public function favourite($userId, $steamIdId);
+
+	/**
+	 * @param $userId
+	 * @param $steamIdId
+	 * @return bool
+	 */
+	public function unfavourite($userId, $steamIdId);
+
+	/**
+	 * @param int $userId
+	 * @param int $steamIdId
+	 * @return bool
+	 */
+	public function isFavourited($userId, $steamIdId);
 
 } 

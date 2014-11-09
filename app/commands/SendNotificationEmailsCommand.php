@@ -40,43 +40,7 @@ class SendNotificationEmailsCommand extends Command {
 	{
 //		DB::disableQueryLog();
 
-		Icy\Steam\SteamId::where('changed', '=', 1)->with('banListeners')->chunk(100, function ($steamIdRecords)
-		{
 
-			foreach ($steamIdRecords as $steamIdRecord)
-			{
-				$this->logInfo($steamIdRecord);
-				$this->info($steamIdRecord->steamid . ' has changed');
-
-				$banListenerRecords = $steamIdRecord->banListeners;
-
-				foreach ($banListenerRecords as $banListenerRecord)
-				{
-					$user = $banListenerRecord->user;
-
-					if ($user)
-					{
-						$this->logInfo('Sending notification to ' . $user->username . ' regarding ' . $steamIdRecord->steamid);
-						$this->info('Sending notification to ' . $user->username . ' regarding ' . $steamIdRecord->steamid);
-
-						$data = [
-							'steamId' => $steamIdRecord->steamid
-						];
-
-						Mail::send('emails.ban-notification', $data, function ($message) use ($user)
-						{
-							$message
-								->to($user->email, $user->username)
-								->subject('A user you\'re tracking has been VAC banned');
-						});
-					}
-				}
-
-				$steamIdRecord->changed = false;
-				$steamIdRecord->save();
-			}
-
-		});
 	}
 
 	public function logInfo($string)

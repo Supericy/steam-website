@@ -7,6 +7,8 @@
  * Time: 6:48 PM
  */
 
+use Illuminate\Auth\UserInterface;
+use Illuminate\Hashing\HasherInterface;
 use Illuminate\Support\Str;
 
 class UserRepository implements IUserRepository {
@@ -19,10 +21,20 @@ class UserRepository implements IUserRepository {
 	];
 
 	private $model;
+	/**
+	 * @var HasherInterface
+	 */
+	private $hasher;
 
-	public function __construct(User $model)
+	public function __construct(User $model, HasherInterface $hasher)
 	{
 		$this->model = $model;
+		$this->hasher = $hasher;
+	}
+
+	public function getById($id)
+	{
+		return $this->model->where('id', $id)->first();
 	}
 
 	public function activate($code)
@@ -49,18 +61,13 @@ class UserRepository implements IUserRepository {
 		return $activated;
 	}
 
-	public function getByActivationCode($code)
-	{
-		return $this->model->where('activation_code', $code)->first();
-	}
-
-	public function getByAuthToken($token)
-	{
-		return $this->model->whereHas('authTokens', function ($q) use ($token)
-		{
-			$q->where('token', $token);
-		})->first();
-	}
+//	public function getByAuthToken($token)
+//	{
+//		return $this->model->whereHas('authTokens', function ($q) use ($token)
+//		{
+//			$q->where('token', $token);
+//		})->first();
+//	}
 
 	// returns an array with only the data needed to create a user
 	private function removeUnused(array $credentials)
@@ -71,12 +78,12 @@ class UserRepository implements IUserRepository {
 		}, \ARRAY_FILTER_USE_KEY);
 	}
 
-	public function firstOrCreate(array $credentials)
-	{
-		$credentials = $this->normalize($credentials);
-
-		return $this->model->firstOrCreate($this->removeUnused($credentials));
-	}
+//	public function firstOrCreate(array $credentials)
+//	{
+//		$credentials = $this->normalize($credentials);
+//
+//		return $this->model->firstOrCreate($this->removeUnused($credentials));
+//	}
 
 	public function create(array $values)
 	{
@@ -133,6 +140,92 @@ class UserRepository implements IUserRepository {
 		}
 
 		return false;
+	}
+
+	private function getByActivationCode($code)
+	{
+		return $this->model->where('activation_code', $code)->first();
+	}
+
+	/**
+	 * Retrieve a user by their unique identifier.
+	 *
+	 * @param  mixed $identifier
+	 * @return \Illuminate\Auth\UserInterface|null
+	 */
+	public function retrieveById($identifier)
+	{
+		return $this->getById($identifier);
+	}
+
+	/**
+	 * Retrieve a user by by their unique identifier and "remember me" token.
+	 *
+	 * @param  mixed $identifier
+	 * @param  string $token
+	 * @return \Illuminate\Auth\UserInterface|null
+	 */
+	public function retrieveByToken($identifier, $token)
+	{
+		$user = $this->retrieveById($identifier);
+
+		if ($user && $user->getRememberToken() === $token)
+		{
+			return $user;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Update the "remember me" token for the given user in storage.
+	 *
+	 * @param  \Illuminate\Auth\UserInterface $user
+	 * @param  string $token
+	 * @return void
+	 */
+	public function updateRememberToken(UserInterface $user, $token)
+	{
+		$user->setRememberToken($token);
+
+		$this->save($user);
+	}
+
+	/**
+	 * Retrieve a user by the given credentials.
+	 *
+	 * @param  array $credentials
+	 * @return \Illuminate\Auth\UserInterface|null
+	 */
+	public function retrieveByCredentials(array $credentials)
+	{
+		// taken from EloquentUserProvider
+
+		// First we will add each credential element to the query as a where clause.
+		// Then we can execute the query and, if we found a user, return it in a
+		// Eloquent User "model" that will be utilized by the Guard instances.
+		$query = $this->model->newQuery();
+
+		foreach ($credentials as $key => $value)
+		{
+			if ( ! str_contains($key, 'password')) $query->where($key, $value);
+		}
+
+		return $query->first();
+	}
+
+	/**
+	 * Validate a user against the given credentials.
+	 *
+	 * @param  \Illuminate\Auth\UserInterface $user
+	 * @param  array $credentials
+	 * @return bool
+	 */
+	public function validateCredentials(UserInterface $user, array $credentials)
+	{
+		$plain = $credentials['password'];
+
+		return $this->hasher->check($plain, $user->getAuthPassword());
 	}
 
 }

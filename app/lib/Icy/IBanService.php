@@ -1,4 +1,6 @@
 <?php namespace Icy;
+use Icy\Esea\EseaBanStatus;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -8,11 +10,8 @@
 
 interface IBanService {
 
-	/**
-	 * @param string|Steam\SteamId $steamId
-	 * @param null|Steam\VacBanStatus $newVacStatus
-	 * @return Steam\SteamId
-	 */
-	public function fetchAndUpdate($steamId, Steam\VacBanStatus $newVacStatus = null);
+	public function checkForVacBans(Steam\SteamId $steamIdRecord, Steam\VacBanStatus $newVacStatus = null);
+
+	public function checkForEseaBans(Steam\SteamId $steamIdRecord, EseaBanStatus $newEseaStatus = null);
 
 }

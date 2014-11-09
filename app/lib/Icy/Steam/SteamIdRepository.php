@@ -13,61 +13,21 @@ class SteamIdRepository implements ISteamIdRepository {
 
 	public function getBySteamId($steamId)
 	{
-		return $this->model->where('steamid', $steamId)->first();
-	}
+//		$record = $this->model
+//			->where('steamids.steamid', $steamId)
+//			->join('esea_bans', 'steamids.steamid', '=', 'esea_bans.steamid')
+//			->first();
 
-	public function createMany(array $arrayOfValues)
-	{
-		$steamIds = [];
+		$record = $this->model->firstOrCreate(['steamid' => $steamId]);
 
-		foreach ($arrayOfValues as $values)
-		{
-			$steamIds[] = $this->firstOrCreate($values);
-		}
+//		$record->load('eseaBan');
 
-		return $steamIds;
-	}
-
-//	public function firstOrCreateAndUpdateVacStatus(array $values)
-//	{
-//		$entry = $this->firstOrNew($values);
-//
-//		$newVacStatus = $this->steam->isVacBanned($entry->steamid);
-//
-//		if ($newVacStatus != $entry->vac_banned)
-//		{
-//			$entry->vac_banned = $newVacStatus;
-//			$entry->changed = true;
-//		}
-//
-//		$this->save($entry);
-//
-//		return $entry;
-//	}
-
-	public function firstOrNew(array $values)
-	{
-		return $this->model->firstOrNew($values);
-	}
-
-	public function firstOrCreate(array $values)
-	{
-		return $this->model->firstOrCreate($values);
-	}
-
-	public function create(array $values)
-	{
-		return $this->model->create($values);
+		return $record;
 	}
 
 	public function save(SteamId $steamId)
 	{
 		return $steamId->save();
-	}
-
-	public function getAll()
-	{
-		return $this->model->all();
 	}
 
 }

@@ -17,6 +17,13 @@ namespace Icy\LegitProof;
 interface ILegitProofService {
 
 	/**
+	 * @param $legitproofId
+	 * 		Legitproof user id
+	 * @return LegitProofLeagueExperience[]
+	 */
+	public function getLeagueExperienceByUserId($legitproofId);
+
+	/**
 	 * @param string $steamIdText
 	 *        Must be a TEXT steamid, ('STEAM_' part is optional)
 	 * @return LegitProofLeagueExperience[]

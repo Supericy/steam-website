@@ -1,4 +1,4 @@
-<?php namespace Icy\BanDetection;
+<?php namespace Icy\Ban;
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -14,7 +14,12 @@ class BanType extends \Eloquent {
 
 	public function banDetections()
 	{
-		return $this->belongsToMany('Icy\BanDetection\BanDetection');
+		return $this->belongsToMany('Icy\Ban\BanDetection');
+	}
+
+	public function banNotifications()
+	{
+		return $this->belongsToMany('Icy\Ban\BanNotification');
 	}
 
 }

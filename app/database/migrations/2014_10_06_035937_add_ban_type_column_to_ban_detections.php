@@ -28,6 +28,8 @@ class AddBanTypeColumnToBanDetections extends Migration {
 		Schema::table('ban_detections', function ($table)
 		{
 
+			$table->unique(['steamid', 'timestamp']);
+
 			$table->foreign('ban_type_id')
 				->references('id')
 				->on('ban_types');

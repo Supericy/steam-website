@@ -25,10 +25,17 @@
                     <tbody>
                         @foreach ($favourites as $favourite)
 							<tr>
-								<td><img src="{{ $favourite->profile->getAvatarUrl() }}" alt="" /> {{ $favourite->profile->getAlias() }}</td>
-								<td>{{ $favourite->steamid }}</td>
 								<td>
-									<div  class="pull-right">@include('steamid.follow', ['steamId' => $favourite->steamid, 'isFollowing' => true])</div>
+									<a href="{{ URL::action('steamid.display', ['steamid' => $favourite->steamId->steamid]) }}" >
+										<div>
+											<img src="{{ $favourite->profile->getMediumAvatarUrl() }}" alt="" />
+											{{ $favourite->profile->getAlias() }}
+										</div>
+									</a>
+								</td>
+								<td style="vertical-align: middle">STEAM_{{ $favourite->steamId->text }}</td>
+								<td style="vertical-align: middle">
+									<div  class="pull-right">@include('steamid.follow', ['steamId' => $favourite->steamId->text, 'isFollowing' => true])</div>
 								</td>
 							</tr>
 						@endforeach

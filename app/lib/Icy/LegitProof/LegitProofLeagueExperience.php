@@ -129,4 +129,41 @@ class LegitProofLeagueExperience {
 		return $this->getGuid() . ', ' . $this->getPlayer() . ', ' . $this->getLeague() . ', ' . $this->getDivision();
 	}
 
+	public function getJoinTimestamp()
+	{
+		return $this->createTimestampFromDate($this->getJoin());
+	}
+
+	public function getLeaveTimestamp()
+	{
+		return $this->createTimestampFromDate($this->getLeave());
+	}
+
+	/**
+	 * @param $date
+	 * @return int|null
+	 */
+	private function createTimestampFromDate($date)
+	{
+		if ($date === self::UNKNOWN_DATE)
+			return null;
+
+		$parsed = date_parse($date);
+
+		$timestamp = mktime(
+			$parsed['hour'],
+			$parsed['minute'],
+			$parsed['second'],
+			$parsed['month'],
+			$parsed['day'],
+			$parsed['year']
+		);
+
+		// not a valid unix timestamp
+		if ($timestamp < 0)
+			return null;
+
+		return $timestamp;
+	}
+
 }

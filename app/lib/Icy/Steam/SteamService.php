@@ -30,29 +30,6 @@ class SteamService implements ISteamService {
 		return $this->baseCommunityUrl;
 	}
 
-	private function createPlayerAssocArray($players, $key, Callable $callback)
-	{
-		$count = count($players);
-
-		if ($count == 0)
-		{
-			$results = false;
-		} else if ($count == 1)
-		{
-			$results = $callback($players[0]->{$key}, $players[0]);
-		} else if ($count > 1)
-		{
-			$results = [];
-
-			foreach ($players as $player)
-			{
-				$results[$player->{$key}] = $callback($player->{$key}, $player);
-			}
-		}
-
-		return $results;
-	}
-
 	public function getCommunityUrl($steamId)
 	{
 		if (!$this->is64Id($steamId))
@@ -165,6 +142,42 @@ class SteamService implements ISteamService {
 		return preg_match('/^\d{17}$/', $steamId);
 	}
 
+	public function attachPlayerProfiles($objects)
+	{
+		$steamIds = [];
+		foreach ($objects as $object)
+		{
+			$steamIds[] = $object->steamId->steamid;
+		}
+
+//		\Debugbar::info([
+//			'steamIds' => $steamIds
+//		]);
+
+		$profiles = $this->getPlayerProfile($steamIds);
+
+		// getPlayerProfile returns a single result if there is only 1 steamId, so lets make it into an array
+		if (!is_array($profiles))
+		{
+			$profile = $profiles;
+
+			$profiles = [
+				$profile->getSteamId() => $profile,
+			];
+		}
+
+//		\Debugbar::info($profiles);
+
+		foreach ($objects as &$object)
+		{
+//			\Debugbar::info('SteamId: ' . $object);
+			$object->profile =
+				$profiles[$object->steamId->steamid];
+		}
+
+		return $objects;
+	}
+
 	public function getPlayerProfile($steamId)
 	{
 		$response = $this->api->getPlayerSummaries($steamId);
@@ -195,4 +208,28 @@ class SteamService implements ISteamService {
 
 		return $results;
 	}
+
+	private function createPlayerAssocArray($players, $key, Callable $callback)
+	{
+		$count = count($players);
+
+		if ($count == 0)
+		{
+			$results = false;
+		} else if ($count == 1)
+		{
+			$results = $callback($players[0]->{$key}, $players[0]);
+		} else if ($count > 1)
+		{
+			$results = [];
+
+			foreach ($players as $player)
+			{
+				$results[$player->{$key}] = $callback($player->{$key}, $player);
+			}
+		}
+
+		return $results;
+	}
+
 }

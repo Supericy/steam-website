@@ -13,7 +13,7 @@
 
 
 //Route::get('/', array(
-//    'uses' => 'SteamIdController@searchSteamId',
+//    'uses' => 'SteamIdController@search',
 //    'as' => 'home'
 //));
 
@@ -33,19 +33,19 @@ Route::get('/', [function ()
 
 
 Route::get('/profile', [
-	'uses' => 'ProfileController@profile',
+	'uses' => 'UserController@profile',
 	'as' => 'profile'
 ]);
 
 Route::get('/profile/favourites', [
-	'uses' => 'ProfileController@favourites',
+	'uses' => 'UserController@favourites',
 	'as' => 'profile.favourites',
 ]);
 
 
 
 Route::get('/search', [
-	'uses' => 'SteamIdController@searchSteamId',
+	'uses' => 'SteamIdController@search',
 	'as' => 'search-steamid'
 ]);
 

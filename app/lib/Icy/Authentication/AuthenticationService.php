@@ -78,6 +78,11 @@ class AuthenticationService implements IAuthenticationService {
 		$this->auth->logout();
 	}
 
+	public function check()
+	{
+		return $this->auth->check();
+	}
+
 	public function userId()
 	{
 		$id = $this->auth->id();

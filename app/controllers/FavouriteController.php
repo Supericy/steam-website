@@ -1,7 +1,9 @@
 <?php
 use Icy\Authentication\IAuthenticationService;
+use Icy\Ban\IBanNotificationRepository;
+use Icy\Favourite\IFavouriteRepository;
 use Icy\Favourite\IFavouriteService;
-use Icy\IBanService;
+use Icy\Steam\ISteamIdRepository;
 use Icy\Steam\ISteamService;
 
 /**
@@ -13,32 +15,70 @@ use Icy\Steam\ISteamService;
 class FavouriteController extends Controller {
 
 	/**
-	 * @var \Icy\IBanService
+	 * @var IFavouriteRepository
 	 */
-	private $banService;
+	private $favouriteRepository;
 	/**
-	 * @var \Icy\IFavouriteService
-	 */
-	private $favouriteService;
-	/**
-	 * @var \Icy\Steam\ISteamService
+	 * @var ISteamService
 	 */
 	private $steam;
 	/**
 	 * @var IAuthenticationService
 	 */
 	private $auth;
+	/**
+	 * @var ISteamIdRepository
+	 */
+	private $steamIdRepository;
+	/**
+	 * @var IBanNotificationRepository
+	 */
+	private $banNotificationRepository;
 
-	public function __construct(IBanService $banService, IFavouriteService $favouriteService, ISteamService $steam, IAuthenticationService $auth)
+	public function __construct(
+		ISteamIdRepository $steamIdRepository,
+		IFavouriteRepository $favouriteRepository,
+		ISteamService $steam,
+		IAuthenticationService $auth,
+		IBanNotificationRepository $banNotificationRepository)
 	{
 		// user must be logged in to follow
 		$this->beforeFilter('auth');
 
-		$this->banService = $banService;
-		$this->favouriteService = $favouriteService;
+		$this->steamIdRepository = $steamIdRepository;
+		$this->favouriteRepository = $favouriteRepository;
 		$this->steam = $steam;
-
 		$this->auth = $auth;
+		$this->banNotificationRepository = $banNotificationRepository;
+	}
+
+	public function enableNotification($potentialId, $banName)
+	{
+		$steamIdRecord = $this->steam->resolveId($potentialId);
+		if ($steamIdRecord === false)
+			return App::abort(404);
+
+		$steamIdRecord = $this->steamIdRepository->getBySteamId($steamIdRecord);
+
+		$favourite = $this->favouriteRepository->getByUserIdAndSteamIdId($this->auth->userId(), $steamIdRecord->id);
+
+		if (!$favourite)
+		{
+			return App::abort(404);
+		}
+
+		$this->banNotificationRepository->enableNotification($favourite->id, $banName);
+
+		FlashHelper::append('alerts.success', 'Ban Notification for ' . strtoupper($banName) . ' has been enabled.');
+
+		return Redirection::back();
+	}
+
+	public function disableNotification($potentialId)
+	{
+		$steamId = $this->steam->resolveId($potentialId);
+		if ($steamId === false)
+			return App::abort(404);
 	}
 
 	public function favourite($potentialId)
@@ -49,11 +89,11 @@ class FavouriteController extends Controller {
 
 		$userId = $this->auth->userId();
 
-		$steamIdRecord = $this->banService->fetchAndUpdate($steamId);
+		$steamIdRecord = $this->steamIdRepository->getBySteamId($steamId);
 
 		// FIXME: We need to make sure the user has activated their account/email before they can follow anyone
 
-		$this->favouriteService->favourite($userId, $steamIdRecord->id);
+		$this->favouriteRepository->favourite($userId, $steamIdRecord->id);
 
 		FlashHelper::append('alerts.success', 'You are now following ' . $steamIdRecord->steamid);
 
@@ -69,9 +109,9 @@ class FavouriteController extends Controller {
 
 		$userId = $this->auth->userId();
 
-		$steamIdRecord = $this->banService->fetchAndUpdate($steamId);
+		$steamIdRecord = $this->steamIdRepository->getBySteamId($steamId);
 
-		$this->favouriteService->unfavourite($userId, $steamIdRecord->id);
+		$this->favouriteRepository->unfavourite($userId, $steamIdRecord->id);
 
 		FlashHelper::append('alerts.success', 'You have unfollowed ' . $steamIdRecord->steamid);
 

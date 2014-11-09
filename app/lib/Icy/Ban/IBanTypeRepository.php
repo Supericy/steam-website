@@ -1,4 +1,4 @@
-<?php namespace Icy\BanDetection;
+<?php namespace Icy\Ban;
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -15,7 +15,7 @@ interface IBanTypeRepository {
 	public function getByName($name);
 
 	/**
-	 * @return BanType[]
+	 * @return Collection
 	 */
 	public function getAll();
 

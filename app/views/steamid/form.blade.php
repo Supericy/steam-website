@@ -18,11 +18,33 @@
 <!--						<span class="input-group-addon">-->
 <!--							<i class="fa fa-tag"  ></i>-->
 <!--						</span>-->
-						{{ Form::text('steamid', null, array('id' => 'steamid', 'class' => 'form-control', 'placeholder' => 'steamid (e.g 0:0:11223344)', 'autofocus'=>'autofocus')) }}
+						<div class="input-group">
+							{{ Form::text('steamid', null, array('id' => 'steamid', 'class' => 'form-control', 'placeholder' => 'SteamID (e.g 0:0:11223344)', 'autofocus'=>'autofocus')) }}
+							<span class="input-group-btn">
+								{{--<button class="btn btn-success" type="button">Search</button>--}}
+								{{ Form::submit('Search', array('class' => 'btn btn-success')) }}
+							</span>
+						</div>
 					</div>
 					{{ ViewHelper::displayArray($errors->get('steamid', '<div class="alert alert-danger alert-input-error" role="alert">:message</div>')) }}
 
-					{{ Form::submit('Submit', array('class' => 'btn btn-success pull-right')) }}
+					{{--<div class="panel panel-shadow panel-info">--}}
+						{{--<div class="panel-heading">Examples:</div>--}}
+						{{--<div class="panel-body">--}}
+								{{--<div>0:0:30908</div>--}}
+								{{--<div>STEAM_0:0:30908</div>--}}
+						{{--</div>--}}
+					{{--</div>--}}
+					<div>
+						<div class="text-info" style="font-style: italic; font-weight: bold">Example Inputs:</div>
+						<div><span style="font-style: italic; font-size: 13px;">
+							STEAM_0:0:30908 <br/> 0:0:30908 <br/> 76561197984726529 <br/>
+							steamcommunity.com/id/supericy <br/>
+							steamcommunity.com/profiles/76561198050774634
+						</span></div>
+					</div>
+
+
 					{{ Form::close() }}
 
 				</div>

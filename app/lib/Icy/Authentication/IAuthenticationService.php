@@ -29,6 +29,8 @@ interface IAuthenticationService {
 
 	public function logout();
 
+	public function check();
+
 	public function userId();
 
 	public function user();

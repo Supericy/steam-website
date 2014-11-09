@@ -7,7 +7,7 @@
  * Time: 3:18 PM
  */
 
-class AbstractRepository {
+abstract class AbstractRepository {
 
 	public function toObject(array $arr)
 	{

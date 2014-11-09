@@ -1,4 +1,6 @@
 <?php namespace Icy\User;
+use Illuminate\Auth\UserProviderInterface;
+
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -6,7 +8,13 @@
  * Time: 6:48 PM
  */
 
-interface IUserRepository {
+interface IUserRepository extends UserProviderInterface {
+
+	/**
+	 * @param int $id
+	 * @return User
+	 */
+	public function getById($id);
 
 	/**
 	 * @param $code
@@ -16,22 +24,35 @@ interface IUserRepository {
 	 */
 	public function activate($code);
 
+//	public function getByActivationCode($code);
+
 	/**
-	 * @param $code
+	 * @param string $email
 	 * @return User
 	 */
-	public function getByActivationCode($code);
-
 	public function getByEmail($email);
 
-	public function getByAuthToken($token);
+//	public function getByAuthToken($token);
 
+	/**
+	 * @param array $values
+	 * @return User
+	 */
 	public function create(array $values);
 
-	public function firstOrCreate(array $credentials);
+//	public function firstOrCreate(array $credentials);
 
+	/**
+	 * @param $provider
+	 * @param $accountId
+	 * @return User
+	 */
 	public function getByProviderNameAndAccountId($provider, $accountId);
 
+	/**
+	 * @param $credentials
+	 * @return array
+	 */
 	public function normalize($credentials);
 
 	/**

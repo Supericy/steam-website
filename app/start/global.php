@@ -115,6 +115,14 @@ require_once app_path() . '/macros.php';
 require_once app_path() . '/validators.php';
 
 
+Auth::extend(
+	'userRepository',
+	function ($app)
+	{
+		return $app->make('Icy\User\IUserRepository');
+	}
+);
+
 // http://stackoverflow.com/questions/19131731/laravel-4-logging-sql-queries
 if (Config::get('database.log', false))
 {

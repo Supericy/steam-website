@@ -20,6 +20,8 @@ class User extends \Eloquent implements UserInterface {
 
 	protected $guarded = ['id'];
 
+	protected $with = ['favourites'];
+
 	public function favourites()
 	{
 		return $this->hasMany('Icy\Favourite\Favourite');

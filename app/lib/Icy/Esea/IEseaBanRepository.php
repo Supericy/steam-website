@@ -8,8 +8,6 @@
 
 interface IEseaBanRepository {
 
-	public function getLatestTimestamp();
-
 	public function create(array $values);
 
 }

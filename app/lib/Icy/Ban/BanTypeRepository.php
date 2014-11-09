@@ -1,4 +1,4 @@
-<?php namespace Icy\BanDetection;
+<?php namespace Icy\Ban;
 /**
  * Created by PhpStorm.
  * User: Chad
@@ -15,19 +15,17 @@ class BanTypeRepository implements IBanTypeRepository {
 		$this->model = $model;
 	}
 
-	/**
-	 * @param string $name
-	 * @return BanType
-	 */
 	public function getByName($name)
 	{
+		$record = $this->model->where('name', $name)->remember(3600)->first();
+
+		if (!$record)
+			throw new InvalidBanTypeException('"' . $name . '" is not a valid ban type');
+
 		// this is a table of constants, so let's cache this value for a -long- time.
-		return $this->model->where('name', $name)->remember(3600)->first();
+		return $record;
 	}
 
-	/**
-	 * @return BanType[]
-	 */
 	public function getAll()
 	{
 		return $this->model->all();

@@ -17,12 +17,6 @@ class EseaBanRepository implements IEseaBanRepository {
 		$this->model = $model;
 	}
 
-	public function getLatestTimestamp()
-	{
-		$timestamp = $this->model->max('timestamp');
-		return $timestamp === NULL ? 0 : $timestamp;
-	}
-
 	public function create(array $values)
 	{
 		return $this->model->create($values);

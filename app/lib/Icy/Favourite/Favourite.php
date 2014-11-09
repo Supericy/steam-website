@@ -12,9 +12,16 @@ class Favourite extends \Eloquent {
 
 	protected $guarded = ['id'];
 
+	protected $with = ['steamId', 'banNotifications'];
+
 	public function user()
 	{
 		return $this->belongsTo('Icy\User\User');
+	}
+
+	public function banNotifications()
+	{
+		return $this->hasMany('Icy\Ban\BanNotification');
 	}
 
 	public function steamId()

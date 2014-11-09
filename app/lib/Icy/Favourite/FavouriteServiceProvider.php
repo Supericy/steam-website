@@ -12,9 +12,9 @@ class FavouriteServiceProvider extends ServiceProvider {
 
 	public function register()
 	{
-		$this->app->bind('Icy\Favourite\IFavouriteService', function ($app)
+		$this->app->singleton('Icy\Favourite\IFavouriteRepository', function ($app)
 		{
-			return $app->make('Icy\Favourite\FavouriteService');
+			return new CachedFavouriteRepository($app->make('cache'), $app->make('Icy\Favourite\FavouriteRepository'));
 		});
 	}
 

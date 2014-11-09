@@ -21,8 +21,8 @@
 			"app/tests/TestCase.php"
 		],
 
-        "psr-0": {
-            "Icy": "app/lib"
+        "psr-4": {
+            "Icy\\": "app/lib/Icy"
         }
 	},
 	"scripts": {

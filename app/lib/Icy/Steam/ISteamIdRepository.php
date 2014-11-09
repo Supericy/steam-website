@@ -10,18 +10,6 @@ interface ISteamIdRepository {
 
 	public function getBySteamId($steamId);
 
-	public function createMany(array $arrayOfValues);
-
-//	public function firstOrCreateAndUpdateVacStatus(array $values);
-
-	public function firstOrCreate(array $values);
-
-	public function firstOrNew(array $values);
-
-	public function create(array $values);
-
 	public function save(SteamId $steamId);
-
-	public function getAll();
 
 }

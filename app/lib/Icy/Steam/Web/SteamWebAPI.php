@@ -1,6 +1,7 @@
 <?php namespace Icy\Steam\Web;
 use GuzzleHttp\ClientInterface;
 use Icy\Common\MeasurableTrait;
+use Illuminate\Cache\CacheManager;
 
 /**
  * Created by PhpStorm.
@@ -24,11 +25,16 @@ class SteamWebAPI implements ISteamWebAPI {
 	];
 
 	private $jsonResponseDecoding;
+	/**
+	 * @var CacheManager
+	 */
+	private $cache;
 
-	public function __construct(ClientInterface $client)
+	public function __construct(ClientInterface $client, CacheManager $cache)
 	{
 		$this->client = $client;
 		$this->jsonResponseDecoding = true;
+		$this->cache = $cache;
 	}
 
 	public function setApiKey($apiKey)
@@ -91,14 +97,19 @@ class SteamWebAPI implements ISteamWebAPI {
 
 		$url = $endpoint . '?' . http_build_query(array_merge(['key' => $this->apiKey], $params));
 
-		$response = $this->client->get($url);
-
-		$result = false;
-
-		if ((int)$response->getStatusCode() === 200)
+		$result = $this->cache->remember('steamapi_' . $url, 30, function () use ($url)
 		{
-			$result = $response->json(['object' => true]);
-		}
+			$response = $this->client->get($url);
+
+			$result = false;
+
+			if ((int)$response->getStatusCode() === 200)
+			{
+				$result = $response->json(['object' => true]);
+			}
+
+			return $result;
+		});
 
 		$this->stopMeasure('steam');
 

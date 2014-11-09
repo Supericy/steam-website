@@ -1,4 +1,9 @@
 <?php
+use Icy\Authentication\IAuthenticationService;
+use Icy\Favourite\IFavouriteRepository;
+use Icy\ILeagueExperienceService;
+use Icy\Steam\ISteamIdRepository;
+use Icy\Steam\ISteamService;
 
 /**
  * Created by PhpStorm.
@@ -12,48 +17,61 @@ class SteamIdController extends Controller {
 	const BULK_MAX_STEAMIDS = 100;
 
 	private $steam;
-	private $steamId;
-	private $banService;
-	private $favouriteService;
+	private $steamIdRepository;
+	private $favouriteRepository;
 	private $experienceService;
+	/**
+	 * @var IAuthenticationService
+	 */
+	private $auth;
 
-	public function __construct(Icy\IBanService $banService, Icy\Favourite\IFavouriteService $favouriteService, Icy\ILeagueExperienceService $experienceService, Icy\Steam\ISteamService $steam)
+	public function __construct(
+		ISteamIdRepository $steamIdRepository,
+		IFavouriteRepository $favouriteRepository,
+		ILeagueExperienceService $experienceService,
+		ISteamService $steam,
+		IAuthenticationService $auth)
 	{
 		$this->steam = $steam;
-		$this->banService = $banService;
-		$this->favouriteService = $favouriteService;
+		$this->steamIdRepository = $steamIdRepository;
+		$this->favouriteRepository = $favouriteRepository;
 		$this->experienceService = $experienceService;
+		$this->auth = $auth;
 	}
 
-	public function searchSteamId()
+	public function search()
 	{
 		$potentialId = Input::get('steamid');
 
-		if ($potentialId === null)
+		if ($potentialId === null || empty($potentialId))
 		{
 			// no steamId given, so prompt the user for one
 			return View::make('steamid.prompt');
-		} else
-		{
-			$steamId = $this->steam->resolveId(Input::get('steamid'));
-
-			return Redirect::action('steamid.display', ['id' => $steamId]);
 		}
+
+		$steamId = $this->steam->resolveId($potentialId);
+
+		if ($steamId === false)
+		{
+			return Redirect::back()
+				->withErrors(['steamid' => 'Nothing found.']);
+		}
+
+		return Redirect::action('steamid.display', ['id' => $steamId]);
 	}
 
 	public function display($potentialId)
 	{
 		$steamId = $this->steam->resolveId($potentialId);
-
 		if ($steamId === false)
 			return App::abort(404);
 
-		$steamIdRecord = $this->banService->fetchAndUpdate($steamId);
-//		Debugbar::info($steamIdRecord);
+		$steamIdRecord = $this->steamIdRepository->getBySteamId($steamId);
+		Debugbar::info($steamIdRecord);
 
 		$isFollowing = false;
-		if (Auth::check())
-			$isFollowing = $this->favouriteService->isFavourited(Auth::user()->id, $steamIdRecord->id);
+		if ($this->auth->check())
+			$isFollowing = $this->favouriteRepository->isFavourited($this->auth->userId(), $steamIdRecord->id);
 
 		$leagueExperiences = $this->experienceService->getLeagueExperiences($steamId);
 
@@ -75,81 +93,9 @@ class SteamIdController extends Controller {
 			'communityUrl' => $this->steam->getCommunityUrl($steamId),
 		];
 
-		Debugbar::info($data);
+//		Debugbar::info($data);
 
 		return View::make('steamid.display')->with($data);
 	}
-
-	// TODO export this to API controller
-	public function createSteamIdBulk()
-	{
-		$potentialIds = Input::get('steamids');
-		$potentialIds = explode(',', $potentialIds);
-//		$potentialIds = array_splice($potentialIds, 0, self::BULK_MAX_STEAMIDS);
-
-		if (count($potentialIds) > self::BULK_MAX_STEAMIDS)
-			App::abort(400, 'Max ' . self::BULK_MAX_STEAMIDS . ' steamids per request');
-
-		$arrayOfValues = [];
-
-		foreach ($potentialIds as $potentialId)
-		{
-			$arrayOfValues[] = [
-				'steamid' => $this->steam->resolveId($potentialId)
-			];
-		}
-
-		$this->steamId->createMany($arrayOfValues);
-
-		return Response::json(['success' => true]);
-	}
-
-//    public function displaySteamIdPrompt()
-//    {
-//		return View::make('steamid.prompt');
-//    }
-//
-//	public function createSteamId()
-//	{
-//		$rules = [
-//			'steamid' => 'required'
-//		];
-//
-//		$validator = Validator::make(Input::get(), $rules);
-//
-//		if ($validator->fails())
-//		{
-//			if (Request::ajax())
-//				return Response::json($validator->messages());
-//			else
-//				return Redirect::back()->withErrors($validator);
-//		}
-//
-//		$steamId = $this->steam->resolveId(Input::get('steamid'));
-//
-//		if ($steamId === false)
-//		{
-//			$err = 'Enter a valid steam ID.';
-//
-//			if (Request::ajax())
-//			{
-//				return Response::json($err, 400);
-//			}
-//			else
-//			{
-//				return Redirect::back()->withErrors(['steamid' => [$err]]);
-//			}
-//		}
-//
-//		$steamIdRecord = $this->banManager->fetchAndUpdate($steamId);
-//
-//		$url = URL::action('steamid.display', ['id' => $steamIdRecord->steamid]);
-//		FlashHelper::append('alerts.success', 'This profile is now being tracked.');
-//
-//		if (Request::ajax())
-//			return Response::json(['success' => true, 'steamId' => $steamId, 'profile-url' => $url]);
-//		else
-//			return Redirect::to($url);
-//	}
 
 } 

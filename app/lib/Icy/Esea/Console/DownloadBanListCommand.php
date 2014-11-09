@@ -1,6 +1,11 @@
 <?php namespace Icy\Esea\Console;
 
+use Icy\Esea\EseaBanStatus;
 use Icy\Esea\IEseaBanRepository;
+use Icy\IBanService;
+use Icy\Steam\ISteamService;
+use Illuminate\Foundation\Application;
+use Illuminate\Log\Writer;
 
 class DownloadBanListCommand extends \BaseCommand {
 
@@ -24,12 +29,21 @@ class DownloadBanListCommand extends \BaseCommand {
 	private $steam;
 
 	private $enableLog;
+	/**
+	 * @var IBanService
+	 */
+	private $banService;
 
 	/**
 	 * Create a new command instance.
 	 *
 	 */
-	public function __construct(\Illuminate\Foundation\Application $app, \Illuminate\Log\Writer $log, IEseaBanRepository $ban, \Icy\Steam\ISteamService $steam)
+	public function __construct(
+		Application $app,
+		Writer $log,
+		IEseaBanRepository $ban,
+		ISteamService $steam,
+		IBanService $banService)
 	{
 		parent::__construct();
 
@@ -39,6 +53,7 @@ class DownloadBanListCommand extends \BaseCommand {
 		$this->steam = $steam;
 
 		$this->enableLog = true;
+		$this->banService = $banService;
 	}
 
 	/**
@@ -49,66 +64,94 @@ class DownloadBanListCommand extends \BaseCommand {
 	 */
 	public function fire()
 	{
-		$this->line('Updating ESEA bans...', 'black-yellow');
+		$this->line('Running esea:update command...', 'black-yellow');
+		\Log::info('Running esea:update command...');
 
-//		DB::disableQueryLog();
-
-//		dd($this->ban->getLatestTimestamp());
+		\DB::disableQueryLog();
 
 		$downloadUri = $this->app->config['esea']['download_uri'];
-//		$downloadPath = $this->app->config['esea']['download_path'];
-
-//		$contents = $this->download($downloadUri);
-
-//		if ($contents === false)
-//			dd('Download returned false');
-
-		$latestTimestamp = $this->ban->getLatestTimestamp();
 
 		$added = 0;
 
+		$recordsToAdd = [];
 
-		$this->csvReadExecute($downloadUri, function ($csv, $isFirst) use ($latestTimestamp, &$added)
+		$records = \DB::select('select steamid, timestamp from esea_bans ');
+
+		$inserted = [];
+
+		foreach ($records as $r)
+			$inserted[$r->steamid . "_" . $r->timestamp] = true;
+
+		$this->csvReadExecute($downloadUri, function ($csv, $isFirst) use (&$inserted, &$recordsToAdd, &$added)
 		{
 
 			// first line is meta data, so skip it
 			if (!$isFirst)
 			{
-				$steamId = $csv[0];
+				$steamIdText = trim($csv[0]);
 				$alias = $csv[1];
 				$lastname = $csv[2];
 				$firstname = $csv[3];
 				$timestamp = $this->dateToTimestamp($csv[4]);
 
-//				dd($timestamp);
+				$steamId = $this->steam->convertTextTo64($steamIdText);
 
-				if ($timestamp > $latestTimestamp)
+//				$steamIdRecord = $this->banService->fetchAndUpdate($steamId);
+
+				try
 				{
-//					$this->info('Adding ' . $steamId . ':' . $alias . ':' . $timestamp);
+					if (!isset($inserted[$steamId . "_" . $timestamp]))
+					{
+						$recordsToAdd[] = [
+							'steamid' => $steamId,
+							'alias' => $alias,
+							'lastname' => $lastname,
+							'firstname' => $firstname,
+							'timestamp' => $timestamp,
+						];
+
+						$recordAdded = true;
+					}
+					else
+					{
+						$recordAdded = false;
+					}
 
 					// new value, add to db
-					$record = $this->ban->create([
-						'steamid' => $this->steam->convertTextTo64($steamId),
-						'alias' => $alias,
-						'lastname' => $lastname,
-						'firstname' => $firstname,
-						'timestamp' => $timestamp,
-					]);
+//					$eseaRecord = $this->ban->create();
 
-					$this->info(sprintf('%4d: added. %16s %16s %16s', $record->id, $steamId, $alias, $timestamp), 'green');
+//					$this->banService->checkForEseaBans($steamIdRecord, new EseaBanStatus(true, $alias, $timestamp));
 
-					$added++;
-				} else
+					$this->info(sprintf('%16s %16s %16s %16s', $recordAdded ? 'added' : 'skip', $steamIdText, $alias, $timestamp), $recordAdded ? 'yellow' : 'green');
+
+					if (count($recordsToAdd) >= 50)
+					{
+						$added += count($recordsToAdd);
+						foreach ($recordsToAdd as $r)
+							$inserted[$r['steamid'] . "_" . $r['timestamp']] = true;
+
+						\DB::table('esea_bans')->insert($recordsToAdd);
+						$recordsToAdd = [];
+					}
+				}
+				catch (\Exception $e)
 				{
-//					$this->line("Skipping " . $steamId . ':' . $alias . ':' . $timestamp, 'green');
-
-
-					// tell our csv reader that we're finished with the file, no need to keep reading
-					$this->csvFinished(true);
+					$this->line($e->getMessage(), 'black-red');
+					// $this->csvFinished(true);
 				}
 			}
 
 		});
+
+		if (count($recordsToAdd) > 0)
+		{
+			$added += count($recordsToAdd);
+			foreach ($recordsToAdd as $r)
+				$inserted[$r['steamid'] . "_" . $r['timestamp']] = true;
+
+			\DB::table('esea_bans')->insert($recordsToAdd);
+			$recordsToAdd = [];
+		}
 
 		$this->line(sprintf('Update finished. %d record(s) added.', $added), 'black-green');
 	}

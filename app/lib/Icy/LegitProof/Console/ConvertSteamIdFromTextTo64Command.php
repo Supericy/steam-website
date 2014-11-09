@@ -1,6 +1,6 @@
-<?php namespace Icy\Esea\Console;
-
-use Icy\Esea\IEseaBanRepository;
+<?php namespace Icy\LegitProof\Console;
+use Icy\LegitProof\LegitProofCrawl;
+use Icy\Steam\ISteamService;
 
 /**
  * Created by PhpStorm.
@@ -17,21 +17,21 @@ class ConvertSteamIdFromTextTo64Command extends \BaseCommand {
 	private $steam;
 	private $eseaBan;
 
-	public function __construct(\Icy\Steam\ISteamService $steam, IEseaBanRepository $eseaBan)
+	public function __construct(ISteamService $steam)
 	{
 		parent::__construct();
 
 		$this->steam = $steam;
-		$this->eseaBan = $eseaBan;
 	}
 
 	public function fire()
 	{
 		$this->line('Converting esea ban steamids...', 'black-yellow');
 
-		\Icy\Esea\EseaBan::chunk(100, function ($records)
-		{
+		$recordsArray = [];
 
+		LegitProofCrawl::chunk(1000, function ($records) use (&$recordsArray)
+		{
 			foreach ($records as $record)
 			{
 				if ($this->steam->isTextId($record->steamid))
@@ -39,16 +39,22 @@ class ConvertSteamIdFromTextTo64Command extends \BaseCommand {
 					$original = $record->steamid;
 					$converted = $this->steam->convertTextTo64($original);
 
-					$this->line(sprintf('%4d: Converting %-14s => %s', $record->id, $original, $converted), 'green');
-
 					$record->steamid = $converted;
-					$record->save();
+
+					$recordsArray[] = [
+
+					];
 				}
 			}
 
 		});
 
 		$this->line('Finished.', 'black-green');
+	}
+
+	private function createArray($steamId)
+	{
+
 	}
 
 	/**

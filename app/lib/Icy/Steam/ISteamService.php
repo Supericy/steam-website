@@ -9,6 +9,14 @@
 interface ISteamService {
 
 	/**
+	 * @param $objectArray
+	 * 		each object in the array must have a 'steamid' attribute
+	 * @return array
+	 * 		attaches a 'profile' attribute to each object
+	 */
+	public function attachPlayerProfiles($objectArray);
+
+	/**
 	 * @param string $steamId
 	 * @return IPlayerProfile|IPlayerProfile[]
 	 */

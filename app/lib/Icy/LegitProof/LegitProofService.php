@@ -1,5 +1,6 @@
 <?php namespace Icy\LegitProof;
 use Goutte\Client;
+use Icy\Common\LoggableTrait;
 
 /**
  * Created by PhpStorm.
@@ -10,8 +11,10 @@ use Goutte\Client;
 
 class LegitProofService implements ILegitProofService {
 
+	use LoggableTrait;
+
 	private $endpoints = [
-		'Search' => 'http://www.legit-proof.com/search/'
+		'search' => 'http://www.legit-proof.com/search/'
 	];
 
 	private $client;
@@ -23,24 +26,59 @@ class LegitProofService implements ILegitProofService {
 		$this->leagueExperienceRepository = $leagueExperienceRepository;
 	}
 
-	private function createSearchEndpoint($steamIdText)
+	private function createEndpoint($endpointKey, $queryMethod, $steamIdText)
 	{
-		return $this->endpoints['Search'] . '?' . http_build_query(['method' => 'guid', 'query' => $steamIdText]);
+		if (!in_array($queryMethod, ['guid', 'user_id']))
+			dd($queryMethod . ' is not a valid queryMethod for createEndpoint in LegitProofService');
+
+		if (!array_key_exists($endpointKey, $this->endpoints))
+			dd($endpointKey . ' is not a valid endpoint for createEntpoint in LegitProofService');
+
+		return $this->endpoints[$endpointKey] . '?' . http_build_query(['method' => $queryMethod, 'query' => $steamIdText]);
+	}
+
+	public function getLeagueExperienceByUserId($legitproofId)
+	{
+		/** @var \Symfony\Component\DomCrawler\Crawler $crawler */
+		$crawler = $this->client->request('GET', $this->createEndpoint('search', 'user_id', $legitproofId));
+
+		if (!$this->checkResponse())
+			return false;
+
+		return $this->getExperienceFromCrawler($crawler);;
 	}
 
 	public function getLeagueExperience($steamIdText)
 	{
 		/** @var \Symfony\Component\DomCrawler\Crawler $crawler */
-		$crawler = $this->client->request('GET', $this->createSearchEndpoint($steamIdText));
+		$crawler = $this->client->request('GET', $this->createEndpoint('search', 'guid', $steamIdText));
 
+		if (!$this->checkResponse())
+			return false;
+
+		return $this->getExperienceFromCrawler($crawler);
+	}
+
+	private function checkResponse()
+	{
 		/** @var \Symfony\Component\BrowserKit\Response $response */
 		$response = $this->client->getResponse();
 
-		if ($response->getStatus() !== 200)
+		if ($response->getStatus() != 200)
 		{
+			$this->getLog()->info('LegitProof returned a non-200 response!', [$response->getStatus(), $response->getHeaders()]);
 			return false;
 		}
 
+		return true;
+	}
+
+	/**
+	 * @param $crawler
+	 * @return mixed
+	 */
+	public function getExperienceFromCrawler($crawler)
+	{
 		$lpLeagueExperiences = [];
 
 		$crawler->filter('#content > table.jqor > tbody > tr')->each(function ($node) use (&$lpLeagueExperiences)

@@ -1,6 +1,6 @@
 <?php namespace Icy;
 
-use Illuminate\Cache\Repository;
+use Icy\Esea\EseaBanStatus;
 
 /**
  * Created by PhpStorm.
@@ -12,62 +12,19 @@ class BanService implements IBanService {
 
 	private $steam;
 	private $steamIdRepository;
-	private $banListener;
 	private $banDetectionRepository;
-	private $banTypeRepository;
-	private $cache;
-
-	// increment times checked on vacStatusUpdate
-	private $incrementOnUpdate;
 
 	public function __construct(
 		Steam\ISteamService $steam,
 		Steam\ISteamIdRepository $steamIdRepository,
-		BanDetection\IBanDetectionRepository $banDetectionRepository,
-		BanDetection\IBanTypeRepository $banTypeRepository,
-		Repository $cache)
+		Ban\IBanDetectionRepository $banDetectionRepository)
 	{
 		$this->steam = $steam;
 		$this->steamIdRepository = $steamIdRepository;
 		$this->banDetectionRepository = $banDetectionRepository;
-		$this->banTypeRepository = $banTypeRepository;
-		$this->cache = $cache;
-
-		$this->incrementOnUpdate = true;
 	}
 
-	public function incrementOnUpdate($bool)
-	{
-		$this->incrementOnUpdate = $bool;
-	}
-
-	// we can pass in the new vac status, incase we already have it and don't want to make the API call
-	public function fetchAndUpdate($potentialId, Steam\VacBanStatus $newVacStatus = null)
-	{
-		if ($potentialId instanceof Steam\SteamId)
-		{
-			$steamId = $potentialId->steamid;
-
-			$steamIdRecord = $potentialId;
-		} else
-		{
-			$steamId = $this->steam->resolveId($potentialId);
-
-			$steamIdRecord = $this->steamIdRepository->firstOrCreate([
-				'steamid' => $steamId
-			]);
-		}
-
-		if ($this->incrementOnUpdate)
-			$steamIdRecord->increment('times_checked');
-
-		$this->checkForVacBans($steamIdRecord, $newVacStatus);
-		$this->checkForEseaBans($steamIdRecord);
-
-		return $steamIdRecord;
-	}
-
-	private function checkForVacBans(Steam\SteamId $steamIdRecord, Steam\VacBanStatus $newVacStatus = null)
+	public function checkForVacBans(Steam\SteamId $steamIdRecord, Steam\VacBanStatus $newVacStatus = null)
 	{
 		if ($newVacStatus === null)
 			$newVacStatus = $this->steam->getVacBanStatus($steamIdRecord->steamid);
@@ -80,31 +37,19 @@ class BanService implements IBanService {
 
 			$this->steamIdRepository->save($steamIdRecord);
 
-			$this->createBanDetection($steamIdRecord, $newVacStatus);
+			$this->banDetectionRepository->newDetection($steamIdRecord->id, $newVacStatus->getBanName(), $newVacStatus->isBanned());
 		}
 	}
 
-	private function checkForEseaBans(Steam\SteamId $steamIdRecord)
+	public function checkForEseaBans(Steam\SteamId $steamIdRecord, EseaBanStatus $newEseaStatus = null)
 	{
-		$newEseaStatus = $steamIdRecord->getEseaBanStatus();
+		if ($newEseaStatus === null)
+			$newEseaStatus = $steamIdRecord->getEseaBanStatus();
 
 		if ($newEseaStatus->isBanned())
 		{
-			$this->createBanDetection($steamIdRecord, $newEseaStatus);
+			$this->banDetectionRepository->newDetection($steamIdRecord->id, $newEseaStatus->getBanName(), $newEseaStatus->isBanned());
 		}
-	}
-
-	private function createBanDetection(Steam\SteamId $steamIdRecord, Common\IBanStatus $banStatus)
-	{
-		$banType = $this->banTypeRepository->getByName($banStatus->getBanName());
-
-		$banDetectionRecord = $this->banDetectionRepository->firstOrCreate([
-			'steamid_id' => $steamIdRecord->id,
-			'ban_type_id' => $banType->id,
-			'ban_status' => $banStatus->isBanned(),
-		]);
-
-		return $banDetectionRecord;
 	}
 
 }

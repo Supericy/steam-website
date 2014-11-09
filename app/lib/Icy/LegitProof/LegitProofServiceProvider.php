@@ -24,7 +24,11 @@ class LegitProofServiceProvider extends ServiceProvider {
 
 		$this->app->bind('Icy\LegitProof\ILegitProofService', function ($app)
 		{
-			return $app->make('Icy\LegitProof\LegitProofService');
+			$legitproof = $app->make('Icy\LegitProof\LegitProofService');
+
+			$legitproof->setLog($app->make('log'));
+
+			return $legitproof;
 		});
 	}
 
