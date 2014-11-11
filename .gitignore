@@ -11,3 +11,4 @@ Thumbs.db
 /public/bower_components
 /node_modules
 /misc
+/app/config/local
