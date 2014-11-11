@@ -62,39 +62,56 @@ class SteamService implements ISteamService {
 	{
 		$steamId = false;
 
-		$potentialId = rtrim($potentialId, '/');
+		if (empty($potentialId))
+			throw new SteamException("Can't resolve an empty string");
 
-		// only care about the last element if the potential id is a URL
-		if (($pos = strrpos($potentialId, '/')) !== false)
-		{
-			$potentialId = substr($potentialId, $pos + 1);
-		}
+		$potentialId = $this->stripUrl($potentialId);
 
-		// check to match 64-bit id (ie. '76561197960327544')
+		// already in the form we want
 		if ($this->is64Id($potentialId))
 		{
-			$steamId = $potentialId;
-		} else if ($this->isTextId($potentialId))
-		{
-			$steamId = $this->convertTextTo64($potentialId);
-		} else
-		{
-			// id might be a vanity url, so let's attempt to resolve it.
-
-			$response = $this->api->resolveVanityUrl($potentialId);
-
-			if ($response !== false)
-			{
-				$response = $response->response;
-
-				if ($response->success === 1)
-				{
-					$steamId = $response->steamid;
-				}
-			}
+			// steamid is in the format we want
+			return $potentialId;
 		}
 
-		return $steamId;
+		if ($this->isTextId($potentialId))
+		{
+			// steamid is a text-id (ie. 0:0:300343), so we have to convert it
+			return $this->convertTextTo64($potentialId);
+		}
+
+		return $this->resolveVanityUrl($potentialId);
+	}
+
+	private function stripUrl($potentialUrl)
+	{
+		$potentialUrl = rtrim($potentialUrl, '/');
+
+		// only care about the last element if the potential id is a URL
+		if (($pos = strrpos($potentialUrl, '/')) !== false)
+		{
+			return substr($potentialUrl, $pos + 1);
+		}
+
+		return $potentialUrl;
+	}
+
+	/**
+	 * @param $vanityUrl
+	 * @return int
+	 * 		Returns a SteamId64
+	 * @throws SteamException
+	 */
+	private function resolveVanityUrl($vanityUrl)
+	{
+		$vanityUrl = $this->stripUrl($vanityUrl);
+
+		$response = $this->api->resolveVanityUrl($vanityUrl);
+
+		if ((int)$response->success !== 1)
+			throw new SteamException($response->message);
+
+		return $response->steamid;
 	}
 
 	// documentation: https://developer.valvesoftware.com/wiki/SteamID

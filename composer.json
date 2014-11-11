@@ -9,7 +9,8 @@
 		"twitter/bootstrap": "v3.2.0",
 		"phpunit/phpunit": "4.2.2",
 		"artdarek/oauth-4-laravel": "dev-master",
-		"fabpot/goutte": "v2.0.2"
+		"fabpot/goutte": "v2.0.2",
+		"kosiec/laravel-bower": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

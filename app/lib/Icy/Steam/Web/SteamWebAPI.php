@@ -1,6 +1,7 @@
 <?php namespace Icy\Steam\Web;
 use GuzzleHttp\ClientInterface;
 use Icy\Common\MeasurableTrait;
+use Icy\Steam\SteamException;
 use Illuminate\Cache\CacheManager;
 
 /**
@@ -24,7 +25,6 @@ class SteamWebAPI implements ISteamWebAPI {
 		'GetPlayerSummaries' => 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/'
 	];
 
-	private $jsonResponseDecoding;
 	/**
 	 * @var CacheManager
 	 */
@@ -45,12 +45,6 @@ class SteamWebAPI implements ISteamWebAPI {
 	public function getApiKey()
 	{
 		return $this->apiKey;
-	}
-
-	// used for testing purposes
-	public function setJsonResponseDecoding($bool)
-	{
-		$this->jsonResponseDecoding = $bool;
 	}
 
 	public function getPlayerSummaries($steamIds)
@@ -101,14 +95,12 @@ class SteamWebAPI implements ISteamWebAPI {
 		{
 			$response = $this->client->get($url);
 
-			$result = false;
-
-			if ((int)$response->getStatusCode() === 200)
+			if ((int)$response->getStatusCode() !== 200)
 			{
-				$result = $response->json(['object' => true]);
+				throw new SteamException($response->getBody());
 			}
 
-			return $result;
+			return $response->json(['object' => true]);
 		});
 
 		$this->stopMeasure('steam');
