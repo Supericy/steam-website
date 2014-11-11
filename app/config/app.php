@@ -126,6 +126,8 @@ return [
 		'Artdarek\OAuth\OAuthServiceProvider',
 
 		'Icy\IcyServiceProvider',
+
+		'Kosiec\LaravelBower\LaravelBowerServiceProvider',
 	],
 
 	/*

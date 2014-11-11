@@ -7,3 +7,6 @@ composer.lock
 .DS_Store
 Thumbs.db
 /xdebug
+.idea
+/public/bower_components
+/node_modules
