@@ -10,7 +10,7 @@ use Illuminate\Cache\CacheManager;
  * Time: 4:00 AM
  */
 
-class AbstractCachedUserRepository extends AbstractCachedRepository implements IUserRepository {
+class CachedUserRepository extends AbstractCachedRepository implements IUserRepository {
 
 	const USER_DURATION = 60;
 

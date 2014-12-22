@@ -8,7 +8,7 @@ use Icy\Common\AbstractCachedRepository;
  * Time: 12:45 AM
  */
 
-class AbstractCachedSteamIdRepository extends AbstractCachedRepository implements ISteamIdRepository {
+class CachedSteamIdRepository extends AbstractCachedRepository implements ISteamIdRepository {
 
 	const STEAM_ID_DURATION = 60;
 

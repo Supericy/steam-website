@@ -18,7 +18,7 @@ class UserServiceProvider extends \Illuminate\Support\ServiceProvider {
 	{
 		$this->app->bind('Icy\User\IUserRepository', function ($app)
 		{
-			return new AbstractCachedUserRepository($app->make('cache'), $app->make('Icy\User\UserRepository'));
+			return new CachedUserRepository($app->make('cache'), $app->make('Icy\User\UserRepository'));
 		});
 
 		$this->app->bind('Icy\User\IUserService', function ($app)
