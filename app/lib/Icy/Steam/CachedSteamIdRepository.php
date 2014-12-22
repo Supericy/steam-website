@@ -1,5 +1,5 @@
 <?php namespace Icy\Steam;
-use Icy\Common\CachedRepository;
+use Icy\Common\AbstractCachedRepository;
 
 /**
  * Created by PhpStorm.
@@ -8,7 +8,7 @@ use Icy\Common\CachedRepository;
  * Time: 12:45 AM
  */
 
-class CachedSteamIdRepository extends CachedRepository implements ISteamIdRepository {
+class AbstractCachedSteamIdRepository extends AbstractCachedRepository implements ISteamIdRepository {
 
 	const STEAM_ID_DURATION = 60;
 

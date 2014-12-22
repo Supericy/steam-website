@@ -8,7 +8,7 @@ use Illuminate\Cache\CacheManager;
  * Time: 12:46 AM
  */
 
-abstract class CachedRepository extends AbstractRepository {
+abstract class AbstractCachedRepository extends AbstractRepository {
 
 	/**
 	 * @var Repository

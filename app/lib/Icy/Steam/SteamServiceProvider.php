@@ -33,7 +33,7 @@ class SteamServiceProvider extends \Illuminate\Support\ServiceProvider {
 
 		$this->app->singleton('Icy\Steam\ISteamIdRepository', function ($app)
 		{
-			return new CachedSteamIdRepository($app->make('cache'), $app->make('Icy\Steam\SteamIdRepository'));
+			return new AbstractCachedSteamIdRepository($app->make('cache'), $app->make('Icy\Steam\SteamIdRepository'));
 		});
 	}
 

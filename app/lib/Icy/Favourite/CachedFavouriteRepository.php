@@ -1,5 +1,5 @@
 <?php namespace Icy\Favourite;
-use Icy\Common\CachedRepository;
+use Icy\Common\AbstractCachedRepository;
 use Illuminate\Cache\Repository;
 
 /**
@@ -9,7 +9,7 @@ use Illuminate\Cache\Repository;
  * Time: 2:43 AM
  */
 
-class CachedFavouriteRepository extends CachedRepository implements IFavouriteRepository {
+class AbstractCachedFavouriteRepository extends AbstractCachedRepository implements IFavouriteRepository {
 
 	/**
 	 * @var ISteamIdRepository

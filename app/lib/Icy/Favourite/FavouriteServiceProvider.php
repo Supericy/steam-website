@@ -14,7 +14,7 @@ class FavouriteServiceProvider extends ServiceProvider {
 	{
 		$this->app->singleton('Icy\Favourite\IFavouriteRepository', function ($app)
 		{
-			return new CachedFavouriteRepository($app->make('cache'), $app->make('Icy\Favourite\FavouriteRepository'));
+			return new AbstractCachedFavouriteRepository($app->make('cache'), $app->make('Icy\Favourite\FavouriteRepository'));
 		});
 	}
 

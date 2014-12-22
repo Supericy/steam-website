@@ -1,33 +1,3 @@
-// var app = angular.module('SteamApp', [], function($interpolateProvider) {
-// 	$interpolateProvider.startSymbol('<%');
-// 	$interpolateProvider.endSymbol('%>');
-// });
-
-
-
-// app.controller('SearchController', ['$scope', '$location', function($scope, $location) {
-
-// 	$scope.resolveSteamId = function (potentialId) {
-
-// 		var steamId = null;
-
-// 		try
-// 		{
-// 			steamId = new SteamId(potentialId);
-// 		}
-// 		catch (e)
-// 		{
-// 			alert(e.message);
-// 			//steamId = resolveVanityUrl...
-// 		}
-
-// 		if (steamId)
-// 			$location.path('/steamid/' + steamId.getCommunityID());
-// 	}
-// }]);
-
-// console.log('id: ' + (new SteamId('0:0:30908')).getCommunityID());
-
 function SteamId(potentialId) {
 	this.isCommunityId = function () {
 		return this.potentialId.match(/^\d{17}$/);

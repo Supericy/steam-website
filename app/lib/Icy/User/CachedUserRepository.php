@@ -1,5 +1,5 @@
 <?php namespace Icy\User;
-use Icy\Common\CachedRepository;
+use Icy\Common\AbstractCachedRepository;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Cache\CacheManager;
 
@@ -10,7 +10,7 @@ use Illuminate\Cache\CacheManager;
  * Time: 4:00 AM
  */
 
-class CachedUserRepository extends CachedRepository implements IUserRepository {
+class AbstractCachedUserRepository extends AbstractCachedRepository implements IUserRepository {
 
 	const USER_DURATION = 60;
 

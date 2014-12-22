@@ -61,8 +61,6 @@ class SteamService implements ISteamService {
 
 	public function resolveId($potentialId)
 	{
-		$steamId = false;
-
 		if ($potentialId === null || empty($potentialId))
 			throw new SteamException("Can't resolve an empty ID.");
 
