@@ -12,12 +12,11 @@
 				</div>
 				<div class="panel-body" ng-controller="SearchController">
 
-					{{--{{ Form::open(array('action' => 'search-steamid',--}}
-										{{--'method' => 'GET',--}}
-										{{--'role' => 'form',--}}
-										{{--'ng-submit' => 'resolveSteamId(steamId)')) }}--}}
+					{{ Form::open(array('action' => 'search-steamid',
+										'method' => 'GET',
+										'role' => 'form')) }}
 
-					<form method="GET" role="form" onsubmit="return false;" ng-submit="resolveSteamId(steamId)" novalidate action="{{ URL::action('search-steamid') }}">
+					{{--<form method="GET" role="form" onsubmit="return false;" ng-submit="resolveSteamId(steamId)" novalidate action="{{ URL::action('search-steamid') }}">--}}
 
 						<div class="form-group">
 							<div class="input-group">
@@ -51,8 +50,6 @@
 						</div>
 
 					{{ Form::close() }}
-
-					<pre><% steamId %></pre>
 				</div>
 
 			</div>

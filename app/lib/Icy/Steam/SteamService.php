@@ -2,6 +2,7 @@
 use Icy\Steam\Web\States\CommunityVisibilityState;
 use Icy\Steam\Web\States\PersonaState;
 use Icy\Steam\Web\States\ProfileState;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Created by PhpStorm.
@@ -62,8 +63,8 @@ class SteamService implements ISteamService {
 	{
 		$steamId = false;
 
-		if (empty($potentialId))
-			throw new SteamException("Can't resolve an empty string");
+		if ($potentialId === null || empty($potentialId))
+			throw new SteamException("Can't resolve an empty ID.");
 
 		$potentialId = $this->stripUrl($potentialId);
 
@@ -81,37 +82,6 @@ class SteamService implements ISteamService {
 		}
 
 		return $this->resolveVanityUrl($potentialId);
-	}
-
-	private function stripUrl($potentialUrl)
-	{
-		$potentialUrl = rtrim($potentialUrl, '/');
-
-		// only care about the last element if the potential id is a URL
-		if (($pos = strrpos($potentialUrl, '/')) !== false)
-		{
-			return substr($potentialUrl, $pos + 1);
-		}
-
-		return $potentialUrl;
-	}
-
-	/**
-	 * @param $vanityUrl
-	 * @return int
-	 * 		Returns a SteamId64
-	 * @throws SteamException
-	 */
-	private function resolveVanityUrl($vanityUrl)
-	{
-		$vanityUrl = $this->stripUrl($vanityUrl);
-
-		$response = $this->api->resolveVanityUrl($vanityUrl);
-
-		if ((int)$response->success !== 1)
-			throw new SteamException($response->message);
-
-		return $response->steamid;
 	}
 
 	// documentation: https://developer.valvesoftware.com/wiki/SteamID
@@ -247,6 +217,37 @@ class SteamService implements ISteamService {
 		}
 
 		return $results;
+	}
+
+	private function stripUrl($potentialUrl)
+	{
+		$potentialUrl = rtrim($potentialUrl, '/');
+
+		// only care about the last element if the potential id is a URL
+		if (($pos = strrpos($potentialUrl, '/')) !== false)
+		{
+			return substr($potentialUrl, $pos + 1);
+		}
+
+		return $potentialUrl;
+	}
+
+	/**
+	 * @param $vanityUrl
+	 * @return int
+	 * 		Returns a SteamId64
+	 * @throws SteamException
+	 */
+	private function resolveVanityUrl($vanityUrl)
+	{
+		$vanityUrl = $this->stripUrl($vanityUrl);
+
+		$response = $this->api->resolveVanityUrl($vanityUrl);
+
+		if ((int)$response->success !== 1)
+			throw new SteamException($response->message);
+
+		return $response->steamid;
 	}
 
 }

@@ -72,9 +72,12 @@ class SteamWebAPI implements ISteamWebAPI {
 
 	public function resolveVanityUrl($vanityName)
 	{
-		return $this->call($this->endpoints['ResolveVanityUrl'], [
+		$response = $this->call($this->endpoints['ResolveVanityUrl'], [
 			'vanityurl' => $vanityName
 		]);
+
+		// steamapi wraps response in response object
+		return $response->response;
 	}
 
 	private function createSteamIdsString($steamIds)

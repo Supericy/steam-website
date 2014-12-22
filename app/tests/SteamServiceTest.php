@@ -5,6 +5,7 @@
  * Date: 10/3/2014
  * Time: 7:07 PM
  */
+use Icy\Steam\ISteamService;
 
 /**
  * Class SteamServiceTest
@@ -13,7 +14,12 @@
 class SteamServiceTest extends TestCase {
 
 	/**
-	 * @return \Icy\Steam\ISteamService
+	 * @var ISteamService
+	 */
+	private $steamService;
+
+	/**
+	 * @return ISteamService
 	 */
 	public function getISteamServiceInstance()
 	{
@@ -22,6 +28,19 @@ class SteamServiceTest extends TestCase {
 
 		return $steam;
 	}
+
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->steamService = $this->getISteamServiceInstance();
+	}
+
+	public function testSingleGetVacBanStatus()
+	{
+
+	}
+
 
 	public function testMultipleGetPlayerProfile()
 	{
@@ -33,10 +52,8 @@ class SteamServiceTest extends TestCase {
 
 		// good enough for now, we probably won't use anything else anyway
 		$this->assertEquals('76561197960327544', $profiles['76561197960327544']->getSteamId());
-		$this->assertEquals('Supericy', $profiles['76561197960327544']->getAlias());
 
 		$this->assertEquals('76561198050774634', $profiles['76561198050774634']->getSteamId());
-		$this->assertEquals('toastedforkman', $profiles['76561198050774634']->getAlias());
 	}
 
 	public function testSingleGetPlayerProfile()

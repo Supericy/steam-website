@@ -13,9 +13,6 @@ use Icy\Steam\ISteamService;
  */
 class SteamIdController extends Controller {
 
-	// steam API's max steamids per request
-	const BULK_MAX_STEAMIDS = 100;
-
 	private $steam;
 	private $steamIdRepository;
 	private $favouriteRepository;
@@ -43,21 +40,23 @@ class SteamIdController extends Controller {
 	{
 		$potentialId = Input::get('steamid');
 
-		if ($potentialId === null || empty($potentialId))
+		$errors = [];
+
+		if (!empty($potentialId))
 		{
-			// no steamId given, so prompt the user for one
-			return View::make('steamid.prompt');
+			try
+			{
+				$steamId = $this->steam->resolveId($potentialId);
+
+				return Redirect::action('steamid.display', ['id' => $steamId]);
+			}
+			catch (\Icy\Steam\SteamException $e)
+			{
+				$errors = ['steamid' => $e->getMessage()];
+			}
 		}
 
-		$steamId = $this->steam->resolveId($potentialId);
-
-		if ($steamId === false)
-		{
-			return Redirect::back()
-				->withErrors(['steamid' => 'Nothing found.']);
-		}
-
-		return Redirect::action('steamid.display', ['id' => $steamId]);
+		return View::make('steamid.prompt')->withErrors($errors);
 	}
 
 	public function display($potentialId)

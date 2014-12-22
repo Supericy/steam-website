@@ -23,6 +23,17 @@ class SteamWebApiTest extends TestCase {
 		return $webApi;
 	}
 
+	public function testGettingPlayerBansFromPlayerThatDoesNotExist()
+	{
+		$webApi = $this->getISteamWebApiInstance();
+
+		$response = $webApi->getPlayerBans(['76561888999999999']);
+
+		$expectedJsonData = '{"players":[]}';
+
+		$expected = \json_decode($expectedJsonData, false);
+	}
+
 	public function testSingleGetPlayerSummaries()
 	{
 		$webApi = $this->getISteamWebApiInstance();
