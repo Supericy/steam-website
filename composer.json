@@ -7,7 +7,6 @@
 		"laravel/framework": "4.2.*",
 		"barryvdh/laravel-debugbar": "v1.6.7",
 		"twitter/bootstrap": "v3.2.0",
-		"phpunit/phpunit": "4.2.2",
 		"artdarek/oauth-4-laravel": "dev-master",
 		"fabpot/goutte": "v2.0.2",
 		"kosiec/laravel-bower": "dev-master",

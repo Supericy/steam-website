@@ -27,7 +27,7 @@ class SteamId {
 
 		// assert that it's a valid CommunityID
 		if ( ! self::isCommunityId($potentialId))
-			throw new InvalidArgumentException("Malformed SteamID/CommunityID: " . (string)$potentialId);
+			throw new InvalidArgumentException("Malformed SteamID/CommunityID: " . $potentialId);
 
 		$this->communityId = (int)$potentialId;
 	}
@@ -45,22 +45,22 @@ class SteamId {
 	 */
 	public function string()
 	{
-		return $this->getSteamId();
+		return self::convertCommunityToSteamId($this->communityId, true);
 	}
 
 	/**
 	 * @return string steamId in string format
 	 * @throws InvalidArgumentException
 	 */
-	public function getSteamId()
+	public function to32bit()
 	{
-		return self::convertCommunityToSteamId($this->communityId, true);
+		return self::convertCommunityToSteamId($this->communityId, false);
 	}
 
 	/**
 	 * @return int communityId 64bit integer
 	 */
-	public function getCommunityId()
+	public function to64bit()
 	{
 		return $this->communityId;
 	}

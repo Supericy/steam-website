@@ -1,5 +1,7 @@
 <?php namespace Kosiec;
+use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
+use Kosiec\Service\Steam\SteamWebApi;
 
 /**
  * Created by PhpStorm.
@@ -17,6 +19,11 @@ class KosiecServiceProvider extends ServiceProvider {
 			return new Repository\Doctrine\DoctrineUserAccountRepository(
 				$this->app->make('\Doctrine\ORM\EntityManagerInterface'),
 				$this->app->make('\Doctrine\ORM\Mapping\ClassMetadataFactory')->getMetadataFor('Kosiec\Entity\UserAccount'));
+		});
+
+		$this->app->bind('\Kosiec\Service\Steam\ISteamWebApi', function ()
+		{
+			return new SteamWebApi(new Client(), $this->app->make('cache.store'), $this->app['config']['steam.api_key']);
 		});
 	}
 

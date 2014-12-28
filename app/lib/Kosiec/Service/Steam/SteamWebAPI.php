@@ -37,7 +37,7 @@ class SteamWebApi implements ISteamWebApi {
 	 */
 	private $cache;
 
-	public function __construct(ClientInterface $client, CacheManager $cache, $apiKey)
+	public function __construct(ClientInterface $client, Repository $cache, $apiKey)
 	{
 		$this->client = $client;
 		$this->cache = $cache;
@@ -67,9 +67,11 @@ class SteamWebApi implements ISteamWebApi {
 		// steam api lets us pass multiple steamids in query
 		$steamIds = $this->implodeSteamIdsIfArray($steamIds);
 
-		return $this->call('GetPlayerBans', [
+		$response =  $this->call('GetPlayerBans', [
 			'steamids' => $steamIds
 		]);
+
+		return $response;
 	}
 
 	public function resolveVanityUrl($vanityName)
@@ -104,10 +106,29 @@ class SteamWebApi implements ISteamWebApi {
 				throw new SteamException($response->getBody());
 			}
 
-			return $response->json(['object' => true]);
+			return $this->jsonDecodeConvertKeysLowerCase($response->getBody());
 		});
 
 		return $result;
+	}
+
+	private function jsonDecodeConvertKeysLowerCase($json, $assoc = false)
+	{
+		$arr = \json_decode($json, true, 512, JSON_BIGINT_AS_STRING);
+		\Log::debug('json_encoded array', ['json' => $json, 'arr' => $arr]);
+		$lowerArray = $this->convertArrayKeysToLowerCaseResursive($arr);
+
+		// convert back to objects
+		return \json_decode(\json_encode($lowerArray, JSON_NUMERIC_CHECK | JSON_BIGINT_AS_STRING), $assoc, 512, JSON_BIGINT_AS_STRING);
+	}
+
+	private function convertArrayKeysToLowerCaseResursive(array $arr = [])
+	{
+		return array_map(function($item){
+			if(is_array($item))
+				$item = $this->convertArrayKeysToLowerCaseResursive($item);
+			return $item;
+		}, array_change_key_case($arr));
 	}
 
 }

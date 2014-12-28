@@ -14,16 +14,18 @@ class SteamIdTest extends TestCase {
 	{
 		$steamId = new SteamId(76561197960327544);
 
-		$this->assertSame(76561197960327544, $steamId->getCommunityId());
-		$this->assertSame('STEAM_0:0:30908', $steamId->getSteamId());
+		$this->assertSame(76561197960327544, $steamId->to64bit());
+		$this->assertSame('0:0:30908', $steamId->to32bit());
+		$this->assertSame('STEAM_0:0:30908', $steamId->string());
 	}
 
 	public function test_CreateSteamIdWithSteamId()
 	{
 		$steamId = new SteamId('STEAM_0:0:30908');
 
-		$this->assertSame(76561197960327544, $steamId->getCommunityId());
-		$this->assertSame('STEAM_0:0:30908', $steamId->getSteamId());
+		$this->assertSame(76561197960327544, $steamId->to64bit());
+		$this->assertSame('0:0:30908', $steamId->to32bit());
+		$this->assertSame('STEAM_0:0:30908', $steamId->string());
 	}
 
 	public function test_CreateSteamIdWithMalformedSteamId()
