@@ -24,13 +24,25 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
+	| Blade Tag
+	|--------------------------------------------------------------------------
+	|
+	| This is the blade tag that you will use to include all assets from your
+	| blade template.
+	|
+	*/
+	'blade_tag' => 'includeBowerComponents',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Base URL for all dependencies
 	|--------------------------------------------------------------------------
 	|
 	| The base URL for your website, eg. http://localhost.
 	|
-	| Note that you can also leave it as '', which makes your scripts relative
-	| to the base URL automatically.
+	| Note that you can also leave it as '', which will keep everything relative
+	| to your public folder. This is only needed if you are loading your assets
+	| from an external source.
 	|
 	*/
 	'base_url' => '',
@@ -39,6 +51,9 @@ return [
 	|--------------------------------------------------------------------------
 	| Default Tag Generators
 	|--------------------------------------------------------------------------
+	|
+	| Configuration for all of the tag generators we are going to use. Files without
+	| any generator to handle the extension will be silently ignored.
 	|
 	*/
 	'generators' => [

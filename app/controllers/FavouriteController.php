@@ -5,6 +5,7 @@ use Icy\Favourite\IFavouriteRepository;
 use Icy\Favourite\IFavouriteService;
 use Icy\Steam\ISteamIdRepository;
 use Icy\Steam\ISteamService;
+use Icy\User\IUserRepository;
 
 /**
  * Created by PhpStorm.
@@ -34,13 +35,18 @@ class FavouriteController extends Controller {
 	 * @var IBanNotificationRepository
 	 */
 	private $banNotificationRepository;
+	/**
+	 * @var IUserRepository
+	 */
+	private $userRepository;
 
 	public function __construct(
 		ISteamIdRepository $steamIdRepository,
 		IFavouriteRepository $favouriteRepository,
 		ISteamService $steam,
 		IAuthenticationService $auth,
-		IBanNotificationRepository $banNotificationRepository)
+		IBanNotificationRepository $banNotificationRepository,
+		IUserRepository $userRepository)
 	{
 		// user must be logged in to follow
 		$this->beforeFilter('auth');
@@ -50,6 +56,7 @@ class FavouriteController extends Controller {
 		$this->steam = $steam;
 		$this->auth = $auth;
 		$this->banNotificationRepository = $banNotificationRepository;
+		$this->userRepository = $userRepository;
 	}
 
 	public function enableNotification($potentialId, $banName)
@@ -87,13 +94,21 @@ class FavouriteController extends Controller {
 		if ($steamId === false)
 			return App::abort(404);
 
-		$userId = $this->auth->userId();
+		$user = $this->auth->currentUser();
 
 		$steamIdRecord = $this->steamIdRepository->getBySteamId($steamId);
 
+		$user->addFavourite($steamIdRecord);
+
+		$this->userRepository->save($user);
+
+//		$userId = $this->auth->userId();
+
+//
+
 		// FIXME: We need to make sure the user has activated their account/email before they can follow anyone
 
-		$this->favouriteRepository->favourite($userId, $steamIdRecord->id);
+//		$this->favouriteRepository->favourite($userId, $steamIdRecord->id);
 
 		FlashHelper::append('alerts.success', 'You are now following ' . $steamIdRecord->steamid);
 
@@ -107,11 +122,16 @@ class FavouriteController extends Controller {
 		if ($steamId === false)
 			return App::abort(404);
 
-		$userId = $this->auth->userId();
+		$user = $this->auth->currentUser();
 
 		$steamIdRecord = $this->steamIdRepository->getBySteamId($steamId);
 
-		$this->favouriteRepository->unfavourite($userId, $steamIdRecord->id);
+		$user->addFavourite($steamIdRecord);
+		$this->userRepository->save($user);
+
+//		$userId = $this->auth->userId();
+//		$steamIdRecord = $this->steamIdRepository->getBySteamId($steamId);
+//		$this->favouriteRepository->unfavourite($userId, $steamIdRecord->id);
 
 		FlashHelper::append('alerts.success', 'You have unfollowed ' . $steamIdRecord->steamid);
 

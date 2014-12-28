@@ -17,7 +17,6 @@ class AuthenticationService implements IAuthenticationService {
 	 * @var Guard
 	 */
 	private $auth;
-
 	/**
 	 * @var IOAuthService
 	 */
@@ -26,7 +25,6 @@ class AuthenticationService implements IAuthenticationService {
 	 * @var IUserService
 	 */
 	private $userService;
-
 	/**
 	 * @param AuthManager $auth
 	 * @param IOAuthService $oauthService
@@ -49,7 +47,7 @@ class AuthenticationService implements IAuthenticationService {
 		return $record->toArray();
 	}
 
-	public function login(array $credentials = array(), $remember = true)
+	public function login(array $credentials, $remember = true)
 	{
 		$normalizedCredentials = $this->userService->normalizeCredentials($credentials);
 
@@ -70,7 +68,7 @@ class AuthenticationService implements IAuthenticationService {
 
 		$this->auth->login($record, $remember);
 
-		return $record->toArray();
+		return $record;
 	}
 
 	public function logout()
@@ -93,14 +91,9 @@ class AuthenticationService implements IAuthenticationService {
 		return $this->auth->id();
 	}
 
-	public function user()
+	public function currentUser()
 	{
-		$record = $this->auth->user();
-
-		if (!$record)
-			throw new AuthenticationException('Unable to get the user (probably not logged in).');
-
-		return $record->toArray();
+		return $this->auth->user();
 	}
 
 } 

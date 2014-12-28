@@ -50,8 +50,7 @@ class UserRepository implements IUserRepository {
 
 		if ($userRecord)
 		{
-			$userRecord->activated = true;
-			$userRecord->activation_code = null;
+			$userRecord->activate();
 
 			$this->save($userRecord);
 
@@ -60,30 +59,6 @@ class UserRepository implements IUserRepository {
 
 		return $activated;
 	}
-
-//	public function getByAuthToken($token)
-//	{
-//		return $this->model->whereHas('authTokens', function ($q) use ($token)
-//		{
-//			$q->where('token', $token);
-//		})->first();
-//	}
-
-	// returns an array with only the data needed to create a user
-	private function removeUnused(array $credentials)
-	{
-		return array_filter($credentials, function ($key)
-		{
-			return in_array($key, self::$_CREDENTIAL_FIELDS);
-		}, \ARRAY_FILTER_USE_KEY);
-	}
-
-//	public function firstOrCreate(array $credentials)
-//	{
-//		$credentials = $this->normalize($credentials);
-//
-//		return $this->model->firstOrCreate($this->removeUnused($credentials));
-//	}
 
 	public function create(array $values)
 	{
@@ -126,7 +101,7 @@ class UserRepository implements IUserRepository {
 
 	public function save(User $user)
 	{
-		return $user->save();
+		return $user->push();
 	}
 
 	public function isMissingFields(array $credentials, array $fields = [])
@@ -140,11 +115,6 @@ class UserRepository implements IUserRepository {
 		}
 
 		return false;
-	}
-
-	private function getByActivationCode($code)
-	{
-		return $this->model->where('activation_code', $code)->first();
 	}
 
 	/**
@@ -226,6 +196,28 @@ class UserRepository implements IUserRepository {
 		$plain = $credentials['password'];
 
 		return $this->hasher->check($plain, $user->getAuthPassword());
+	}
+
+	/**
+	 * @param array $credentials
+	 * @return array
+	 * 			Array with unused entries filtered out
+	 */
+	private function removeUnused(array $credentials)
+	{
+		return array_filter($credentials, function ($key)
+		{
+			return in_array($key, self::$_CREDENTIAL_FIELDS);
+		}, \ARRAY_FILTER_USE_KEY);
+	}
+
+	/**
+	 * @param $code
+	 * @return \Icy\User\User
+	 */
+	private function getByActivationCode($code)
+	{
+		return $this->model->where('activation_code', $code)->first();
 	}
 
 }

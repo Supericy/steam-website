@@ -1,8 +1,10 @@
 <?php namespace Icy\User;
 
+use Icy\Steam\SteamId;
 use Illuminate\Auth\UserInterface;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends \Eloquent implements UserInterface {
+class User extends Model implements UserInterface {
 
 	/**
 	 * The database table used by the model.
@@ -56,6 +58,18 @@ class User extends \Eloquent implements UserInterface {
 	{
 		return $this->active;
 	}
+
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	public function activate()
+	{
+		$this->active = true;
+		$this->activation_code = null;
+	}
+
 
 	/**
 	 * Get the unique identifier for the user.

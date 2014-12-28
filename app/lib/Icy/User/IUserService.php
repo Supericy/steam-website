@@ -44,11 +44,6 @@ interface IUserService {
 	public function sendActivationEmail($email, $code);
 
 	/**
-	 * @return string
-	 */
-	public function generateActivationCode();
-
-	/**
 	 * @param $code
 	 * @return bool
 	 *        Returns true if the activation code is in an acceptable format

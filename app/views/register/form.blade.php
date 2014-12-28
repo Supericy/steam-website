@@ -6,7 +6,7 @@
         </div>
         <div class="panel-body">
 
-            {{ Form::open(array('action' => 'post.register', 'method' => 'post', 'role' => 'form')) }}
+            {{ Form::open(array('action' => 'user.register', 'method' => 'post', 'role' => 'form')) }}
                 {{ Form::token() }}
 
                 <div class="form-group input-group">
@@ -31,7 +31,7 @@
             {{ Form::close() }}
 
             <hr />
-            Already Registered ?  <a href="{{ URL::action('get.login') }}" >Login here</a>
+            Already Registered ?  <a href="{{ URL::action('user.login-prompt') }}" >Login here</a>
         </div>
 
         <div class="panel-heading">

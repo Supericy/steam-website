@@ -9,7 +9,7 @@ use Illuminate\Cache\Repository;
  * Time: 2:43 AM
  */
 
-class AbstractCachedFavouriteRepository extends AbstractCachedRepository implements IFavouriteRepository {
+class CachedFavouriteRepository extends AbstractCachedRepository implements IFavouriteRepository {
 
 	/**
 	 * @var ISteamIdRepository

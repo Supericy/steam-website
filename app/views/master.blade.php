@@ -20,8 +20,7 @@
     {{--<!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->--}}
     {{--<![endif]-->--}}
 
-
-	@includeBowerDependencies()
+	@includeBowerComponents()
 
 	{{--<script src="/bower_components/jquery/dist/jquery.js"></script>--}}
 	{{--<script src="/bower_components/angular/angular.js"></script>--}}

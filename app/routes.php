@@ -73,12 +73,12 @@ Route::get('/steamid/{id}/unfollow', [
 
 
 Route::get('/register', [
-	'uses' => 'RegisterController@getRegister',
-	'as' => 'get.register'
+	'uses' => 'RegisterController@registerPrompt',
+	'as' => 'user.register-prompt'
 ]);
 Route::post('/register', [
-	'uses' => 'RegisterController@postRegister',
-	'as' => 'post.register'
+	'uses' => 'RegisterController@register',
+	'as' => 'user.register'
 ]);
 Route::get('/activate/{code}', [
 	'uses' => 'RegisterController@activate',
@@ -95,12 +95,12 @@ Route::get('/login/recovery', [function ()
 
 
 Route::get('/login', [
-	'uses' => 'LoginController@getLogin',
-	'as' => 'get.login'
+	'uses' => 'LoginController@loginPrompt',
+	'as' => 'user.login-prompt'
 ]);
 Route::post('/login', [
-	'uses' => 'LoginController@postLogin',
-	'as' => 'post.login'
+	'uses' => 'LoginController@login',
+	'as' => 'user.login'
 ]);
 
 

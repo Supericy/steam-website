@@ -3,6 +3,11 @@ use Icy\Authentication\AuthenticationException;
 use Icy\Authentication\IAuthenticationService;
 use Icy\User\IUserService;
 use Illuminate\Routing\Controller;
+use Kosiec\Common\PasswordHasher;
+use Kosiec\Factory\UserAccountCredentialsFactory;
+use Kosiec\Service\Authentication\InvalidUserAccountCredentialsException;
+use Kosiec\Service\Authentication\UserAccountNotActiveException;
+use Kosiec\Service\AuthenticationService;
 
 /**
  * Created by PhpStorm.
@@ -13,17 +18,22 @@ use Illuminate\Routing\Controller;
 class LoginController extends Controller {
 
 	/**
-	 * @var IAuthenticationService
+	 * @var AuthenticationService
 	 */
 	private $auth;
+	/**
+	 * @var UserAccountCredentialsFactory
+	 */
+	private $credentialsFactory;
 
-	public function __construct(IAuthenticationService $auth)
+	public function __construct(AuthenticationService $auth, UserAccountCredentialsFactory $credentialsFactory)
 	{
-		$this->beforeFilter('guest', ['only' => ['getLogin', 'postLogin']]);
-		$this->beforeFilter('csrf', ['only' => ['postLogin']]);
+		$this->beforeFilter('guest', ['only' => ['loginPrompt', 'login']]);
+		$this->beforeFilter('csrf', ['only' => ['login']]);
 		$this->beforeFilter('auth', ['only' => ['logout']]);
 
 		$this->auth = $auth;
+		$this->credentialsFactory = $credentialsFactory;
 	}
 
 	public function logout()
@@ -35,53 +45,41 @@ class LoginController extends Controller {
 		return Redirect::back();
 	}
 
-	public function getLogin()
+	public function loginPrompt()
 	{
 		$displayLoginMethod = Session::get('displayLoginMethod', []);
 
 		return View::make('login.prompt')
-			->with('displayLoginMethod', $displayLoginMethod);
+			->with('displayLoginMethod', $displayLoginMethod)
+			->with('activationCode', Session::get('activationCode', null));
 	}
 
-	public function postLogin()
+	public function login()
 	{
-		$rules = [
+		$validator = Validator::make(Input::all(), [
 			'email' => 'required|email',
 			'password' => 'required'
-		];
-
-		$validator = Validator::make(Input::get(), $rules);
+		]);
 
 		if ($validator->fails())
 		{
-			return Redirect::route('get.login')
+			return Redirect::route('user.login-prompt')
 				->withInput()
 				->withErrors($validator);
 		}
 
-		$credentials = [
-			'email' => Input::get('email'),
-
-			// note that we don't hash the password when using Auth::attempt()
-			'password' => Input::get('password')
-		];
-
-		try
+		$credentials = $this->credentialsFactory->create(Input::get('email'), Input::get('password'));
+		if ( ! $this->auth->authenticate($credentials, true))
 		{
-			$this->auth->login($credentials, true);
-
-			FlashHelper::append('alerts.success', 'You have been logged in.');
-
-			// TODO: prompt with activation alert if their email/account needs activation
-		}
-		catch (AuthenticationException $e)
-		{
-			return Redirect::route('get.login')
+			return Redirect::route('user.login-prompt')
 				->withInput()
 				->withErrors([
-					'login' => [$e->getMessage()]
-				]);
+					'login' => $this->auth->getErrors(),
+				])
+				->with('activationCode', $this->auth->getActivationCode());
 		}
+
+		FlashHelper::append('alerts.success', 'You have been logged in.');
 
 		return Redirect::intended('/');
 	}

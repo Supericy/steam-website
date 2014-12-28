@@ -70,7 +70,7 @@ class UserService implements IUserService {
 		});
 	}
 
-	public function generateActivationCode()
+	private function generateActivationCode()
 	{
 		return Str::random(16);
 	}

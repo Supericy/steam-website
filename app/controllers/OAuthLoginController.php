@@ -79,11 +79,6 @@ class OAuthLoginController extends Controller {
 			App::abort(400, 'Your token/code has probably expired, please try again.');
 		}
 
-		$googleAccountId = $result->id;
-		$googleEmail = $result->email;
-		$googleVerifiedEmail = $result->verified_email;
-		$needsVerification = !$result->verified_email;
-
 		$accountDetails = [
 			'accountId' => $result->id,
 			'email' => $result->email,

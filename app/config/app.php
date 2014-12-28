@@ -123,11 +123,15 @@ return [
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
 		'Barryvdh\Debugbar\ServiceProvider',
+		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+
 		'Artdarek\OAuth\OAuthServiceProvider',
 
-		'Icy\IcyServiceProvider',
-
 		'Kosiec\LaravelBower\LaravelBowerServiceProvider',
+		'Mitch\LaravelDoctrine\LaravelDoctrineServiceProvider',
+
+		'Icy\IcyServiceProvider',
+		'Kosiec\KosiecServiceProvider',
 	],
 
 	/*
@@ -197,6 +201,7 @@ return [
 
 		'Debugbar' => 'Barryvdh\Debugbar\Facade',
 		'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
+		'EntityManager' => 'Mitch\LaravelDoctrine\EntityManagerFacade',
 	],
 
 ];

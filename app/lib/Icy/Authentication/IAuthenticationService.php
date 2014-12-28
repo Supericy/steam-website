@@ -21,7 +21,7 @@ interface IAuthenticationService {
 	 * @param bool $remember
 	 * @return mixed
 	 */
-	public function login(array $credentials = array(), $remember = true);
+	public function login(array $credentials, $remember = true);
 
 	public function oauthLogin($providerName, $accountId, $remember = true);
 
@@ -31,8 +31,12 @@ interface IAuthenticationService {
 
 	public function check();
 
+
 	public function userId();
 
-	public function user();
+	/**
+	 * @return \Icy\User\User
+	 */
+	public function currentUser();
 
 }

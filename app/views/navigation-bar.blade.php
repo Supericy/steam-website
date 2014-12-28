@@ -24,8 +24,8 @@
 				], ['class' => 'nav navbar-nav navbar-right']) }}
 			@else
 				{{ HTML::nav([
-					action('get.login') => 'Login',
-					action('get.register') => 'Register'
+					action('user.login-prompt') => 'Login',
+					action('user.register-prompt') => 'Register'
 				], ['class' => 'nav navbar-nav navbar-right h5']) }}
 			@endif
 

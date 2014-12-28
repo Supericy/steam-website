@@ -8,7 +8,7 @@
             </div>
             <div class="panel-body">
 
-                {{ Form::open(array('action' => 'post.login', 'method' => 'post', 'role' => 'form')) }}
+                {{ Form::open(array('action' => 'user.login', 'method' => 'post', 'role' => 'form')) }}
                     {{ Form::token() }}
 
                     <div class="form-group input-group">
@@ -16,7 +16,6 @@
                         {{ Form::text('email', Input::old('email'), array('class' => 'form-control', 'placeholder' => 'Your Email', 'autofocus'=>'autofocus')) }}
                     </div>
                     {{ ViewHelper::displayArray($errors->get('email', '<div class="alert alert-danger alert-input-error" role="alert">:message</div>')) }}
-
 
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
@@ -26,11 +25,18 @@
 
                     {{ ViewHelper::displayArray($errors->get('login', '<div class="alert alert-danger alert-input-error" role="alert">:message</div>')) }}
 
+                    @if(isset($activationCode))
+                        <div>
+                            {{ HTML::link(URL::action('user.activate', ['code' => $activationCode->string()]), 'Click here to resend activation email') }}
+                            <br/>
+                        </div>
+                    @endif
+
                     {{ Form::submit('Login', array('class' => 'btn btn-success')) }}
                 {{ Form::close() }}
 
                 <hr/>
-                Need an account? <a href="{{ URL::route('get.register') }}" >Register</a>
+                Need an account? <a href="{{ URL::route('user.register-prompt') }}" >Register</a>
                 <br/>
                 <a href="{{ URL::route('login.recovery') }}" >Password recovery</a>
             </div>

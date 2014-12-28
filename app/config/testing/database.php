@@ -31,7 +31,7 @@ return [
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'sqlite',
 
 	'connections' => [
 

@@ -1,85 +1,89 @@
 <?php
 
-use Icy\Authentication\IAuthenticationService;
-use Icy\User\IUserService;
+use Illuminate\Hashing\HasherInterface;
+use Kosiec\Common\PasswordHasher;
+use Kosiec\Factory\UserAccountCredentialsFactory;
+use Kosiec\Service\AuthenticationService;
+use Kosiec\Service\UserAccountCredentials;
+use Kosiec\Service\UserAccountService;
+use Kosiec\ValueObject\ActivationCode;
+use Kosiec\ValueObject\Email;
+use Kosiec\ValueObject\PasswordHash;
 
 class RegisterController extends Controller {
 
 	/**
-	 * @var IUserService
+	 * @var UserAccountService
 	 */
-	private $userService;
+	private $userAccountService;
 	/**
-	 * @var IAuthenticationService
+	 * @var UserAccountCredentialsFactory
 	 */
-	private $auth;
+	private $credentialsFactory;
 
-	public function __construct(IUserService $userService, IAuthenticationService $auth)
+	/**
+	 * @param UserAccountService $userAccountService
+	 * @param UserAccountCredentialsFactory $credentialsFactory
+	 */
+	public function __construct(
+		UserAccountService $userAccountService,
+		UserAccountCredentialsFactory $credentialsFactory)
 	{
-		$this->beforeFilter('guest', ['only' => ['getRegister', 'postRegister']]);
-		$this->beforeFilter('csrf', ['only' => ['postRegister']]);
+		$this->beforeFilter('guest', ['only' => ['create', 'store']]);
+		$this->beforeFilter('csrf', ['only' => ['store']]);
 
-		$this->userService = $userService;
-		$this->auth = $auth;
+		$this->userAccountService = $userAccountService;
+		$this->credentialsFactory = $credentialsFactory;
 	}
 
-	public function getRegister()
+	public function registerPrompt()
 	{
 		return View::make('register.prompt');
 	}
 
-	public function postRegister()
+	public function register()
 	{
-		// TODO: export validation to UserManager
-
-		$rules = [
-			'email' => 'required|email|unique:users,email',
+		$validator = Validator::make(Input::all(), [
+			'email' => 'required|email|unique:user_account,email',
 			'password' => 'required|confirmed|min:6'
-		];
-
-		$validator = Validator::make(Input::get(), $rules);
+		]);
 
 		if ($validator->fails())
 		{
-			return Redirect::route('get.register')
+			return Redirect::route('user.register-prompt')
 				->withInput()
 				->withErrors($validator);
 		}
 
+		$credentials = $this->credentialsFactory->create(Input::get('email'), Input::get('password'));
+		$userAccount = $this->userAccountService->createAccount($credentials);
+		$this->userAccountService->sendActivationEmail($userAccount);
 
-		$credentials = $this->userService->normalizeCredentials([
-			'email' => Input::get('email'),
-
-			// UserManager will handle hashing the password
-			'password' => Input::get('password'),
-
-			'activated' => false,
-		]);
-
-		try
-		{
-			$userId = $this->userService->createAccount($credentials);
-
-			$this->auth->forceLoginUsingId($userId, true);
-
-			FlashHelper::append('alerts.warn', 'Your account has been created, but the email needs to be verified.');
-
-		} catch (Icy\User\UserException $e)
-		{
-			Log::error('Your account was not created successfully.', ['credentials' => $credentials, 'user_exception' => $e->getTrace()]);
-			App::abort(500, 'We were not able to create your account at this time.');
-		}
+		FlashHelper::append('alerts.warn', 'Your account has been created, but is not yet active');
 
 		return View::make('register.success')
-			->with('email', $credentials['email']);
+			->with('email', $credentials->getEmail());
 	}
 
 	public function activate($code)
 	{
-		if (!$this->userService->verifyActivationCodeFormat($code))
-			return App::abort(400, 'Malformed activation code.');
+		$validator = Validator::make(['activation_code' => $code], [
+			'activation_code' => 'required|regex:' . ActivationCode::PATTERN
+		]);
 
-		$activated = $this->userService->activateAccount($code);
+		if ($validator->fails())
+		{
+			App::abort(400, $validator);
+		}
+
+		$activationCode = new ActivationCode($code);
+
+		$this->userAccountService->activateAccount($activationCode);
+
+//		if (!$this->userService->verifyActivationCodeFormat($code))
+//			return App::abort(400, 'Malformed activation code.');
+
+//		$activated = $this->userService->activateAccount($code);
 
 		// FIXME: if we redirect to '/', then this alert will be lost in the redirect to '/search'
 		FlashHelper::append('alerts.success', 'Your account has been activated.');
